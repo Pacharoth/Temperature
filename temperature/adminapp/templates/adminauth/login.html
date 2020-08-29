@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{% static "admin/cool.css" %}">
+<link rel="stylesheet" href="{% static "admin/loginAdmin.css" %}">
+
+{% endblock style %}
+{% block title %}
+LoginAdmin
+{% endblock title %}
+{% block content %}
+    <div class="container">
+  <form action="/action_page.php">
+    <div class="row">
+
+      <div class="col">
+        <h2 style="color: blue" style="text-align: center;">Temperature Monitoring System</h2>
+         <p>Temperature monitoring system helps you measure temperature from the Arduino</p>
+      </div>
+
+<div class="col" >
+
+        <p></p>
+        <input type="email" name="email" placeholder="Email address:" style=" border: 1px solid #dddfe2;">
+        <input type="password" name="password" placeholder="Password:" style=" border: 1px solid #dddfe2;">
+        <button type="submit" value="login" class="btn btn-info">Login</button>
+        <a href="#" style="color: blue" class="btn" style="border: none;">Forgot password?</a><br>
+        <div class="hello">
+          <button  class="btn btn-success">Create new account</button>
+        </div>
+      </div>
+      
+    </div>
+      
+    </div>
+  </form>
+</div>
+{% endblock content %}
