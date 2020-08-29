@@ -1,0 +1,16 @@
+body{ 
+    /* #8DC5EC  */
+    background-color:#9DD9F3;
+    height: 100%;
+    margin: 0;
+    /* background-attachment: fixed;
+    background-repeat: no-repeat; */
+    
+}
+body::-webkit-scrollbar{
+    display: none;
+}
+body{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
