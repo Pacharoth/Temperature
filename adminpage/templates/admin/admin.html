@@ -2,5 +2,48 @@
 {% block title %}
 Admin
 {% endblock title %}
+{% block style %}
+{% load static %}
+  <link rel="stylesheet" href="{% static "admin/css/navbar.css" %}">
+  <link rel="stylesheet" href="{% static "icon/css/all.css" %}">
+  <link rel="stylesheet" href="{% static "chartjs/css/Chart.css" %}">
+  <link rel="stylesheet" href="{% static "chartjs/css/Chart.min.css" %}">
+   
+  <script src="{% static "chartjs/js/Chart.js" %}"></script>
+  <script src="{% static "chartjs/js/Chart.bundle.min.js" %}"></script>
+  <script src="{% static "chartjs/js/Chart.bundle.js" %}"></script>
+  
+  <script src="{% static "chartjs/js/Chart.min.js" %}"></script>
+
+
+{% endblock style %}
 {% block content %}
+<div class="nav-bar">
+    <div class="nav-logo">
+        Temperature
+    </div>
+    
+    <div class="nav-profile">
+        <div class="profile-dropdown">
+            <img src="" alt="">{{request.user}}
+            
+        </div>
+        <div class="drop-profile-down">
+            <a href="{% url 'logoutpage' %}">logout</a>
+        </div>
+    </div>
+    
+</div>
+<div class="content">
+    <div class="sidebar">
+
+    </div>
+    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+        <canvas id="myChart"></canvas>
+    </div>
+
+</div> 
+<script src="{% static "admin/js/chartfile.js" %}"></script>
+
+
 {% endblock content %}
