@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from adminpage.forms import loginForm
+from adminpage.forms import loginForm,registerForm
 from django.contrib import messages
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.decorators import login_required
@@ -33,6 +33,13 @@ def logoutpage(request):
     logout(request)
     return redirect('adminpage')
 
+#register 
+def register(request):
+    form = registerForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+    return render(request,'adminauth/register.html',{'form':form})
 
 
 
