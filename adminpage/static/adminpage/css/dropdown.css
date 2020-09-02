@@ -1,0 +1,28 @@
+.dropdown{
+    display:none;
+    width:20%;
+    
+    text-align: center;
+    margin-left: 80%;
+}
+.profile-dropdown{
+    border: none;
+    background-color: white;
+}
+.dropdown a{
+    text-decoration:none;
+    display: block;
+    
+}
+@media screen and (max-width: 650px) {
+    .dropdown{
+        display: none;
+        width: 100%;
+        margin-left: 0;
+        
+        border-top:1px solid #dadde1;
+        padding-top:2% ;
+        padding-bottom:2% ;
+        background-color: white;
+    }
+}

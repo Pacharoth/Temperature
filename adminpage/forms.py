@@ -11,7 +11,7 @@ class loginForm(forms.ModelForm):
 
 #register form
 class registerForm(UserCreationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'placehoder':'Username:'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Username:'}))
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'First name:'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Last name:'}))
     email = forms.EmailField(max_length=258,widget=forms.EmailInput(attrs={'placeholder':'Email:'}))

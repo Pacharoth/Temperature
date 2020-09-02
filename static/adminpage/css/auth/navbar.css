@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+}
+body{
+    overflow: hidden;
+    cursor: pointer;
+    background: #f0f2f5;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.header{
+    display: flex;
+    align-items: center;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+    padding:5px;
+    background: white;
+}
+.go-back a{
+    color: black;
+    font-size: 17px;
+    text-decoration:none;
+}
+.go-back a::after{
+    color:gray;
+}

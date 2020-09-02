@@ -4,6 +4,8 @@ Admin
 {% endblock title %}
 {% block style %}
 {% load static %}
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link rel="stylesheet" href="{% static "adminpage/css/navbar.css" %}">
   <link rel="stylesheet" href="{% static "icon/css/all.css" %}">
     <link rel="stylesheet" href="{% static "chartjs/css/Chart.css" %} ">
@@ -15,46 +17,56 @@ Admin
     <link rel="stylesheet" href="{% static "adminpage/css/content.css" %}">
     <link rel="stylesheet" href="{% static "adminpage/css/chartcontent.css" %}">
     <link rel="stylesheet" href="{% static "adminpage/css/sidebar.css" %}">
-
+    <link rel="stylesheet" href="{% static "adminpage/css/dropdown.css" %}">
 
 {% endblock style %}
 {% block content %}
 <div class="nav-bar">
-    <div class="nav-logo">
+    <button class="nav-logo">
         <i class="fa fa-bars"></i>
-    </div>
+    </button>
     
     <div class="nav-profile">
-        <div class="profile-dropdown">
+        <button class="profile-dropdown">
             <img src="" alt="">{{request.user}}
             
-        </div>
+        </button>
     </div>
     
 </div>
 <!-- <div class="drop-profile-down">
     <a href="{% url 'logoutpage' %}">logout</a>
 </div> -->
+
 <div class="content">
     <div class="sidebar">
-        <div class="Home">
+        <div class="linksidebar">
+        <div>
             <i class="fas fa-home"></i>Home
         </div>
-        <div>
-            
+            <i class="fas fa-home"></i>Home
+            <i class="fas fa-home"></i>Home
+        </div>
+        <div class="dropdown">
+            <img src="" alt="">{{request.user}}
+            <a href="">Profile</a>
+            <a href="">Edit profile</a>
         </div>
     </div>
-    <div class="chart-container">
-        <div class="room">
-           Building and Room:
-        </div>
-        <div class="chart-graph" >
-            <canvas id="myChart" ></canvas>
-       
+    <div class="content-all" >
+        <div class="chart-container">
+            <div class="room">
+            Building and Room:
+            </div>
+            <div class="chart-graph" >
+                <canvas id="myChart" ></canvas>
+            </div>
         </div>
     </div>
 </div> 
+
 <!-- <canvas id="myChart" ></canvas> -->
 <script src="{% static "adminpage/js/chartfile.js" %}"></script>
+<script src="{% static "adminpage/js/dropdown.js" %}"></script>
 
 {% endblock content %}
