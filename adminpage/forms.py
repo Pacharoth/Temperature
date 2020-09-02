@@ -1,4 +1,5 @@
 from django import forms
+from adminpage.models import RoomServer
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 #login form
@@ -20,3 +21,9 @@ class registerForm(UserCreationForm):
     class Meta:
         model= User
         fields = ('username','first_name','last_name','email','password1','password2')
+
+class roomBuilding(forms.ModelForm):
+    buildingRoom = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Building and room'}))
+    class Meta:
+        model = RoomServer
+        fields =['buildingRoom']

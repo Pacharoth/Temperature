@@ -1,10 +1,12 @@
 from django.shortcuts import render,redirect
-from adminpage.forms import loginForm,registerForm
+from adminpage.forms import loginForm,registerForm,roomBuilding
 from django.contrib import messages
+
+from adminpage.models import RoomServer
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.decorators import login_required
-
-from adminpage.decoration import unauthicated_user
+from django.contrib.auth.models import Group,User
+from adminpage.decoration import unauthicated_user,allow_subadmins,admin_only
 from adminpage.utils import render_to_pdf
 from django.views.generic import View
 # Create your views here.
@@ -25,6 +27,7 @@ def adminLogin(request):
 
 #admin page
 @login_required(login_url='adminLogin')
+@admin_only
 def adminpage(request):
     return render(request,'admin/admin.html')
 
@@ -36,12 +39,21 @@ def logoutpage(request):
 #register 
 def register(request):
     form = registerForm(request.POST or None)
+    room = roomBuilding(request.POST or None)
     if request.method == "POST":
-        if form.is_valid():
-            form.save()
+        if form.is_valid() and room.is_valid():
+            user = form.save()
+            subadmin = room.save()
+            user.subadmin.add()
+            group = Group.objects.get(name = "subadmin")
+            user.group.add()
+        return redirect('adminLogin')
     return render(request,'adminauth/register.html',{'form':form})
 
-
+#page user
+@login_required(login_url='adminLogin')
+def subadmin(request):
+    return render(request,'subadmin/subadmin.html')
 
 #generate weekly
 class GeneratePDF_weekly(View):
