@@ -1,6 +1,8 @@
 .sidebar{
-    margin-right: 10%;
+    margin-right: 2%;
+    border: 1;
 }
+
 @media screen and (max-width: 650px) {
     .sidebar{
         display: none;

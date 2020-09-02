@@ -7,7 +7,7 @@ var chart = new Chart(ctx, {
     data: {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [{
-            label: 'Room:',
+            label: 'Temperature:',
             backgroundColor: '#deeff5',
             borderColor: '#add8e6',
             hoverBackgroundColor: "rgba(255,99,132,0.4)",
@@ -17,9 +17,10 @@ var chart = new Chart(ctx, {
 
     // Configuration options go here
     options: {
+        // maintainAspectRatio: false,
         responsiveAnimationDuration:0,
-        aspectRatio:2,
-        onResize:null,
+        // aspectRatio:2,
+        // onResize:null,
         responsive:true,
         title: {
             display: true,
