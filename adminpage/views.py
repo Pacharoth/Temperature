@@ -4,10 +4,12 @@ from django.contrib import messages
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.decorators import login_required
 
+from adminpage.decoration import unauthicated_user
 from adminpage.utils import render_to_pdf
 from django.views.generic import View
 # Create your views here.
 
+@unauthicated_user
 def adminLogin(request):
     form = loginForm(request.POST or None)
     if request.method =="POST":
@@ -30,6 +32,9 @@ def adminpage(request):
 def logoutpage(request):
     logout(request)
     return redirect('adminpage')
+
+
+
 
 #generate weekly
 class GeneratePDF_weekly(View):
