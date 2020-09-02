@@ -1,5 +1,7 @@
 from django.urls import path
 from adminpage import views
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.models import User 
 urlpatterns = [
     path('login/',views.adminLogin,name ="adminLogin"),
     path('',views.adminpage,name = "adminpage"),
