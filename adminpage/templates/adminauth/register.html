@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}
+Register
+{% endblock title %}
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static "adminpage/css/auth/register.css" %}">
+
+{% endblock style %}
+{% block content %}
+{% include 'navlog.html' %}
+<div class="content">
+    
+        <div class="content-header">
+            Register
+        </div>
+        <div class="content-para">
+            Create your account. It is free and only takes a minute.
+        </div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="input">
+            {{form.username}}
+            <div class="content-input">
+                {{form.first_name}}
+                {{form.last_name}}
+            </div>
+            {{form.password1}}
+            {{form.password2}}
+        </div>
+        <button type="submit">Register</button>
+    </form>
+</div>
+{% endblock content %}

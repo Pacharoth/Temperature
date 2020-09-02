@@ -22,7 +22,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('accounts/', include('allauth.urls')), 
-    path('adminpage/',include('adminpage.urls')),
+    path('',include('adminpage.urls')),
     # path('user/', include('allauth.urls')), 
     #template_name="adminauth/passwordreset.html"
     path('reset_password/',auth_views.PasswordResetView.as_view(template_name="adminauth/passwordreset.html"),name="password_reset"),

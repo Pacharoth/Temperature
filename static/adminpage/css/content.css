@@ -1,6 +1,14 @@
 .content{
+    display: block;
+    /* display: flex;
+    justify-content: space-between;
+    cursor: pointer; */
+    width: 100%;
+}
+.sidebar{
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    cursor: pointer;
+    width: 100%;
+}
+.linksidebar{
+    width: 20%;
 }
