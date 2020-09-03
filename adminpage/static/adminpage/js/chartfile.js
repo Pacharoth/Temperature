@@ -11,7 +11,7 @@ var chart = new Chart(ctx, {
             backgroundColor: '#deeff5',
             borderColor: '#add8e6',
             hoverBackgroundColor: "rgba(255,99,132,0.4)",
-            data: [0, 10, 5, 2, 20, 30, 45]
+            data: [0, 10,15,20,25,30,35]
         }]
     },
 

@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from adminpage.forms import loginForm,registerForm,roomBuilding
 from django.contrib import messages
 
+from adminpage.forms import ProfilePicForm
 from adminpage.models import RoomServer
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.decorators import login_required
@@ -25,6 +26,8 @@ def adminLogin(request):
             messages.error(request,'Account not exists or wrong username or password')
     return render(request,'adminauth/login.html',{'form':form,'message':messages})
 
+# def userCard(request):
+#     return render()
 #admin page
 @login_required(login_url='adminLogin')
 @admin_only
@@ -48,12 +51,26 @@ def register(request):
             group = Group.objects.get(name = "subadmin")
             user.group.add()
         return redirect('adminLogin')
-    return render(request,'adminauth/register.html',{'form':form})
+    return render(request,'adminauth/register.html',{'form':form,'room':room})
+
+#profile page
+@login_required(login_url='adminLogin')
+@allow_subadmins(allowed_roles=['subadmin','admin'])
+def profile(request):
+    user = ProfilePicForm(request.POST or None)
+
+    return render (request,'admin/profile.html',{'user':user})
+
 
 #page user
+@allow_subadmins(allowed_roles=['subadmin'])
 @login_required(login_url='adminLogin')
 def subadmin(request):
-    return render(request,'subadmin/subadmin.html')
+    subadmins = request.user.profileuser
+    context={'user':subadmins}
+    print(subadmin)
+
+    return render(request,'subadmin/subadmin.html',context)
 
 #generate weekly
 class GeneratePDF_weekly(View):

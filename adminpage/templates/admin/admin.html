@@ -28,7 +28,8 @@ Admin
     
     <div class="nav-profile">
         <button class="profile-dropdown">
-            <img src="" alt="">{{request.user}}
+            <i><img class="pic-user"src="{{request.user.profileuser.img.url}}" alt="">
+            </i>{{request.user}}
             
         </button>
     </div>
@@ -41,19 +42,37 @@ Admin
 <div class="content">
     <div class="sidebar">
         <div class="linksidebar">
-        <div>
-            <i class="fas fa-home"></i>Home
-        </div>
-            <i class="fas fa-home"></i>Home
-            <i class="fas fa-home"></i>Home
-        </div>
-        <div class="dropdown">
-            <img src="" alt="">{{request.user}}
-            <a href="">Profile</a>
-            <a href="">Edit profile</a>
+            <div >
+                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.profileuser.img.url}}" alt="">
+                </i>
+                <div class="user">{{request.user}}</div></a>
+            </div>
+            <div class="linkbar">
+                <a href="" class=""><i class="fas fa-home"></i>Home</a> 
+            </div>
+            <div class="linkbar">
+                <a href=""><i class="fas fa-history"></i>History</a>
+            </div>    
+            
         </div>
     </div>
+
     <div class="content-all" >
+        <div  class="dropdown" role="menu">
+            <div class="profile-pic-1">
+                <div >
+                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.profileuser.img.url}}" alt="">
+                    </i>
+                    <div class="user">{{request.user}}</div></a>
+                </div>
+            </div>
+            <hr>
+            <div class="link-dropdown">
+                <a href="{% url 'profile' %}" role="menuitem"><i class="fas fa-user"></i>Profile</a>
+                <a href="{% url 'profile' %}"><i class="fas fa-edit"></i>Edit profile</a>
+                <a href="{% url 'logoutpage' %}">Logout</a>
+            </div>
+        </div>
         <div class="chart-container">
             <div class="room">
             Building and Room:
@@ -61,7 +80,7 @@ Admin
             <div class="chart-graph" >
                 <canvas id="myChart" ></canvas>
             </div>
-        </div>
+        </div> 
     </div>
 </div> 
 

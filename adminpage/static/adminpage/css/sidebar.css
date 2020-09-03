@@ -1,14 +1,52 @@
 .sidebar{
     margin-right: 2%;
-    border: 1;
+    border:none;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1); 
+    height: 100%;
+    
+}
+.linkbar{
+    width: 100%;
+    text-align: center;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+.profile-pic{
+
+    text-decoration: none;
+    color: black;
 }
 
+.linkbar>a{
+    width: 94%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-decoration:none;
+    padding-top: 3%;
+    padding-bottom:3% ;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    color: black;
+    border-radius: 5px;
+}
+.linkbar>a:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+
+}
 @media screen and (max-width: 650px) {
+    .sidebar{
+        width: 100%;
+        display: block;
+    }
+    .profile-pic{
+        width: 94%;
+        margin-top: 2%;        
+    }
     .linksidebar{
         display: none;
         width: 100%;
         text-align: center;
-        padding-top: 2%;
-        padding-bottom: 2%;
     }
 }
