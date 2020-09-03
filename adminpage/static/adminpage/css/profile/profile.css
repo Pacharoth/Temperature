@@ -1,0 +1,12 @@
+input[type=search]{
+    font-size: 15px;
+    cursor: pointer;
+} 
+.no{
+    display: flex;
+}
+@media screen and (max-width: 650px) {
+    input[type=search]{
+        font-size:10px;
+    }
+}
