@@ -29,7 +29,11 @@ class roomBuilding(forms.ModelForm):
         fields =['buildingRoom']
 
 class ProfilePicForm(forms.ModelForm):
-    
+    name = forms.CharField(max_length=200,widget=forms.TextInput(attrs={'class':'form-control'}))
+    phone = forms.CharField(max_length=200,min_length=9,widget=forms.TextInput(attrs={'class':'form-control'}))
+    email = forms.EmailField(max_length=200,widget=forms.EmailInput(attrs={'class':'form-control'}))
+    # img  = forms.ImageField(widget = forms.FileInput(attrs={'class':'form-control'}))
+
     class Meta:
         model = ProfileUser
         fields = '__all__'

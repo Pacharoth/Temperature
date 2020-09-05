@@ -1,6 +1,6 @@
 $('.profile-dropdown').click(()=>{
-    $('.dropdown').slideToggle("slow");
-    $('.dropdown').css("display","inline-block");
+    $('.dropdown').slideToggle();
+    $('.chart-container').class("width","73%");
 
 });
 $('.nav-logo').click(()=>{
