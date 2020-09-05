@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from adminpage.forms import loginForm,registerForm,roomBuilding
 from django.contrib import messages
 
+from adminpage.models import ProfileUser
 from adminpage.forms import ProfilePicForm
 from adminpage.models import RoomServer
 from django.contrib.auth import login,authenticate,logout
@@ -57,9 +58,13 @@ def register(request):
 @login_required(login_url='adminLogin')
 @allow_subadmins(allowed_roles=['subadmin','admin'])
 def profile(request):
-    user = ProfilePicForm(request.POST or None)
-
-    return render (request,'admin/profile.html',{'user':user})
+    user = request.user.profileuser
+    form = ProfilePicForm(instance=user)
+    if request.method == "POST":
+        form = ProfilePicForm(request.POST,request.FILES,instance=user)
+        if form.is_valid():
+            form.save()
+    return render (request,'admin/profile.html',{'user':user,'form':form})
 
 
 #page user
@@ -69,43 +74,7 @@ def subadmin(request):
     subadmins = request.user.profileuser
     context={'user':subadmins}
     print(subadmin)
-
     return render(request,'subadmin/subadmin.html',context)
 
 #generate weekly
-class GeneratePDF_weekly(View):
-    def get(self,request,*args,**kwargs):
-        data={}
-       
-        template = get_template("adminpage/reportpage.html")
-        user = User.objects.get(username=request.user)
-        count=roomRegister.objects.all().count()
-        
-        if count > 0:
-            room_ID_to_check= request.GET['room_id']
-            week_to_check = request.GET['week_form']
-            month_to_check = request.GET['month_form']
-            year_to_check = request.GET['year_form']
-            username = roomRegister.user_of_room(room_ID_to_check)
-            date=datetime.datetime.now().date
-            week_data =check_all_data_week(room_ID_to_check,int(year_to_check),int(month_to_check),int(week_to_check))
-            print(week_data)
-            data ={
-                'date':date,
-                'user':user,
-                'username':username,
-                'weekday':week_data.get('objects'),
-                'roomID':room_ID_to_check,
-                'getavg':week_data.get('avgtotal')
-                }
-        pdf = render_to_pdf('adminpage/reportpage.html',data)
-        if pdf:
-            response = HttpResponse(pdf,content_type = 'application/pdf')
-            filename = "Report_%s.pdf"%("weekly")
-            content = "inline; filename=%s"%(filename)
-            download = request.GET.get("download")
-            if download:
-                content = "attachment; filename=%s"%(filename)
-            response['Content-Disposition']=content
-            return response
-        return HttpResponse("Not found")
+

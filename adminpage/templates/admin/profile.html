@@ -5,30 +5,146 @@ Profile
 {% block style %}
 {% load static %}
 {% include 'bootstrap.html' %}
-<link rel="stylesheet" href="{% static "icon/css/all.css" %}">
-<link rel="stylesheet" href="{% static "adminpage/css/content.css" %}">
-<link rel="stylesheet" href="{% static "adminpage/css/chartcontent.css" %}">
-<link rel="stylesheet" href="{% static "adminpage/css/sidebar.css" %}">
-<link rel="stylesheet" href="{% static "adminpage/css/dropdown.css" %}">
-<link rel="stylesheet" href="{% static "adminpage/css/profile/profile.css" %}">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{% static "adminpage/css/navbar.css" %}">
+<link rel="stylesheet" href="{% static "icon/css/all.css" %}">
+  <link rel="stylesheet" href="{% static "chartjs/css/Chart.css" %} ">
+  <link rel="stylesheet" href="{% static "chartjs/css/Chart.min.css" %}">
+ <script src="{% static "chartjs/js/Chart.bundle.js" %}"></script>
+ <script src="{% static "chartjs/js/Chart.bundle.min.js" %}"></script>
+<script src="{% static "chartjs/js/Chart.js" %}"></script>  
+<script src="{% static "chartjs/js/Chart.min.js" %}"></script>
+<link rel="stylesheet" href="{% static "adminpage/css/profile/profile.css" %}">
+  <link rel="stylesheet" href="{% static "adminpage/css/content.css" %}">
+  <link rel="stylesheet" href="{% static "adminpage/css/chartcontent.css" %}">
+  <link rel="stylesheet" href="{% static "adminpage/css/sidebar.css" %}">
+  <link rel="stylesheet" href="{% static "adminpage/css/dropdown.css" %}">
+
 {% endblock style %}
 {% block content %}
 <div class="nav-bar">
-    <div class="no">
+    <div class="profile">
         <button class="nav-logo">
-        <i class="fa fa-bars"></i>
+            <i class="fa fa-bars"></i>
         </button>
-        <input type="search" class = "form-control"name="" id="" placeholder="Search">
-        
+        <form action="">
+            <input class="form-control input-lg" type="text" placeholder="Search" aria-label="Search">
+        </form>
     </div>
     <div class="nav-profile">
         <button class="profile-dropdown">
-            <img src="" alt="">{{request.user}}
+            {% if request.user.profileuser.img %}
+            <i><img class="pic-user"src="{{request.user.profileuser.img.url}}" alt="">
+            {%else%}
+            <i><img class="pic-user"src="" alt="">
+            {% endif %}
+            </i>{{request.user}}
             
         </button>
     </div>
     
 </div>
+<!-- <div class="drop-profile-down">
+    <a href="{% url 'logoutpage' %}">logout</a>
+</div> -->
+
+<div class="content">
+    <div class="sidebar">
+        <div class="linksidebar">
+            <hr>
+            <div >
+                {% if request.user.profileuser.img %}
+                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.profileuser.img.url}}" alt="">
+                </i>
+                {%else%}
+                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">
+                </i>
+                {% endif %}
+                <div class="user">{{request.user}}</div></a>
+            </div>
+            <hr>
+            <div class="linkbar">
+                <a href=" {% url 'adminpage' %} " class=""><i class="fas fa-home"></i>Home</a> 
+            </div>
+            <div class="linkbar">
+                <a href=""><i class="fas fa-history"></i>History</a>
+            </div>    
+            
+        </div>
+    </div>
+
+    <div class="content-all" >
+        <div  class="dropdown">
+            <div class="for_position">
+            <div class="profile-pic-1">
+                <div >
+                    {% if request.user.profileuser.img %}
+                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.profileuser.img.url}}" alt="">
+                    </i>
+                    {%else%}
+                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">
+                    </i>
+                    {% endif %}
+                    
+                    <div class="user">{{request.user}}</div></a>
+                </div>
+            </div>
+            <hr>
+            <div class="link-dropdown">
+                <a href="{% url 'profile' %}" role="menuitem"><i class="fas fa-user"></i>Profile</a>
+                <a href="{% url 'profile' %}"><i class="fas fa-edit"></i>Edit profile</a>
+                <a href="{% url 'logoutpage' %}"><i class="fas fa-door-open"></i>Logout</a>
+            </div>
+        </div>
+        </div>
+        <div class="chart-container">
+            <form action="" class="all-profile" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="profile-img">
+                    {% if request.user.profileuser.img %}
+                    <img class="img-profile" src="{{user.img.url}}" alt="">
+                    {%else%}
+                    <img class="img-profile" src="" alt="">
+                    {% endif %}
+                    <div class="form-group" >
+                        <!-- <input type="file" class="form-control" id="id_img " name ="img" accept="image/*" aria-describedby="imgHelp" placeholder="{{user.img}}"> -->
+                        {{form.img}}
+                        <small id="imgHelp" class="form-text text-muted">You can upload image file</small>
+                    </div>
+                </div>
+                <div class="profile-content">
+                    <i class="fas fa-user-edit"></i> Edit Profile
+                    <div class="form-group">
+                        <label for="id_name">Name</label>
+                        <!-- <input type="text" class="form-control" id="id_name" aria-describedby="nameHelp" placeholder="{{user.name}}"> -->
+                        {{form.name}}
+                        <small id="nameHelp" class="form-text text-muted">Your name</small>
+                      </div>
+                    <div class="form-group">
+                        <label for="id_phone">Phone number</label>
+                        {{form.phone}}
+                        <!-- <input type="text" class="form-control" id="id_phone" aria-describedby="phoneHelp" placeholder="{{user.phone}}" minlength="9"> -->
+                        <small id="phoneHelp" class="form-text text-muted">Your Phone Number</small>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="id_email">Email</label>
+                      <!-- <input type="email" class="form-control" id="id_email" name ="email" aria-describedby="emailHelp" placeholder="{{user.email}}"> -->
+                      {{form.email}}
+                      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="_save">Save</button>
+                </div>
+                
+            </form>
+        </div> 
+        
+    </div>
+</div> 
+
+<!-- <canvas id="myChart" ></canvas> -->
+<script src="{% static "adminpage/js/chartfile.js" %}"></script>
+<script src="{% static "adminpage/js/dropdown.js" %}"></script>
 
 {% endblock content %}

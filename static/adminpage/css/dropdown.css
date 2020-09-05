@@ -1,9 +1,17 @@
 .dropdown{
+    position: relative;
     display:none;
     width:25%;
     margin-left: 75%;
     background: white;
-    text-align: center;
+    /* text-align: center; */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1); 
+}
+.for_position{
+    position: absolute;
+    width: 100%;
+    background: white;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1); 
 
@@ -42,11 +50,16 @@ hr{
     margin-left: auto;
     border-radius: 5px;
     align-items: center;
-    
-    
     cursor: pointer;   
 }
+
+i{
+    margin-right:3% ;
+    float: left;
+}
 .profile-pic:hover{
+    text-decoration: none;
+    color: black;
     background-color: rgba(0, 0, 0, 0.1);
 }
 .user{
@@ -70,7 +83,7 @@ hr{
     margin-bottom: 10px;
     
 }
-.profile-pic a{
+.profile-pic{
     text-decoration:none;
     color: black;
     display: flex;
@@ -105,11 +118,14 @@ hr{
         display: none;
         width: 100%;
         margin-left: 0;
-        
+        position: relative;
         border-top:1px solid #dadde1;
         padding-top:2% ;
         padding-bottom:2% ;
         background-color: white;
+    }
+    .for_position{
+        position: relative;
     }
     .profile-pic{
         
