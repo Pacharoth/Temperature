@@ -4,7 +4,7 @@ Admin
 {% endblock title %}
 {% block style %}
 {% load static %}
-  
+  {% include "bootstrap.html" %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link rel="stylesheet" href="{% static "adminpage/css/navbar.css" %}">
   <link rel="stylesheet" href="{% static "icon/css/all.css" %}">
@@ -18,6 +18,7 @@ Admin
     <link rel="stylesheet" href="{% static "adminpage/css/chartcontent.css" %}">
     <link rel="stylesheet" href="{% static "adminpage/css/sidebar.css" %}">
     <link rel="stylesheet" href="{% static "adminpage/css/dropdown.css" %}">
+    <link rel="stylesheet" href="{% static "adminpage/css/user/roomcard.css" %}">
 
 {% endblock style %}
 {% block content %}
@@ -37,6 +38,40 @@ Admin
             
         </button>
     </div>
+</div>
+<div id="myModal" class="modal-fake">
+    <!-- Modal content -->
+    <div class="modalp-content">
+      <span class="close">&times;</span>
+      
+      <form action="">
+      <input class="form-control" id="data" type="text" placeholder="Search" aria-label="Search">
+     
+      </form>
+        <div class="content-card">
+            {% for data in room %}
+            <button id="{{data.buildingRoom}}" class="card-room" value="{{data.buildingRoom}}">
+                <div class="header-room">
+                    <div>
+                        <p>ROOM</p>
+                    </div>
+                    <div>
+                    <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                </div>
+                <div class="body-room">
+                    <p id="roomID">{{data.buildingRoom}}</p>
+                </div>
+            </button>
+            {% endfor %}
+            <button class="card-room">
+                <div class="sign-plus">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </button>
+        </div>
+    </div>
+  
 </div>
 <div class="content">
     <div class="sidebar">
@@ -89,7 +124,7 @@ Admin
         <div class="chart-container">
             <div class="content-room-report">
                 <div class="width-room">
-                    <button class="report-room">
+                    <button id="room" class="report-room">
                         ROOM
                     </button>
                 </div>
@@ -100,7 +135,7 @@ Admin
                 </div>
             </div>
             <div class="room">
-            Building and Room:
+                Building and Room:
             </div>
             <div class="chart-graph" >
                 <canvas id="myChart" ></canvas>
@@ -108,8 +143,19 @@ Admin
         </div> 
     </div>
 </div> 
+<script>
+    // search function
+    $('#data').keyup(function(){
+        var value = $(this).val().toLowerCase();
+        {%for data in room%}
+        $('#{{data.buildingRoom}}').filter(function(){
+            $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1);    
+        })
+        {%endfor%}
+    });
+</script>
 
-<!-- <canvas id="myChart" ></canvas> -->
+<script src="{% static "adminpage/js/modal.js" %}"></script>
 <script src="{% static "adminpage/js/chartfile.js" %}"></script>
 <script src="{% static "adminpage/js/dropdown.js" %}"></script>
 

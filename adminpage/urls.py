@@ -8,5 +8,6 @@ urlpatterns = [
     path('register',views.register,name = 'register'),
     path('logout/',views.logoutpage,name = "logoutpage"),
     path('subadmin/',views.subadmin,name = 'subadmin'),
-    path('profile/',views.profile,name='profile')
+    path('profile/',views.profile,name='profile'),
+    path('api/room/',views.addRoom,name="room")
 ]

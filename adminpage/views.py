@@ -2,7 +2,8 @@ from django.shortcuts import render,redirect
 from adminpage.forms import loginForm,registerForm,roomBuilding
 from django.contrib import messages
 
-from adminpage.models import ProfileUser
+
+from adminpage.models import ProfileUser,RoomServer
 from adminpage.forms import ProfilePicForm
 from adminpage.models import RoomServer
 from django.contrib.auth import login,authenticate,logout
@@ -11,6 +12,8 @@ from django.contrib.auth.models import Group,User
 from adminpage.decoration import unauthicated_user,allow_subadmins,admin_only
 from adminpage.utils import render_to_pdf
 from django.views.generic import View
+
+from django.http import JsonResponse
 # Create your views here.
 
 @unauthicated_user
@@ -66,13 +69,32 @@ def profile(request):
             form.save()
     return render (request,'admin/profile.html',{'user':user,'form':form})
 
+@login_required(login_url='adminLogin')
+@allow_subadmins(allowed_roles=['subadmin'])
+#render the room in to json
+def addRoom(request):
+    user = request.user.profileuser
+    data={}
+    if request.method == "POST":
+        roomid = request.POST.get("room")
+        room = RoomServer.objects.all()
+        if room.exists():
+            room = RoomServer.objects.filter(user__name=user,buildingRoom=roomid)
+        data = {
+            'obj':room,
+        }
+    return JsonResponse(data)
+
 
 #page user
 @allow_subadmins(allowed_roles=['subadmin'])
 @login_required(login_url='adminLogin')
 def subadmin(request):
     subadmins = request.user.profileuser
-    context={'user':subadmins}
+    room = RoomServer.objects.all()
+    if room.exists():
+        room = RoomServer.objects.filter(user__name=subadmins)
+    context={'user':subadmins,'room':room}
     print(subadmin)
     return render(request,'subadmin/subadmin.html',context)
 
