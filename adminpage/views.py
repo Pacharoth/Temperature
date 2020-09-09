@@ -1,9 +1,11 @@
 from django.shortcuts import render,redirect
 from adminpage.forms import (loginForm,registerForm,
-                            roomBuilding,ProfileForm,ProfilePic)
+                            roomBuilding,ProfileForm,ProfilePic,resetPasswordForm)
 from django.contrib import messages
+from django.template.loader import render_to_string
 from django.http import JsonResponse
-
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
 from adminpage.models import RoomServer
 from django.contrib.auth import logout,login
 from django.contrib.auth.decorators import login_required
@@ -11,6 +13,7 @@ from django.contrib.auth.models import Group,User
 from adminpage.decoration import authenticate,unanthenticated_user,allow_subadmins
 from adminpage.utils import render_to_pdf
 from django.views.generic import View
+import secrets
 # Create your views here.
 @unanthenticated_user
 
@@ -32,7 +35,7 @@ def adminLogin(request):
 #admin page
 @login_required(login_url='adminLogin')
 def adminpage(request):
-    return render(request,'admin/admin.html')
+    return render(request,'alladmin/adminpage.html')
 
 #logout link
 @login_required(login_url='adminLogin')
@@ -45,17 +48,41 @@ def logoutpage(request):
 @login_required(login_url='adminLogin')
 def register(request):
     form = registerForm(request.POST or None)
-    room = roomBuilding(request.POST or None)
     if request.method == "POST":
-        if form.is_valid() and room.is_valid():
+        form = registerForm(request.POST or None)
+        if form.is_valid():
             user = form.save()
-            subadmin = room.save()
-            user.subadmin.add()
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password2')
+            print(password)
+            current_site = get_current_site(request)
             group = Group.objects.get(name = "subadmin")
-            user.group.add()
-        return redirect('adminLogin')
-    return render(request,'adminauth/register.html',{'form':form,'room':room})
+            print(group)
+            user.groups.add(group)
+            mail_subject = "Activate your account as subadmin"
+            message = render_to_string('emailverify.html',{
+                'user':user,
+                'domain':current_site,
+                'email':email,
+                'password':password,
+            })
+            email = EmailMessage(mail_subject,message,to=[email])
+            email.send()
+            messages.success(request,'Account has been created')
+        print(form.errors)
+        return redirect('register')
+    return render(request,'alladmin/register2.html',{'form':form,'message':messages})
 
+#change Form
+def resetPassword(request):
+    user = request.user
+    form = resetPasswordForm(request.POST or None,user=user)
+    print(form)
+    if request.method == "POST":
+        form=resetPasswordForm(request.POST or None ,user=user)
+        if form.is_valid():
+            form.save()
+    return render(request,"")
 #profile page
 @allow_subadmins(allowed_roles=['admin'])
 def profile(request):
@@ -75,6 +102,7 @@ def profile(request):
 
 
 #render the room in to json
+@allow_subadmins(allowed_roles=['subadmin'])
 def addRoom(request):
     user = request.user.profileuser
     data={}
@@ -84,12 +112,11 @@ def addRoom(request):
         room = RoomServer.objects.all()
         if room.exists():
             room = RoomServer.objects.filter(user__name=user,buildingRoom=roomid)
-        
     return JsonResponse(room)
 
 
 #page user
-
+@allow_subadmins(allowed_roles=['subadmin'])
 def subadmin(request):
     subadmins = request.user
     # user =request.user
@@ -106,8 +133,8 @@ def subadmin(request):
     print(subadmin)
     return render(request,'subadmin/subadmin.html',context)
 
-#reload data in room
 
+#reload data in room
 def reloadRoom(request):
     subadmins = request.user.profileuser
     print(subadmins)
