@@ -27,14 +27,14 @@ LoginAdmin
         <p></p>        
         {% comment %} <input type="password" class =""name="password" placeholder="Password:" style=" border: 1px solid #dddfe2;"> {% endcomment %}
         {% comment %} <input type="email" class="" name="email" placeholder="Email address:" style=" border: 1px solid #dddfe2;"> {% endcomment %}
-        {{form.username}}
+        {{form.email}}
         {{form.password}}
 
         <button type="submit" value="login" class="btn btn-info">Login</button>
-        <a href="{% url 'password_reset' %}" style="color: blue" class="btn" style="border: none;">Forgot password?</a><br>
-        <div class="hello">
+        <a href="{% url 'password_reset' %}" style="color: blue" class="btn" style="border: none;">Forgot Password?</a><br>
+        <!-- <div class="hello">
           <a href="{% url 'register' %}" class="btn btn-success"style="text-decoration:none,color:white"> Create new account</a>
-        </div>
+        </div> -->
       
       {% if messages %}
         {% for message in messages %}

@@ -9,5 +9,5 @@ urlpatterns = [
     path('logout/',views.logoutpage,name = "logoutpage"),
     path('subadmin/',views.subadmin,name = 'subadmin'),
     path('profile/',views.profile,name='profile'),
-    path('api/room/',views.addRoom,name="room")
+    path('api/room/',views.reloadRoom,name="loadRoom")
 ]

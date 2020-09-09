@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'adminpage.apps.AdminpageConfig',
+    
     # 'django.contrib.sites',
 
     # 3rd party
@@ -133,7 +134,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 # AUTHENTICATION_BACKENDS = (
 #     # Needed to login by username in Django admin, regardless of `allauth`

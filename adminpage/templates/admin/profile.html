@@ -34,9 +34,9 @@ Profile
     </div>
     <div class="nav-profile">
         <button class="profile-dropdown">
-            {% if request.user.profileuser.img %}
-            <i><img class="pic-user"src="{{request.user.profileuser.img.url}}" alt="">
-            {%else%}
+            {% if request.user.userprofile.img %}
+            <i><img class="pic-user"src="{{request.user.userprofile.img.url}}" alt="">
+            {% else %}
             <i><img class="pic-user"src="" alt="">
             {% endif %}
             </i>{{request.user}}
@@ -54,8 +54,8 @@ Profile
         <div class="linksidebar">
             <hr>
             <div >
-                {% if request.user.profileuser.img %}
-                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.profileuser.img.url}}" alt="">
+                {% if request.user.userprofile.img %}
+                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.userprofile.img.url}}" alt="">
                 </i>
                 {%else%}
                 <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">
@@ -79,10 +79,10 @@ Profile
             <div class="for_position">
             <div class="profile-pic-1">
                 <div >
-                    {% if request.user.profileuser.img %}
-                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.profileuser.img.url}}" alt="">
+                    {% if request.user.userprofile.img %}
+                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.userprofile.img.url}}" alt="">
                     </i>
-                    {%else%}
+                    {% else %}
                     <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">
                     </i>
                     {% endif %}
@@ -102,14 +102,15 @@ Profile
             <form action="" class="all-profile" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="profile-img">
-                    {% if request.user.profileuser.img %}
-                    <img class="img-profile" src="{{user.img.url}}" alt="">
-                    {%else%}
+                    {% if request.user.userprofile.img %}
+                    <img class="img-profile" src="{{request.user.userprofile.img.url}}" alt="">
+                    {% else %}
                     <img class="img-profile" src="" alt="">
                     {% endif %}
                     <div class="form-group" >
+                        <label for="id_img">Profile Pic</label>
                         <!-- <input type="file" class="form-control" id="id_img " name ="img" accept="image/*" aria-describedby="imgHelp" placeholder="{{user.img}}"> -->
-                        {{form.img}}
+                        {{forms.img}}
                         <small id="imgHelp" class="form-text text-muted">You can upload image file</small>
                     </div>
                 </div>
@@ -118,22 +119,22 @@ Profile
                     <div class="form-group">
                         <label for="id_name">Name</label>
                         <!-- <input type="text" class="form-control" id="id_name" aria-describedby="nameHelp" placeholder="{{user.name}}"> -->
-                        {{form.name}}
+                        {{form.username}}
+                        
                         <small id="nameHelp" class="form-text text-muted">Your name</small>
                       </div>
                     <div class="form-group">
                         <label for="id_phone">Phone number</label>
-                        {{form.phone}}
-                        <!-- <input type="text" class="form-control" id="id_phone" aria-describedby="phoneHelp" placeholder="{{user.phone}}" minlength="9"> -->
+                        {{forms.phone}}
                         <small id="phoneHelp" class="form-text text-muted">Your Phone Number</small>
                     </div>
                     
-                    <div class="form-group">
+                    {% comment %} <div class="form-group">
                       <label for="id_email">Email</label>
                       <!-- <input type="email" class="form-control" id="id_email" name ="email" aria-describedby="emailHelp" placeholder="{{user.email}}"> -->
                       {{form.email}}
                       <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                    </div>
+                    </div> {% endcomment %}
                     <button type="submit" class="btn btn-primary" name="_save">Save</button>
                 </div>
                 

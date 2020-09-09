@@ -46,13 +46,34 @@
 }
 .header-room{
     display: flex;
+    justify-content: space-between;
+    
     border-bottom: 1px solid #dadde1;
+}
+
+button.edit{
+    border:none;
+}
+.sign-plus{
+    text-align: center;
+    
+}
+.sign-plus i{
+    float: none;
+}
+.body-room{
+    margin-top: 5%;
+}
+.fas.fa-ellipsis-h:hover{
+    background: rgba(0, 0, 0, .1);
+    border-radius: 50%;
 }
 .card-room{
     background-color: white;
     margin: 2%;
     padding: 10px;
     width: 20%;
+    display: block;
     text-align: center;
     border: none;
     cursor: pointer;
@@ -61,6 +82,7 @@
 .card-room:hover{
     box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1); 
 }
+
 @media screen and (max-width: 800px) {
     h1{
         font-size: 17px;
@@ -80,5 +102,8 @@
     }
     p{
         font-size: 11px;
+    }
+    .fas.fa-ellipsis-h{
+        margin-left: 5px;
     }
 }

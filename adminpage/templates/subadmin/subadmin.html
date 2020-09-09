@@ -19,7 +19,7 @@ Admin
     <link rel="stylesheet" href="{% static "adminpage/css/sidebar.css" %}">
     <link rel="stylesheet" href="{% static "adminpage/css/dropdown.css" %}">
     <link rel="stylesheet" href="{% static "adminpage/css/user/roomcard.css" %}">
-
+    <link rel="stylesheet" href="{% static "adminpage/css/user/formRoom.css" %}">
 {% endblock style %}
 {% block content %}
 
@@ -29,8 +29,8 @@ Admin
     </button>
     <div class="nav-profile">
         <button class="profile-dropdown">
-            {% if request.user.profileuser.img %}
-            <i><img class="pic-user"src="{{request.user.profileuser.img.url}}" alt="">
+            {% if request.user.userprofile.img %}
+            <i><img class="pic-user"src="{{request.user.userprofile.img.url}}" alt="">
             {% else %}
             <i><img class="pic-user"src="" alt="">
             {% endif %}
@@ -39,47 +39,17 @@ Admin
         </button>
     </div>
 </div>
-<div id="myModal" class="modal-fake">
-    <!-- Modal content -->
-    <div class="modalp-content">
-      <span class="close">&times;</span>
-      
-      <form action="">
-      <input class="form-control" id="data" type="text" placeholder="Search" aria-label="Search">
-     
-      </form>
-        <div class="content-card">
-            {% for data in room %}
-            <button id="{{data.buildingRoom}}" class="card-room" value="{{data.buildingRoom}}">
-                <div class="header-room">
-                    <div>
-                        <p>ROOM</p>
-                    </div>
-                    <div>
-                    <i class="fas fa-ellipsis-h"></i>
-                    </div>
-                </div>
-                <div class="body-room">
-                    <p id="roomID">{{data.buildingRoom}}</p>
-                </div>
-            </button>
-            {% endfor %}
-            <button class="card-room">
-                <div class="sign-plus">
-                    <i class="fas fa-plus"></i>
-                </div>
-            </button>
-        </div>
-    </div>
-  
-</div>
+{% comment %} <button id="myRoom">Open Modal</button> {% endcomment %}
+
+{% include "modalRoom.html" %}   
+{% include "modalForm.html" %}
 <div class="content">
     <div class="sidebar">
         <div class="linksidebar">
             <hr>
             <div >
-            {% if request.user.profileuser.img %}
-                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.profileuser.img.url}}" alt="">
+            {% if request.user.userprofile.img %}
+                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.userprofile.img.url}}" alt="">
                 </i>
                 {% else %}
                 <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">
@@ -92,7 +62,7 @@ Admin
                 <a href="{% url 'adminpage' %}" class=""><i class="fas fa-home"></i>Home</a> 
             </div>
             <div class="linkbar">
-                <a href=""><i class="fas fa-history"></i>History</a>
+                <a href=""><span><i class="fas fa-history"></i></span><span> History</span></a>
             </div>    
             
         </div>
@@ -153,9 +123,24 @@ Admin
         })
         {%endfor%}
     });
-</script>
+    {% comment %} var endpoint = "{% url'loadRoom'%}" {% endcomment %}
 
+    {% comment %} $('.generate-report').click(function(){
+        $.ajax({
+            type:"GET", 
+            url:endpoint,
+            success: function(data){
+                console.log(data)
+            }
+        });
+
+    )    {% endcomment %}
+})              
+</script>
 <script src="{% static "adminpage/js/modal.js" %}"></script>
+{% comment %} <script src="{% static "adminpage/js/modalform.js" %}"></script> {% endcomment %}
+<script src="{% static "adminpage/js/reloadRoom.js" %}"></script>
+
 <script src="{% static "adminpage/js/chartfile.js" %}"></script>
 <script src="{% static "adminpage/js/dropdown.js" %}"></script>
 
