@@ -18,11 +18,15 @@ import os
 #user
 class userProfile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    phone = models.CharField(max_length=100,unique=True)
-    img = models.ImageField(upload_to='imgprofile/')
+    phone = models.CharField(max_length=100,unique=True,blank=True,null=True)
+    img = models.ImageField(upload_to='imgprofile/',blank=True,null=True)
     def __str__(self):
-        return self.phone
+        return self.user.username
     
+    def delete(self,*args, **kwargs):
+        if os.path.isfile(self.img.path):
+            os.remove(self.img.path)
+        super(userProfile,self).delete(*args, **kwargs)
     
 #Room 
 class RoomServer(models.Model):

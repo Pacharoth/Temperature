@@ -23,23 +23,23 @@ def allow_subadmins(allowed_roles=[]):
             if group in allowed_roles:
                 return view_func(request,*args, **kwargs)
             else:
-                return redirect('adminLogin')
+                return HttpResponse("Hey man")
         return wrapper_func
     return decorator
 
 # #allow json to get the data
     
-# #use in view to restrict on sidebar
-# def admin_only(view_func):
-#     def wrapper_func(request,*args, **kwargs):
-#         group = None
-#         if request.user.groups.exists():
-#             group = request.user.groups.all()[0].name
-#         if group == "subadmin":
-#             return redirect('subadmin')
-#         elif group == "admin":
-#             return view_func(request,*args, **kwargs)
-#     return wrapper_func
+#use in view to restrict on sidebar
+def admin_only(view_func):
+    def wrapper_func(request,*args, **kwargs):
+        group = None
+        if request.user.groups.exists():
+            group = request.user.groups.all()[0].name
+        if group == "subadmin":
+            return redirect('subadmin')
+        elif group == "admin":
+            return view_func(request,*args, **kwargs)
+    return wrapper_func
 
 def authenticate(request,email,password):
     """

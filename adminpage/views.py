@@ -6,17 +6,16 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from adminpage.models import RoomServer
+from adminpage.models import RoomServer,userProfile
 from django.contrib.auth import logout,login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group,User
-from adminpage.decoration import authenticate,unanthenticated_user,allow_subadmins
+from adminpage.decoration import authenticate,unanthenticated_user,allow_subadmins,admin_only
 from adminpage.utils import render_to_pdf
 from django.views.generic import View
 import secrets
 # Create your views here.
 @unanthenticated_user
-
 def adminLogin(request):
     form = loginForm(request.POST or None)
     if request.method =="POST":
@@ -33,7 +32,9 @@ def adminLogin(request):
 # def userCard(request):
 #     return render()
 #admin page
+
 @login_required(login_url='adminLogin')
+@admin_only
 def adminpage(request):
     return render(request,'alladmin/adminpage.html')
 
@@ -48,11 +49,16 @@ def logoutpage(request):
 @login_required(login_url='adminLogin')
 def register(request):
     form = registerForm(request.POST or None)
+    
     if request.method == "POST":
         form = registerForm(request.POST or None)
         if form.is_valid():
             user = form.save()
             email = form.cleaned_data.get('email')
+           
+            pObj =User.objects.get(username=user)
+            pSave = userProfile(user = pObj).save()
+            print(pSave)
             password = form.cleaned_data.get('password2')
             print(password)
             current_site = get_current_site(request)
@@ -84,7 +90,7 @@ def resetPassword(request):
             form.save()
     return render(request,"")
 #profile page
-@allow_subadmins(allowed_roles=['admin'])
+@allow_subadmins(allowed_roles=['subadmin'])
 def profile(request):
     user = request.user 
     profile=request.user.userprofile
@@ -103,50 +109,72 @@ def profile(request):
 
 #render the room in to json
 @allow_subadmins(allowed_roles=['subadmin'])
+@login_required(login_url="adminLogin")
 def addRoom(request):
-    user = request.user.profileuser
+    user = request.user
+    subadmin = User.objects.get(username=user)
     data={}
     data_user=[]
     if request.method == "POST":
-        roomid = request.POST.get("room")
-        room = RoomServer.objects.all()
-        if room.exists():
-            room = RoomServer.objects.filter(user__name=user,buildingRoom=roomid)
+        roomid = request.POST.get("buidlingRoom")
+        user = RoomServer(user=subadmin,buildingRoom=roomid).save()
     return JsonResponse(room)
+
+#delete room
+def deleteRoom(request):
+    data=[]
+    if request.method == "POST":
+        roomid = request.POST.get("roomDelete")
+        room = RoomServer.objects.filter(buildingRoom=roomid)
+        if room.exists():
+            room.delete()
+    return JsonResponse(data)
 
 
 #page user
+@login_required(login_url="adminLogin")
 @allow_subadmins(allowed_roles=['subadmin'])
 def subadmin(request):
-    subadmins = request.user
-    # user =request.user
-    room = RoomServer.objects.all()
+    subadmins = request.user 
+    user = User.objects.get(username=subadmins)
+    print(user)
+    form = roomBuilding(request.POST or None)
+    reponse={}
+    room = RoomServer.objects.filter(user =subadmins)
     if request.method == "POST":
-        roomData = request.POST.get('roomData')
-        data=RoomServer(user=subadmin,buildingRoom=roomData)
-        roomDat = data.save()
-        return JsonResponse(data)
-    if room.exists():
-        room = RoomServer.objects.filter(user__name=subadmins)
-        print(room)         
-    context={'user':subadmins,'room':room}
+        form = roomBuilding(request.POST or None)
+        
+        if form.is_valid():
+            roombuilding = form.cleaned_data['buildingRoom']
+            print(type(roombuilding))
+            p=RoomServer(user=user,buildingRoom=roombuilding)
+            p.save()
+            response={
+            'room':roomBuilding,
+            }
+    context={
+        'user':subadmins,
+        'room':room,
+        'form':form
+        }
     print(subadmin)
     return render(request,'subadmin/subadmin.html',context)
 
 
 #reload data in room
 def reloadRoom(request):
-    subadmins = request.user.profileuser
+    subadmins = request.user
     print(subadmins)
     room = RoomServer.objects.all()
     # data = {}
     dataToAppend=[]
     if room.exists():
-        room = RoomServer.objects.filter(user__name = subadmins)
+        room = RoomServer.objects.filter(user__username = subadmins)
         for i in room:
             dataToAppend.append(str(i))
-    data={
-        'room':dataToAppend,
-    }
+        data={
+            'roomsubadmin':dataToAppend,
+        }
     return JsonResponse(data)
 
+#send 

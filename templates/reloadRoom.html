@@ -1,0 +1,33 @@
+{% load static %}
+<script>
+
+    var endpoint = ' {% url "subadmin" %} '
+    $("#roomBuilding").click(function(){
+        
+        $.ajax({
+            method:"POST",
+            url:endpoint,
+            data:{
+                room:$("#id_buildingRoom").val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success:function(json){
+                console.log(json.room)
+                $(".content-card").prepend('<button id='+json.room+''+ 'class="card-room" value="'+json.room+'">'+
+                    '<div class="header-room">'
+                        +'<div>'
+                            +'<p>ROOM</p>'
+                        +'</div>'
+                        +'<div>'
+                        +'<i class="fas fa-ellipsis-h"></i>'
+                        +'</div>'+
+                    '</div>'+
+                    '<div class="body-room">'
+                        +'<p id="roomID">'+json.room+'</p>'+
+                    '</div>'
+                +'</button>')     
+                
+            }
+        });
+    });
+</script>

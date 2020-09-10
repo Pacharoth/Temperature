@@ -87,12 +87,13 @@ class resetPasswordForm(forms.Form):
 
 #roomBuilding
 class roomBuilding(forms.ModelForm):
-    buildingRoom = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Building and room'}))
+    buildingRoom = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Building and room','class':'form-control'}))
     def clean_room(self):
         room = self.cleaned_data.get('buildingRoom')
         roomObj = RoomServer.objects.filter(buildingRoom=room)
         if roomObj.exists():
             raise forms.ValidationError(_("Room already has owner"))
+        return room
     class Meta:
         model = RoomServer
         fields =['buildingRoom']
@@ -106,11 +107,19 @@ class roomEdit(forms.ModelForm):
 #profile pic
 class ProfilePic(forms.ModelForm):
     phone= forms.CharField(max_length=100,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Phone Number:'}))
-    img = forms.ImageField(max_length=5,widget=forms.FileInput(attrs={'class':'form-control'}))
+    # img = forms.ImageField(max_length=5,widget=forms.FileInput(attrs={'class':'form-control'}))
+    def clean_phone(self):
+        phonenumber = self.cleaned_data.get('phone')
+        if phonenumber is None or phonenumber == "":
+            raise forms.ValidationError(_("Please insert phone number and pic"))
+        return phonenumber
+    
     class Meta:
         model = userProfile
         fields = '__all__'
         exclude=['user']
+
+
 #profile usernamed
 class ProfileForm(forms.ModelForm):
     username = forms.CharField(max_length=200,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Username:'}))

@@ -73,8 +73,8 @@ Admin
             <div class="for_position">
             <div class="profile-pic-1">
                 <div >
-                {% if request.user.profileuser.img %}
-                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.profileuser.img.url}}" alt="">
+                {% if request.user.userprofile.img %}
+                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.userprofile.img.url}}" alt="">
                     </i>
                 {% else %}
                     <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">
@@ -94,6 +94,7 @@ Admin
         <div class="chart-container">
             <div class="content-room-report">
                 <div class="width-room">
+                 
                     <button id="room" class="report-room">
                         ROOM
                     </button>
@@ -113,12 +114,15 @@ Admin
         </div> 
     </div>
 </div> 
+
 <script>
     // search function
     $('#data').keyup(function(){
+        console.log($(this).val())
         var value = $(this).val().toLowerCase();
         {%for data in room%}
         $('#{{data.buildingRoom}}').filter(function(){
+            
             $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1);    
         })
         {%endfor%}
@@ -135,11 +139,12 @@ Admin
         });
 
     )    {% endcomment %}
-})              
+            
 </script>
+{% include 'reloadRoom.html' %}
 <script src="{% static "adminpage/js/modal.js" %}"></script>
 {% comment %} <script src="{% static "adminpage/js/modalform.js" %}"></script> {% endcomment %}
-<script src="{% static "adminpage/js/reloadRoom.js" %}"></script>
+{% comment %} <script src="{% static "adminpage/js/reloadRoom.js" %}"></script> {% endcomment %}
 
 <script src="{% static "adminpage/js/chartfile.js" %}"></script>
 <script src="{% static "adminpage/js/dropdown.js" %}"></script>
