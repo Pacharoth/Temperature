@@ -1,4 +1,10 @@
 {% load static %}
+<style>
+    .dropdown-toggle::after{
+        content: none;
+    }
+</style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <div id="myModal" class="modal-fake">
     <!-- Modal content -->
     <div class="modalp-content">
@@ -9,24 +15,27 @@
      
       </form>
         <div id="card" class="content-card">
-        
+
             {% for i in room %}
-            <button id="{{i}}" class="card-room" value="{{i}}">
+            <div id="{{i}}" class="card-room" data-store="{{i}}">
                 <div class="header-room">
                     <div>
                         <p>ROOM</p>
                     </div>
                     <div class="dropdown1">
+                    <button style="border: none;"class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                        {% include "roomlist/dropitem.html" %}
                     </div>
                 </div>
                 <div class="body-room">
                     <p id="roomID">{{i}}</p>
                 </div>
-            </button>
+            </div>
             {% endfor %}
            
-            <button id="myRoom" class="card-room" >
+            <button id="myRoom" class="card-room" data-toggle="modal" data-target="#createroomsub">
                 <div class="sign-plus">
                     <i class="fas fa-plus"></i>
                 </div>

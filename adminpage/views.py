@@ -117,6 +117,8 @@ def profile(request):
             forms.save()
     return render (request,'admin/profile.html',{'user':user,'form':form,'forms':forms})
 
+
+#subadmin
 #page user
 @login_required(login_url="adminLogin")
 @allow_subadmins(allowed_roles=['subadmin'])

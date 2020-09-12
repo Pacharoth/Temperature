@@ -42,7 +42,9 @@ Admin
 {% comment %} <button id="myRoom">Open Modal</button> {% endcomment %}
 
 {% include "roomlist/modalRoom.html" %}   
-{% include "modalForm.html" %}
+{% include 'roomlist/createroom.html' %}
+{% include "roomlist/updateroom.html" %}
+{% include "roomlist/deleteroom.html" %}
 <div class="content">
     <div class="sidebar">
         <div class="linksidebar">
@@ -69,7 +71,7 @@ Admin
     </div>
 
     <div class="content-all" >
-        <div  class="dropdown">
+        <div class="dropdown">
             <div class="for_position">
             <div class="profile-pic-1">
                 <div >
