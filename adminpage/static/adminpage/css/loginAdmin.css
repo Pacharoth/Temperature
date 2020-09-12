@@ -15,7 +15,7 @@ body {
     border-radius: 5px;
     background-color: white;
     cursor: pointer;
-    width: 80%;
+    width: 60%;
     box-sizing: border-box;
     padding: 20px 0 30px 0;
     margin-top: 10%;
@@ -121,8 +121,12 @@ body {
       -ms-overflow-style: none;
      
   }
+  
   .btn{
       margin-bottom: 10px;
+  }
+  .container{
+    width: 90%;
   }
     .col {
       width: 90%;

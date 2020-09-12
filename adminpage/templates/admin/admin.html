@@ -27,15 +27,15 @@ Admin
         <i class="fa fa-bars"></i>
     </button>
     <div class="nav-profile">
-        
+       
         <button class="profile-dropdown">
-            {% if request.user.profileuser.img %}
-            <i><img class="pic-user"src="{{request.user.profileuser.img.url}}" alt="">
+            {% if request.user.userprofile.img %}
+            <i><img class="pic-user"src="{{request.user.userprofile.img.url}}" alt="">
             
             {%else%}
             <i><img class="pic-user"src="" alt="">
             {% endif %}
-            </i>{{request.user}}
+            </i>{{request.user}} 
             
         </button>
     </div>
@@ -45,8 +45,8 @@ Admin
         <div class="linksidebar">
             <hr>
             <div >
-                {% if request.user.profileuser.img %}
-                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.profileuser.img.url}}" alt="">
+                {% if request.user.userprofile.img %}
+                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.userprofile.img.url}}" alt="">
                 </i>
                 {%else%}
                 <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">
@@ -70,8 +70,8 @@ Admin
             <div class="for_position">
             <div class="profile-pic-1">
                 <div >
-                    {% if request.user.profileuser.img %}
-                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.profileuser.img.url}}" alt="">
+                    {% if request.user.userprofile.img %}
+                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.userprofile.img.url}}" alt="">
                     </i>
                     {%else%}
                     <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">

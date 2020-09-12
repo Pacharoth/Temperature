@@ -6,7 +6,7 @@
 body {font-family: Arial, Helvetica, sans-serif;}
 
 /* The Modal (background) */
-.modal-fake {
+.modalf-fake {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -22,7 +22,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 
 /* Modal Content */
-.modalp-content {
+.modalf-content {
   background-color: #fefefe;
   margin: auto;
   padding: 10px;
@@ -33,28 +33,20 @@ form{
     margin: 10px;
 }
 /* The Close Button */
-.close {
+.close2 {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close2:hover,
+.close2:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
 }
-.make-card{
-    width: 50%;
-    background:gray;
-    border-radius: 5px;
-}
-a{
-    text-decoration:none;
-    
-}
+
 </style>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
@@ -66,22 +58,17 @@ a{
 <h2>Modal Example</h2>
 
 <!-- Trigger/Open The Modal -->
-<button id="myBtn">Open Modal</button>
+<button id="myRoom">Open Modal</button>
 
 <!-- The Modal -->
-<div id="myModal" class="modal-fake">
+<div id="myMain" class="modalf-fake">
 
   <!-- Modal content -->
-  <div class="modalp-content">
-    <span class="close">&times;</span>
+  <div class="modalf-content">
+    <span class="close2">&times;</span>
     <form action="">
     <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-    <a href="" class="">
-        <div class="make-card">
-            <h1>Room1</h1>
-            <p>I am not Pro</p>
-        </div>
-    </a>
+
     </form>
   </div>
 
@@ -90,13 +77,13 @@ a{
 <script>
 
 // Get the modal
-var modal = document.getElementById("myModal");
+var modal = document.getElementById("myMain");
 
 // Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+var btn = document.getElementById("myRoom");
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+var span = document.getElementsByClassName("close2")[0];
 
 // When the user clicks the button, open the modal 
 btn.onclick = ()=> {
