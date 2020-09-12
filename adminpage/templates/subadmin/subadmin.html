@@ -30,7 +30,7 @@ Admin
     <div class="nav-profile">
         <button class="profile-dropdown">
             {% if request.user.userprofile.img %}
-            <i><img class="pic-user"src="{{request.user.userprofile.img.url}}" alt="">
+            <i><img class="img-profile rounded-circle" style="width:20px;height:20px;" src="{{request.user.userprofile.img.url}}" alt="">
             {% else %}
             <i><img class="pic-user"src="" alt="">
             {% endif %}
@@ -41,7 +41,7 @@ Admin
 </div>
 {% comment %} <button id="myRoom">Open Modal</button> {% endcomment %}
 
-{% include "modalRoom.html" %}   
+{% include "roomlist/modalRoom.html" %}   
 {% include "modalForm.html" %}
 <div class="content">
     <div class="sidebar">
@@ -49,10 +49,10 @@ Admin
             <hr>
             <div >
             {% if request.user.userprofile.img %}
-                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.userprofile.img.url}}" alt="">
+                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="rounded-circle" style="width:60px; height:60px; padding:10px;" src="{{request.user.userprofile.img.url}}" alt="">
                 </i>
                 {% else %}
-                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">
+                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="rounded-circle" style="width:60px; height:60px; padding:10px;" src="" alt="">
                 </i>
             {% endif %}
                 <div class="user">{{request.user}}</div></a>
@@ -74,7 +74,7 @@ Admin
             <div class="profile-pic-1">
                 <div >
                 {% if request.user.userprofile.img %}
-                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.userprofile.img.url}}" alt="">
+                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="rounded-circle" style="width:50px; height:50px; padding:10px;"src="{{request.user.userprofile.img.url}}" alt="">
                     </i>
                 {% else %}
                     <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">
@@ -141,7 +141,7 @@ Admin
     )    {% endcomment %}
             
 </script>
-{% include 'reloadRoom.html' %}
+{% comment %} {% include 'reloadRoom.html' %} {% endcomment %}
 <script src="{% static "adminpage/js/modal.js" %}"></script>
 {% comment %} <script src="{% static "adminpage/js/modalform.js" %}"></script> {% endcomment %}
 {% comment %} <script src="{% static "adminpage/js/reloadRoom.js" %}"></script> {% endcomment %}

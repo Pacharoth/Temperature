@@ -43,7 +43,7 @@ class TemperatureRoom(models.Model):
     room = models.ForeignKey(RoomServer,null=True,on_delete=models.CASCADE)
     Temperature = models.FloatField()
     date_and_time = models.DateTimeField()
-    
+
 
 class TemperatureStore(models.Model):
     room = models.ForeignKey(RoomServer,null=True,on_delete=models.CASCADE)

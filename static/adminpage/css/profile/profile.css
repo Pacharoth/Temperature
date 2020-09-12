@@ -4,7 +4,6 @@
 }
 .all-profile{
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-around;
 }
 .img-profile{
@@ -37,6 +36,9 @@
 @media screen and (max-width: 800px) {
     input[type=search]{
         font-size:10px;
+    }
+    .all-profile{
+        flex-wrap: wrap;
     }
     .profile-content{
         width: 100%;

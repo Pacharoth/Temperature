@@ -86,7 +86,7 @@ class resetPasswordForm(forms.Form):
 
 
 #roomBuilding
-class roomBuilding(forms.ModelForm):
+class roomBuildingForm(forms.ModelForm):
     buildingRoom = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Building and room','class':'form-control'}))
     def clean_room(self):
         room = self.cleaned_data.get('buildingRoom')

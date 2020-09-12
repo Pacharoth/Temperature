@@ -1,0 +1,22 @@
+<div id="myMain" class="modalf-fake">
+
+  <!-- Modal content -->
+  <div class="modalf-content">
+    <div class="close2">&times;</div>
+    <p>Add room</p>
+    <form method="POST">
+    {% csrf_token %}
+  <div class="form-group mt-5">
+    <label for="buildingRoom">Building and Room</label>
+    {% comment %} <input type="text" class="form-control" id="id_buildingRoom" name="buildingRoom" aria-describedby="buildingRoomHelp" placeholder="Building and Room"> {% endcomment %}
+    {{form.buildingRoom}}
+    <small id="buildingRoomHelp" class="form-text text-muted">Include building and room ex:I213</small>
+  </div>
+  <button type="submit"class="btn btn-primary">Save</button>
+  {% if form.errors %}
+    {{form.errors}}
+  {% endif %}
+</form>
+  </div>
+
+</div>

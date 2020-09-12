@@ -1,19 +1,19 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from adminpage.forms import (loginForm,registerForm,
-                            roomBuilding,ProfileForm,ProfilePic,resetPasswordForm)
+                            roomBuildingForm,ProfileForm,ProfilePic,
+                            resetPasswordForm)
 from django.contrib import messages
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from adminpage.models import RoomServer,userProfile
+from adminpage.models import RoomServer,userProfile,TemperatureStore,TemperatureRoom
 from django.contrib.auth import logout,login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group,User
 from adminpage.decoration import authenticate,unanthenticated_user,allow_subadmins,admin_only
 from adminpage.utils import render_to_pdf
 from django.views.generic import View
-import secrets
 # Create your views here.
 @unanthenticated_user
 def adminLogin(request):
@@ -29,14 +29,23 @@ def adminLogin(request):
             messages.error(request,'Account not exists or wrong username or password')
     return render(request,'adminauth/login.html',{'form':form,'message':messages})
 
-# def userCard(request):
-#     return render()
-#admin page
 
+#admin page
 @login_required(login_url='adminLogin')
 @admin_only
 def adminpage(request):
-    return render(request,'alladmin/adminpage.html')
+    user = User.objects.all()
+    context={
+        'user':user,
+    }
+    return render(request,'alladmin/adminpage.html',context)
+
+#go check subadmin
+@login_required(login_url='adminLogin')
+@admin_only
+def checkSubadminPage(request):
+    return render(request,'alladmin/sub-adminpage.html')
+
 
 #logout link
 @login_required(login_url='adminLogin')
@@ -66,7 +75,7 @@ def register(request):
             print(group)
             user.groups.add(group)
             mail_subject = "Activate your account as subadmin"
-            message = render_to_string('emailverify.html',{
+            message = render_to_string('email/emailverify.html',{
                 'user':user,
                 'domain':current_site,
                 'email':email,
@@ -89,6 +98,8 @@ def resetPassword(request):
         if form.is_valid():
             form.save()
     return render(request,"")
+
+
 #profile page
 @allow_subadmins(allowed_roles=['subadmin'])
 def profile(request):
@@ -106,31 +117,6 @@ def profile(request):
             forms.save()
     return render (request,'admin/profile.html',{'user':user,'form':form,'forms':forms})
 
-
-#render the room in to json
-@allow_subadmins(allowed_roles=['subadmin'])
-@login_required(login_url="adminLogin")
-def addRoom(request):
-    user = request.user
-    subadmin = User.objects.get(username=user)
-    data={}
-    data_user=[]
-    if request.method == "POST":
-        roomid = request.POST.get("buidlingRoom")
-        user = RoomServer(user=subadmin,buildingRoom=roomid).save()
-    return JsonResponse(room)
-
-#delete room
-def deleteRoom(request):
-    data=[]
-    if request.method == "POST":
-        roomid = request.POST.get("roomDelete")
-        room = RoomServer.objects.filter(buildingRoom=roomid)
-        if room.exists():
-            room.delete()
-    return JsonResponse(data)
-
-
 #page user
 @login_required(login_url="adminLogin")
 @allow_subadmins(allowed_roles=['subadmin'])
@@ -138,12 +124,11 @@ def subadmin(request):
     subadmins = request.user 
     user = User.objects.get(username=subadmins)
     print(user)
-    form = roomBuilding(request.POST or None)
+    form = roomBuildingForm(request.POST or None)
     reponse={}
     room = RoomServer.objects.filter(user =subadmins)
     if request.method == "POST":
-        form = roomBuilding(request.POST or None)
-        
+        form = roomBuildingForm(request.POST or None)
         if form.is_valid():
             roombuilding = form.cleaned_data['buildingRoom']
             print(type(roombuilding))
@@ -157,24 +142,112 @@ def subadmin(request):
         'room':room,
         'form':form
         }
+    print(context)
     print(subadmin)
     return render(request,'subadmin/subadmin.html',context)
 
 
-#reload data in room
-def reloadRoom(request):
-    subadmins = request.user
-    print(subadmins)
-    room = RoomServer.objects.all()
-    # data = {}
-    dataToAppend=[]
-    if room.exists():
-        room = RoomServer.objects.filter(user__username = subadmins)
-        for i in room:
-            dataToAppend.append(str(i))
-        data={
-            'roomsubadmin':dataToAppend,
-        }
+#reload data in room and save data to room
+def save_room_subuser(request,form,template_name):
+    data = dict()
+    user =request.user
+    if request.method =="POST":
+        if form.is_valid():
+            form.save()
+            room=RoomServer.objects.filter(user__username=user)
+            data['form_is_valid']=True
+            data['html_room_list'] =render_to_string('roomlist/modalRoom.html',{'room':room})
+        else:
+            data['form_is_valid']= False
+        context={'form':form}
+        data['html_room_form']= render_to_string(template_name, context, request=request)
     return JsonResponse(data)
 
-#send 
+#add room at sub admin page
+def create_roomSub(request):
+    form = roomBuildingForm()
+    if request.method == "POST":
+        form = roomBuildingForm(request.POST)
+    return save_room_subuser(request,form,'/roomlist/modalRoom.html')
+
+#update at subadmin
+def update_roomSub(request,roomBuilding):
+    room = RoomServer.objects.filter(buildingRoom=str(roomBuilding))
+    if room.exists():
+        room = RoomServer.objects.get(buildingRoom=roomBuilding)
+        form = roomBuildingForm(instance=room)
+        if request.method == "POST":
+            form = roomBuildingForm(request.POST,instance=room)
+        return save_room_subuser(request, form,'roomlist/roomupdate.html')
+
+#delete at subadmin
+def roomSub_delete(request,roomBuilding):
+    data=dict()
+    user = request.user
+    room = RoomServer.objects.filter(buildingRoom=str(roomBuilding))
+    if room.exists():
+        room = RoomServer.objects.get(buildingRoom=roomBuilding)
+        if request.method == "POST":
+            room.delete()
+            data['form_is_valid'] = True
+            rooms = RoomServer.objects.filter(user= user)
+            data['html_room_list'] = render_to_string('roomlist/modalRoom.html',{'room':room})
+        else:
+            context = {'room':room}
+            data['html_room_form'] = render_to_string('roomlist/roomdelete.html',context,request=request)
+        return JsonResponse(data)
+
+#temperature for sub admin
+def getTemperatureSub(request,roomBuilding):
+    data=dict()
+    temp=[]
+    time=[]
+    room=""
+    graph = str(roomBuilding)
+    print(roomBuilding)
+    user = TemperatureRoom.objects.filter(room__buildingRoom = graph)
+    print(user)
+    if user.exists():
+        for data in user:
+            temper = float("%.2f"%(data.Temperature))
+            print(temper)
+            room= data.room
+            temp.append(temper)
+            time.append(data.date_and_time.time())
+            print(room)
+            print(temp)
+            print(time)
+        data={
+            'room':str(room),
+            'temperature':temp,
+            'date_and_time':time,
+        }
+        print(data)    
+        return JsonResponse(data)
+    return JsonResponse(data)
+
+#send mail alert
+def sendMail(request):
+    dat=dict()
+    room = TemperatureRoom.objects.all()
+    if room.exists():
+        for data in room:
+            if data.Temperature >21:
+                print("Close Auto")
+            elif data.Temperature < 20:
+                mail_subject = "Warning The temperature is Too High" 
+                user = TemperatureRoom.objects.filter(room__buildingRoom=data.room)[0].room.user
+                message = render_to_string('email/sendtemperature.html',{
+                    'user':user,
+                    'room': data.room,
+                    'temperature': data.Temperature,
+                    'domain':current_site,
+                })
+                email = TemperatureRoom.objects.filter(room__buildingRoom=data.room)[0].room.user.email
+                email = EmailMessage(mail_subject,message,to=[email])
+                email.send()
+                return JsonResponse(dat)
+    return JsonResponse(dat)
+
+#reset the data for an hour and put it back
+

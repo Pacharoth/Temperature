@@ -35,9 +35,9 @@ Profile
     <div class="nav-profile">
         <button class="profile-dropdown">
             {% if request.user.userprofile.img %}
-            <i><img class="pic-user"src="{{request.user.userprofile.img.url}}" alt="">
+            <i><img class="rounded-circle" style="width:50px; height:50px; padding:10px" src="{{request.user.userprofile.img.url}}" alt="">
             {% else %}
-            <i><img class="pic-user"src="" alt="">
+            <i><img class="rounded-circle" style="width:50px; height:50px; padding:10px"src="" alt="">
             {% endif %}
             </i>{{request.user}}
             
@@ -55,7 +55,7 @@ Profile
             <hr>
             <div >
                 {% if request.user.userprofile.img %}
-                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.userprofile.img.url}}" alt="">
+                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="rounded-circle" style="width:50px; height:50px;" src="{{request.user.userprofile.img.url}}" alt="">
                 </i>
                 {%else%}
                 <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">
@@ -80,10 +80,10 @@ Profile
             <div class="profile-pic-1">
                 <div >
                     {% if request.user.userprofile.img %}
-                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="{{request.user.userprofile.img.url}}" alt="">
+                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="rounded-circle" style="width:60px; height:60px; padding:10px;" src="{{request.user.userprofile.img.url}}" alt="">
                     </i>
                     {% else %}
-                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">
+                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="rounded-circle" style="width:60px; height:60x; padding:10px;"src="" alt="">
                     </i>
                     {% endif %}
                     
@@ -99,13 +99,13 @@ Profile
         </div>
         </div>
         <div class="chart-container">
-            <form action="" class="all-profile" method="POST" enctype="multipart/form-data">
+            <form action="" class="all-profile"  method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="profile-img">
                     {% if request.user.userprofile.img %}
-                    <img class="img-profile" src="{{request.user.userprofile.img.url}}" alt="">
+                    <img class="img-profile rounded-circle" style="width:100px; height:100px;" src="{{request.user.userprofile.img.url}}" alt="">
                     {% else %}
-                    <img class="img-profile" src="" alt="">
+                    <img class="img-profile rounded-circle" style="width:100px;height:100px" src="" alt="">
                     {% endif %}
                     <div class="form-group" >
                         <label for="id_img">Profile Pic</label>

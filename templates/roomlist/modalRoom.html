@@ -1,0 +1,40 @@
+{% load static %}
+<div id="myModal" class="modal-fake">
+    <!-- Modal content -->
+    <div class="modalp-content">
+      <span class="close">&times;</span>
+      
+      <form action="">
+      <input class="form-control" id="data" type="text" placeholder="Search" aria-label="Search">
+     
+      </form>
+        <div id="card" class="content-card">
+        
+            {% for i in room %}
+            <button id="{{i}}" class="card-room" value="{{i}}">
+                <div class="header-room">
+                    <div>
+                        <p>ROOM</p>
+                    </div>
+                    <div class="dropdown1">
+                    <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                </div>
+                <div class="body-room">
+                    <p id="roomID">{{i}}</p>
+                </div>
+            </button>
+            {% endfor %}
+           
+            <button id="myRoom" class="card-room" >
+                <div class="sign-plus">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </button>
+        </div>
+        
+    </div>
+</div>
+<script>
+
+</script>

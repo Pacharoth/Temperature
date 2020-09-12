@@ -8,7 +8,7 @@ modal[0]= document.getElementById("myModal");
 btn[0] = document.getElementById("room");
 
 // Get the <span> element that closes the modal
- span[0] = document.getElementsByClassName("close")[0];
+span[0] = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal 
 modal[1] = document.getElementById("myMain");
