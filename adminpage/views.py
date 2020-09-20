@@ -148,56 +148,87 @@ def subadmin(request):
     print(subadmin)
     return render(request,'subadmin/subadmin.html',context)
 
+def save_update_room_subuser(request,form,template_name):
+    data = dict()
+    user =request.user
+    print(user)
+    if request.method =="POST":
+        if form.is_valid():
+            p=form.cleaned_data.get("buildingRoom")
+            form.buildingRoom=p
+            print(form.buildingRoom)
+            form.save()
+            room=RoomServer.objects.filter(user__username=user)
+            data['form_is_valid']=True
+            data['html_room_list'] =render_to_string('subadmin/roomlist/listroom.html',{'room':room})
+        else:
+            data['form_is_valid']= False
+    context={'form':form}
+    print(context)
+    data['html_room_form']= render_to_string(template_name, context, request=request)
+    print(data)
+    return JsonResponse(data)
 
 #reload data in room and save data to room
 def save_room_subuser(request,form,template_name):
     data = dict()
     user =request.user
+   
+    
+    print(user)
     if request.method =="POST":
         if form.is_valid():
-            form.save()
+            save_method = form.save(commit=False)
+            save_method.user = user
+            save_method.save()
             room=RoomServer.objects.filter(user__username=user)
             data['form_is_valid']=True
-            data['html_room_list'] =render_to_string('roomlist/modalRoom.html',{'room':room})
+            data['html_room_list'] =render_to_string('subadmin/roomlist/listroom.html',{'room':room})
         else:
             data['form_is_valid']= False
-        context={'form':form}
-        data['html_room_form']= render_to_string(template_name, context, request=request)
+    context={'form':form}
+    print(context)
+    data['html_room_form']= render_to_string(template_name, context, request=request)
+    print(data)
     return JsonResponse(data)
 
 #add room at sub admin page
 def create_roomSub(request):
     form = roomBuildingForm()
+    print(form)
     if request.method == "POST":
         form = roomBuildingForm(request.POST)
-    return save_room_subuser(request,form,'/roomlist/modalRoom.html')
+    return save_room_subuser(request , form,'subadmin/roomlist/createroom.html')
 
 #update at subadmin
 def update_roomSub(request,roomBuilding):
-    room = RoomServer.objects.filter(buildingRoom=str(roomBuilding))
+    user = request.user
+    data=dict
+    room = RoomServer.objects.filter(buildingRoom=roomBuilding)
     if room.exists():
         room = RoomServer.objects.get(buildingRoom=roomBuilding)
         form = roomBuildingForm(instance=room)
         if request.method == "POST":
             form = roomBuildingForm(request.POST,instance=room)
-        return save_room_subuser(request, form,'roomlist/roomupdate.html')
+    return save_update_room_subuser(request,form,'subadmin/roomlist/updateroom.html')
 
 #delete at subadmin
 def roomSub_delete(request,roomBuilding):
     data=dict()
     user = request.user
-    room = RoomServer.objects.filter(buildingRoom=str(roomBuilding))
+    room = RoomServer.objects.filter(buildingRoom=roomBuilding)
     if room.exists():
         room = RoomServer.objects.get(buildingRoom=roomBuilding)
         if request.method == "POST":
             room.delete()
             data['form_is_valid'] = True
             rooms = RoomServer.objects.filter(user= user)
-            data['html_room_list'] = render_to_string('roomlist/modalRoom.html',{'room':room})
+            data['html_room_list'] = render_to_string('subadmin/roomlist/listroom.html',{'room':rooms})
         else:
             context = {'room':room}
-            data['html_room_form'] = render_to_string('roomlist/roomdelete.html',context,request=request)
-        return JsonResponse(data)
+            print(context)
+            data['html_room_form'] = render_to_string('subadmin/roomlist/deleteroom.html',context,request=request)
+    return JsonResponse(data)
 
 #temperature for sub admin
 def getTemperatureSub(request,roomBuilding):
@@ -207,7 +238,7 @@ def getTemperatureSub(request,roomBuilding):
     room=""
     graph = str(roomBuilding)
     print(roomBuilding)
-    user = TemperatureRoom.objects.filter(room__buildingRoom = graph)
+    user = TemperatureRoom.objects.filter(room__buildingRoom = graph).order_by("-date_and_time")[:5]
     print(user)
     if user.exists():
         for data in user:
@@ -237,15 +268,16 @@ def sendMail(request):
             if data.Temperature >21:
                 print("Close Auto")
             elif data.Temperature < 20:
+                current_site = get_current_site(request)
                 mail_subject = "Warning The temperature is Too High" 
-                user = TemperatureRoom.objects.filter(room__buildingRoom=data.room)[0].room.user
+                user = TemperatureRoom.objects.filter(room__buildingRoom=data.room.buildingRoom)[0].room.user
                 message = render_to_string('email/sendtemperature.html',{
                     'user':user,
                     'room': data.room,
                     'temperature': data.Temperature,
                     'domain':current_site,
                 })
-                email = TemperatureRoom.objects.filter(room__buildingRoom=data.room)[0].room.user.email
+                email = TemperatureRoom.objects.filter(room__buildingRoom=data.room.buildingRoom)[0].room.user.email
                 email = EmailMessage(mail_subject,message,to=[email])
                 email.send()
                 return JsonResponse(dat)

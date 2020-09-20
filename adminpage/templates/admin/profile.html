@@ -20,7 +20,14 @@ Profile
   <link rel="stylesheet" href="{% static "adminpage/css/chartcontent.css" %}">
   <link rel="stylesheet" href="{% static "adminpage/css/sidebar.css" %}">
   <link rel="stylesheet" href="{% static "adminpage/css/dropdown.css" %}">
-
+<style>
+    .chart-container{
+        margin-top: 2%;
+    }
+    .profile-content{
+        margin-left: 2%;
+    }
+</style>
 {% endblock style %}
 {% block content %}
 <div class="nav-bar">
@@ -145,7 +152,8 @@ Profile
 </div> 
 
 <!-- <canvas id="myChart" ></canvas> -->
+{% endblock content %}
+{% block script %}
 <script src="{% static "adminpage/js/chartfile.js" %}"></script>
 <script src="{% static "adminpage/js/dropdown.js" %}"></script>
-
-{% endblock content %}
+{% endblock script %}

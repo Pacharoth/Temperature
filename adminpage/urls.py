@@ -1,5 +1,6 @@
 from django.urls import path,re_path
 from adminpage import views
+from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import User 
 urlpatterns = [
@@ -10,7 +11,7 @@ urlpatterns = [
     path('subadmin/',views.subadmin,name = 'subadmin'),
 
     #Subadmin url
-    re_path(r'^subadmin/(?P<roomBuilding>\w+)/request/$',views.getTemperatureSub, name="tempSub"),
+    re_path(r'^subadmin/(?P<roomBuilding>\w+)/request/$',views.getTemperatureSub, name="tempsub"),
     re_path(r'^subadmin/(?P<roomBuilding>\w+)/update/$',views.update_roomSub,name="updateroomsub"),
     re_path(r'^subadmin/(?P<roomBuilding>\w+)/delete/$',views.roomSub_delete,name="deleteroomsub"),
     re_path(r'^subadmin/create/$',views.create_roomSub,name="createroomsub"),

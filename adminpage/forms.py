@@ -97,6 +97,7 @@ class roomBuildingForm(forms.ModelForm):
     class Meta:
         model = RoomServer
         fields =['buildingRoom']
+        
 #roomedit form
 class roomEdit(forms.ModelForm):
     building = forms.CharField(widget=forms.TextInput())

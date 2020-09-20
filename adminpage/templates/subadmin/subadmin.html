@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 {% block title %}
-Admin
+Subadmin
 {% endblock title %}
-{% block style %}
 {% load static %}
+{% block script %}
+<script src="{% static "subadmin/js/room.js" %}"></script>
+{% endblock script %}
+{% block style %}
+
+
   {% include "bootstrap.html" %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link rel="stylesheet" href="{% static "adminpage/css/navbar.css" %}">
   <link rel="stylesheet" href="{% static "icon/css/all.css" %}">
     <link rel="stylesheet" href="{% static "chartjs/css/Chart.css" %} ">
@@ -21,8 +25,10 @@ Admin
     <link rel="stylesheet" href="{% static "adminpage/css/user/roomcard.css" %}">
     <link rel="stylesheet" href="{% static "adminpage/css/user/formRoom.css" %}">
 {% endblock style %}
-{% block content %}
 
+
+
+{% block content %}
 <div class="nav-bar">
     <button class="nav-logo">
         <i class="fa fa-bars"></i>
@@ -39,12 +45,17 @@ Admin
         </button>
     </div>
 </div>
-{% comment %} <button id="myRoom">Open Modal</button> {% endcomment %}
 
-{% include "roomlist/modalRoom.html" %}   
-{% include 'roomlist/createroom.html' %}
-{% include "roomlist/updateroom.html" %}
-{% include "roomlist/deleteroom.html" %}
+
+{% include "subadmin/roomlist/modalRoom.html" %}   
+
+<div class="modal fade" id="CRUDroom">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
 <div class="content">
     <div class="sidebar">
         <div class="linksidebar">
@@ -128,27 +139,92 @@ Admin
             $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1);    
         })
         {%endfor%}
-    });
-    {% comment %} var endpoint = "{% url'loadRoom'%}" {% endcomment %}
-
-    {% comment %} $('.generate-report').click(function(){
-        $.ajax({
-            type:"GET", 
-            url:endpoint,
-            success: function(data){
-                console.log(data)
-            }
-        });
-
-    )    {% endcomment %}
-            
+    });     
 </script>
-{% comment %} {% include 'reloadRoom.html' %} {% endcomment %}
-<script src="{% static "adminpage/js/modal.js" %}"></script>
-{% comment %} <script src="{% static "adminpage/js/modalform.js" %}"></script> {% endcomment %}
-{% comment %} <script src="{% static "adminpage/js/reloadRoom.js" %}"></script> {% endcomment %}
+<script>
+//     {% for i in room %}
+//         setInterval(()=>{$("#{{i.buildingRoom}}").click(function(){
+//             console.log($(this));
+//             var endpoint="{% url 'tempsub' i.buildingRoom %}"
+//             var livegraph=function(){
+//             $.ajax({
+//             url:endpoint,
+//             type:"get",
+//             dataType:'json',
+//             success:function(data){
+//                 console.log(endpoint);
+//                 console.log(data.temperature);
+//                 console.log(data.date_and_time);
+//                 var dataSet = data.date_and_time;
+//                 var label = data.temperature;
+//                 console.log(label);
+//                 chart.data.datasets[0].data=label;  
+//                 chart.data.labels = dataSet;
+//                 chart.update();
+//             },
+            
+//         });
 
-<script src="{% static "adminpage/js/chartfile.js" %}"></script>
+//         }
+//         livegraph();
+//     });},1000);
+
+    
+//     {% endfor %}
+//     var ctx = document.getElementById('myChart').getContext('2d');
+//     var chart = new Chart(ctx, {
+//     // The type of chart we want to create
+//     type: 'line',
+    
+//     // The data for our dataset
+//     data: {
+//         labels: [],
+//         datasets: [{
+//             label: 'Temperature:',
+//             backgroundColor: '#deeff5',
+//             borderColor: '#add8e6',
+//             hoverBackgroundColor: "rgba(255,99,132,0.4)",
+//             data: [],
+//         }]
+//     },
+
+//     // Configuration options go here
+//     options: {
+//         // maintainAspectRatio: false,
+//         responsiveAnimationDuration:0,
+//         // aspectRatio:2,
+//         // onResize:null,
+//         responsive:true,
+//         title: {
+//             display: true,
+//             position:'left',
+//             text: 'Celsius'
+//         },
+//         scales: {
+//             xAxes: [{
+//                 display: true
+//             }],
+//             yAxes: [{
+               
+//                 display: true
+//             }]
+//         },
+//         legend: {
+//             display: true,
+//             labels: {
+                
+//             }
+//         }
+        
+//     }
+// });
+</script>
+<script src="{% static "adminpage/js/modal.js" %}"></script>
+<script src="{% static "subadmin/js/reloadgraph.js" %}"></script>
+<!-- <script src="{% static "adminpage/js/chartfile.js" %}"></script> -->
 <script src="{% static "adminpage/js/dropdown.js" %}"></script>
+
+
+
 
 {% endblock content %}
