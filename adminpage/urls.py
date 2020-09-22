@@ -15,11 +15,17 @@ urlpatterns = [
     re_path(r'^subadmin/(?P<roomBuilding>\w+)/update/$',views.update_roomSub,name="updateroomsub"),
     re_path(r'^subadmin/(?P<roomBuilding>\w+)/delete/$',views.roomSub_delete,name="deleteroomsub"),
     re_path(r'^subadmin/create/$',views.create_roomSub,name="createroomsub"),
-
+    re_path(r'^resetperhour/$',views.resetdataHour,name="resetperhoursub"),
+    re_path(r'^resetperday/$',views.resetperDay,name="resetperdaysub"),
+    path('subadmin/profile/',views.profile,name='profile'),
+    path('subadmin/history/',views.historysub,name="historysub"),
+    path('subadmin/history/search/',views.searchhistorysub,name="searchhistorysub"),
+    path('subadmin/profile/api/',views.passwordView,name ="passwordView"),
+    path('subadmin/profile/searchdate/',views.searchdatesub,name="searchdatesub"),
+    
     #Admin url
     path('adminpage/',views.adminpage,name = "adminpage"),
-    path('subadmin/profile/',views.profile,name='profile'),
     path('adminpage/register/',views.register,name = 'register'),
-    path('adminpage/subadmin',views.checkSubadminPage,name="checksub"),
+    path('adminpage/subadmin/',views.checkSubadminPage,name="checksub"),
     path('sendmail/',views.sendMail,name="sendmail")
 ]

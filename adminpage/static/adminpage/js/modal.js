@@ -1,8 +1,8 @@
 // Get the modal
-var   modal=[]
-var span=[]
-var btn=[]
-var modal2=[]
+var   modal=[];
+var span=[];
+var btn=[];
+var modal2=[];
 modal[0]= document.getElementById("myModal");
 // Get the button that opens the modal
 btn[0] = document.getElementById("room");

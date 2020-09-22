@@ -1,33 +1,25 @@
 {% extends 'base.html' %}
 {% block title %}
-Subadmin
+History
 {% endblock title %}
-{% load static %}
-{% block script %}
-<script src="{% static "subadmin/js/room.js" %}"></script>
-{% endblock script %}
 {% block style %}
-
-
   {% include "bootstrap.html" %}
+  {% load static %}
   <link rel="stylesheet" href="{% static "adminpage/css/navbar.css" %}">
   <link rel="stylesheet" href="{% static "icon/css/all.css" %}">
-    <link rel="stylesheet" href="{% static "chartjs/css/Chart.css" %} ">
-    <link rel="stylesheet" href="{% static "chartjs/css/Chart.min.css" %}">
-   <script src="{% static "chartjs/js/Chart.bundle.js" %}"></script>
-   <script src="{% static "chartjs/js/Chart.bundle.min.js" %}"></script>
-  <script src="{% static "chartjs/js/Chart.js" %}"></script>  
-  <script src="{% static "chartjs/js/Chart.min.js" %}"></script>
+
+    
     <link rel="stylesheet" href="{% static "adminpage/css/content.css" %}">
     <link rel="stylesheet" href="{% static "adminpage/css/chartcontent.css" %}">
     <link rel="stylesheet" href="{% static "adminpage/css/sidebar.css" %}">
     <link rel="stylesheet" href="{% static "adminpage/css/dropdown.css" %}">
-    <link rel="stylesheet" href="{% static "adminpage/css/user/roomcard.css" %}">
-    <link rel="stylesheet" href="{% static "adminpage/css/user/formRoom.css" %}">
+    <link rel="stylesheet" href="{% static "adminpage/css/history.css" %}">
+    <style>
+        body{
+            overflow: hidden;
+        }
+    </style>
 {% endblock style %}
-
-
-
 {% block content %}
 <div class="nav-bar">
     <button class="nav-logo">
@@ -45,9 +37,6 @@ Subadmin
         </button>
     </div>
 </div>
-
-
-{% include "subadmin/roomlist/modalRoom.html" %}   
 
 <div class="modal fade" id="CRUDroom">
     <div class="modal-dialog">
@@ -104,49 +93,40 @@ Subadmin
             </div>
         </div>
         </div>
-        <div class="chart-container">
-            <div class="content-room-report">
-                <div class="width-room">
+        <div class="history-container">
+            
+            <div class="search-contain">
+                
                  
-                    <button id="room" class="report-room">
-                        ROOM
-                    </button>
-                </div>
-                <div class="width-report">
-                <button class="generate-report">
-                    <i class="fas fa-file-download"></i> generate report
-                </button>
-                </div>
+                    <div class="block-search" style=" width:90% ;display: flex;">
+                        <input type="search" id="search" style="margin-right:2%; width: 45%;" class="form-control" placeholder="Search Date or Room">
+                        <input type="date" id="date_and_day" style="width: 45%;" class="form-control" >
+                    </div>
+                    
+                
             </div>
-            <div class="room">
-                Building and Room: <span id="building-and-room"></span>
-            </div>
-            <div class="chart-graph">
-                <canvas id="myChart" ></canvas>
-            </div>
+
+            <table class="table-bordered table-striped table-hover mt-3 mb-3 rounded-left rounded-right" style=" padding-bottom:2%;width:90%;margin: auto; text-align: center;">
+                <thead>
+                    <th scope="col">No</th>
+                    <th scope="col">Room</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Average</th>
+                    <th scope="col">Remark</th>
+                </thead>
+                <tbody>
+                    {% include "subadmin/history/historylist.html" %}
+                </tbody>
+            </table>
+                {% include "subadmin/history/paginationhistory.html" %}
         </div> 
     </div>
-</div> 
-
-<script>
-    // search function
-    $('#data').keyup(function(){
-        console.log($(this).val())
-        var value = $(this).val().toLowerCase();
-        {%for data in room%}
-        $('#{{data.buildingRoom}}').filter(function(){
-            
-            $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1);    
-        })
-        {%endfor%}
-    });     
-</script>
+</div>
+{% endblock content %}
+{% block script %}
+<script src="{% static "subadmin/js/history/pagination.js" %}"></script>
 
 <script src="{% static "adminpage/js/modal.js" %}"></script>
-<script src="{% static "subadmin/js/reloadgraph.js" %}"></script>
 <script src="{% static "adminpage/js/dropdown.js" %}"></script>
 
-
-
-
-{% endblock content %}
+{% endblock script %}

@@ -33,7 +33,7 @@ class registerForm(UserCreationForm):
                 code='password_mismatch',
             )
         return password2
-
+    
     def _post_clean(self):
         super()._post_clean()
         # Validate the password after self.instance is updated with form data
@@ -52,15 +52,15 @@ class resetPasswordForm(forms.Form):
     messgae_errors = {
         'password_mismatch':_("The two password fields didn't match.")
     }
-    new_password1 = forms.CharField(widget=forms.PasswordInput)
-    new_password2 = forms.CharField(widget=forms.PasswordInput)
-
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'New password'}))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Confirm password'}))
+    
     def __init__(self,user,*args,**kwargs):
         """
         Get request.user from adminpage or subadmin page
         """
         self.user = user
-        super(SetPasswordForm,self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean_new_password2(self):
         """
@@ -71,7 +71,7 @@ class resetPasswordForm(forms.Form):
         if password1 and password2:
             if password1 != password2:
                 raise forms.ValidationError(self.messgae_errors['password_mismatch'],code='password_mismatch')
-            password_validation.validate_password(password2, self.user)
+        password_validation.validate_password(password2, self.user)
         return password2
 
     def save(self,commit=True):

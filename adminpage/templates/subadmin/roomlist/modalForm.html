@@ -8,7 +8,7 @@
     {% csrf_token %}
   <div class="form-group mt-5">
     <label for="buildingRoom">Building and Room</label>
-    {% comment %} <input type="text" class="form-control" id="id_buildingRoom" name="buildingRoom" aria-describedby="buildingRoomHelp" placeholder="Building and Room"> {% endcomment %}
+    
     {{form.buildingRoom}}
     <small id="buildingRoomHelp" class="form-text text-muted">Include building and room ex:I213</small>
   </div>

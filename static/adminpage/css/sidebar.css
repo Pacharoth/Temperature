@@ -38,6 +38,7 @@
         width: 100%;
         display: block;
     }
+    
     .profile-pic{
         width: 94%;
         margin-top: 2%;        
@@ -45,6 +46,7 @@
     .linksidebar{
         display: none;
         width: 100%;
+        
         text-align: center;
     }
 }

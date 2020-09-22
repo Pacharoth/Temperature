@@ -21,8 +21,14 @@ Profile
   <link rel="stylesheet" href="{% static "adminpage/css/sidebar.css" %}">
   <link rel="stylesheet" href="{% static "adminpage/css/dropdown.css" %}">
 <style>
+    .con:hover{
+        box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 4px 8px rgba(0, 0, 0, .1);
+    }
+    body{
+        overflow: hidden;
+    }
     .chart-container{
-        margin-top: 2%;
+        margin-top: 1%;
     }
     .profile-content{
         margin-left: 2%;
@@ -75,12 +81,19 @@ Profile
                 <a href=" {% url 'adminpage' %} " class=""><i class="fas fa-home"></i>Home</a> 
             </div>
             <div class="linkbar">
-                <a href=""><i class="fas fa-history"></i>History</a>
+                <a href="{% url 'historysub' %}"><i class="fas fa-history"></i>History</a>
             </div>    
             
         </div>
     </div>
 
+    <div class="modal fade" id="profilepuser">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>
     <div class="content-all" >
         <div  class="dropdown">
             <div class="for_position">
@@ -106,6 +119,10 @@ Profile
         </div>
         </div>
         <div class="chart-container">
+            <div class=" con ml-0 mb-2 form-row justify-content-between align-items-center"style="width: 100%; background-color: white; border-radius:5px;">
+                <div class="con ml-2 bg-dark text-white rounded-left rounded-right p-2">Welcome back, {{request.user}}!</div>
+            <button id="changepassword" class="btn btn-outline-primary mr-2 mt-2 mb-2"> Change New Password</button>
+            </div>
             <form action="" class="all-profile"  method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="profile-img">
@@ -116,7 +133,6 @@ Profile
                     {% endif %}
                     <div class="form-group" >
                         <label for="id_img">Profile Pic</label>
-                        <!-- <input type="file" class="form-control" id="id_img " name ="img" accept="image/*" aria-describedby="imgHelp" placeholder="{{user.img}}"> -->
                         {{forms.img}}
                         <small id="imgHelp" class="form-text text-muted">You can upload image file</small>
                     </div>
@@ -125,7 +141,7 @@ Profile
                     <i class="fas fa-user-edit"></i> Edit Profile
                     <div class="form-group">
                         <label for="id_name">Name</label>
-                        <!-- <input type="text" class="form-control" id="id_name" aria-describedby="nameHelp" placeholder="{{user.name}}"> -->
+
                         {{form.username}}
                         
                         <small id="nameHelp" class="form-text text-muted">Your name</small>
@@ -136,13 +152,9 @@ Profile
                         <small id="phoneHelp" class="form-text text-muted">Your Phone Number</small>
                     </div>
                     
-                    {% comment %} <div class="form-group">
-                      <label for="id_email">Email</label>
-                      <!-- <input type="email" class="form-control" id="id_email" name ="email" aria-describedby="emailHelp" placeholder="{{user.email}}"> -->
-                      {{form.email}}
-                      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                    </div> {% endcomment %}
-                    <button type="submit" class="btn btn-primary" name="_save">Save</button>
+                    <div class="ml-1 form-row justify-content-between mr-1">
+                        <button type="submit" class="btn btn-primary" name="_save">Save</button>
+                    </div>
                 </div>
                 
             </form>
@@ -156,4 +168,5 @@ Profile
 {% block script %}
 <script src="{% static "adminpage/js/chartfile.js" %}"></script>
 <script src="{% static "adminpage/js/dropdown.js" %}"></script>
+<script src="{% static "subadmin/js/profile/profileform.js" %}"></script>
 {% endblock script %}

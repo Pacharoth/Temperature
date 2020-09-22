@@ -30,14 +30,11 @@ $(function(){
             type:form.attr("method"),
             dataType:'json',
             success:function(data){
-               
                 if (data.form_is_valid){
                     $(".content-card").html(data.html_room_list);
                     $("#CRUDroom").modal("hide");
-                    
                 }
                 else{
-                
                     $("#CRUDroom .modal-content").html(data.html_room_form);
                 }
 
