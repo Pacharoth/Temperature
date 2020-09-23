@@ -3,6 +3,9 @@ from adminpage import views
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import User 
+from adminpage.views_admin import (generateWeeklyForm,
+                                generateMonthlyForm,render_to_pdf,
+                                generateAnnuallyForm)
 urlpatterns = [
 
     #Authenticate Subadmin and Admin
@@ -22,7 +25,11 @@ urlpatterns = [
     path('subadmin/history/search/',views.searchhistorysub,name="searchhistorysub"),
     path('subadmin/profile/api/',views.passwordView,name ="passwordView"),
     path('subadmin/profile/searchdate/',views.searchdatesub,name="searchdatesub"),
-    
+    path('download/weekly/',generateWeeklyForm,name="generateweekly"),
+    path('download/monthly/',generateMonthlyForm,name="generatemonthly"),
+    path('download/annully/',generateAnnuallyForm,name="generateannually"),
+    re_path(r'^download/$',render_to_pdf,name="pdfdownload"),
+
     #Admin url
     path('adminpage/',views.adminpage,name = "adminpage"),
     path('adminpage/register/',views.register,name = 'register'),

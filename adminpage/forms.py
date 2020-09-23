@@ -122,3 +122,30 @@ class ProfileForm(forms.ModelForm):
         model = User
         fields = "__all__"
         exclude = ['email','first_name','last_name','password1','password2']
+
+#form for the generate report 
+WEEK=[(1,"Week1"),(2,"Week2"),(3,"Week3"),(4,"Week4")]  
+YEAR_VALID=[(data,data) for data in range(2012,3000)]
+MONTH_VALID=[(1,'Jan'),
+            (2,'Feb'),
+            (3,'Mar'),
+            (4,'Apr'),
+            (5,'May'),
+            (6,'June'),
+            (7,'July'),
+            (8,'Aug'),
+            (9,'Sep'),
+            (10,'Oct'),
+            (11,'Nov'),
+            (12,'Dec')]
+class choiceForm_weekly(forms.Form):
+    week_form=forms.ChoiceField(widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=WEEK)
+    month_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=MONTH_VALID)
+    year_form= forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=YEAR_VALID)
+    
+class choiceForm_monthly(forms.Form):
+    month_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':' custom-select mr-sm-2'}),choices=MONTH_VALID)
+    year_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=YEAR_VALID)
+
+class choiceForm_annually(forms.Form):
+    year_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=YEAR_VALID)
