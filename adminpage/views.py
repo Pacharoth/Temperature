@@ -12,7 +12,7 @@ from django.contrib.auth import logout,login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group,User
 from adminpage.decoration import authenticate,unanthenticated_user,allow_subadmins,admin_only
-from adminpage.utils import render_to_pdf
+
 from django.views.generic import View
 from django.db.models import Avg
 import datetime
@@ -90,7 +90,7 @@ def register(request):
             messages.success(request,'Account has been created')
         print(form.errors)
         return redirect('register')
-    return render(request,'alladmin/register2.html',{'form':form,'message':messages})
+    return render(request,'adminall/register2.html',{'form':form,'message':messages})
 
 #profile page
 @allow_subadmins(allowed_roles=['subadmin'])
