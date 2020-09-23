@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block title %}
+History
+{% endblock title %}
+{% block style %}
+  {% include "bootstrap.html" %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static "adminpage/css/navbar.css" %}">
+  <link rel="stylesheet" href="{% static "icon/css/all.css" %}">
+
+    
+    <link rel="stylesheet" href="{% static "adminpage/css/content.css" %}">
+    <link rel="stylesheet" href="{% static "adminpage/css/chartcontent.css" %}">
+    <link rel="stylesheet" href="{% static "adminpage/css/sidebar.css" %}">
+    <link rel="stylesheet" href="{% static "adminpage/css/dropdown.css" %}">
+    <link rel="stylesheet" href="{% static "adminpage/css/history.css" %}">
+    <style>
+        body{
+            overflow: hidden;
+        }
+    </style>
+{% endblock style %}
+{% block content %}
+<div class="nav-bar">
+    <button class="nav-logo">
+        <i class="fa fa-bars"></i>
+    </button>
+    <div class="nav-profile">
+        <button class="profile-dropdown">
+            {% if request.user.userprofile.img %}
+            <i><img class="img-profile rounded-circle" style="width:20px;height:20px;" src="{{request.user.userprofile.img.url}}" alt="">
+            {% else %}
+            <i><img class="pic-user"src="" alt="">
+            {% endif %}
+            </i>{{request.user}}
+            
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="CRUDroom">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="sidebar">
+        <div class="linksidebar">
+            <hr>
+            <div >
+            {% if request.user.userprofile.img %}
+                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="rounded-circle" style="width:60px; height:60px; padding:10px;" src="{{request.user.userprofile.img.url}}" alt="">
+                </i>
+                {% else %}
+                <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="rounded-circle" style="width:60px; height:60px; padding:10px;" src="" alt="">
+                </i>
+            {% endif %}
+                <div class="user">{{request.user}}</div></a>
+            </div>
+            <hr>
+            <div class="linkbar">
+                <a href="{% url 'adminpage' %}" class=""><i class="fas fa-home"></i>Home</a> 
+            </div>
+            <div class="linkbar">
+                <a href="{% url 'historysub' %}"><span><i class="fas fa-history"></i></span><span> History</span></a>
+            </div>    
+            
+        </div>
+    </div>
+
+    <div class="content-all" >
+        <div class="dropdown">
+            <div class="for_position">
+            <div class="profile-pic-1">
+                <div >
+                {% if request.user.userprofile.img %}
+                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="rounded-circle" style="width:50px; height:50px; padding:10px;"src="{{request.user.userprofile.img.url}}" alt="">
+                    </i>
+                {% else %}
+                    <a class="profile-pic" href=" {% url 'profile' %}"> <i><img class="pic-nani"src="" alt="">
+                    </i>
+                {% endif %}
+                    <div class="user">{{request.user}}</div></a>
+                </div>
+            </div>
+            <hr>
+            <div class="link-dropdown">
+                <a href="{% url 'profile' %}" role="menuitem"><i class="fas fa-user"></i>Profile</a>
+                <a href=""><i class="fas fa-edit"></i>Edit profile</a>
+                <a href="{% url 'logoutpage' %}"><i class="fas fa-door-open"></i>Logout</a>
+            </div>
+        </div>
+        </div>
+        <div class="history-container">
+            
+            <div class="search-contain">
+                
+                 
+                    <div class="block-search" style=" width:90% ;display: flex;">
+                        <input type="search" id="search" style="margin-right:2%; width: 45%;" class="form-control" placeholder="Search Date or Room">
+                        <input type="date" id="date_and_day" style="width: 45%;" class="form-control" >
+                    </div>
+                    
+                
+            </div>
+
+            <table class="table-bordered table-striped table-hover mt-3 mb-3 rounded-left rounded-right" style=" padding-bottom:2%;width:90%;margin: auto; text-align: center;">
+                <thead>
+                    <th scope="col">No</th>
+                    <th scope="col">Room</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Average</th>
+                    <th scope="col">Remark</th>
+                </thead>
+                <tbody>
+                    {% include "subadmin/history/historylist.html" %}
+                </tbody>
+            </table>
+                {% include "subadmin/history/paginationhistory.html" %}
+        </div> 
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script src="{% static "subadmin/js/history/pagination.js" %}"></script>
+
+<script src="{% static "adminpage/js/modal.js" %}"></script>
+<script src="{% static "adminpage/js/dropdown.js" %}"></script>
+
+{% endblock script %}

@@ -33,7 +33,7 @@ class registerForm(UserCreationForm):
                 code='password_mismatch',
             )
         return password2
-
+    
     def _post_clean(self):
         super()._post_clean()
         # Validate the password after self.instance is updated with form data
@@ -49,35 +49,29 @@ class registerForm(UserCreationForm):
         fields = ['username','email','password1','password2']
 #change password form in user
 class resetPasswordForm(forms.Form):
-    messgae_errors = {
-        'password_mismatch':_("The two password fields didn't match.")
+    error_messages = {
+        'password_mismatch': _('The two password fields didn’t match.'),
     }
-    new_password1 = forms.CharField(widget=forms.PasswordInput)
-    new_password2 = forms.CharField(widget=forms.PasswordInput)
-
-    def __init__(self,user,*args,**kwargs):
-        """
-        Get request.user from adminpage or subadmin page
-        """
+    new_password1 = forms.CharField(min_length=8,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'New password','autocomplete': 'new-password'}))
+    new_password2 = forms.CharField(min_length=8,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Confirm password','autocomplete': 'new-password'}))
+    
+    def __init__(self, user, *args, **kwargs):
         self.user = user
-        super(SetPasswordForm,self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean_new_password2(self):
-        """
-        Check password 1 and 2 to change the password
-        """
         password1 = self.cleaned_data.get('new_password1')
         password2 = self.cleaned_data.get('new_password2')
         if password1 and password2:
             if password1 != password2:
-                raise forms.ValidationError(self.messgae_errors['password_mismatch'],code='password_mismatch')
-            password_validation.validate_password(password2, self.user)
+                raise forms.ValidationError(
+                    self.error_messages['password_mismatch'],
+                    code='password_mismatch',
+                )
+        password_validation.validate_password(password2, self.user)
         return password2
 
-    def save(self,commit=True):
-        """
-        Save data in User models
-        """
+    def save(self, commit=True):
         password = self.cleaned_data["new_password1"]
         self.user.set_password(password)
         if commit:
@@ -97,6 +91,7 @@ class roomBuildingForm(forms.ModelForm):
     class Meta:
         model = RoomServer
         fields =['buildingRoom']
+        
 #roomedit form
 class roomEdit(forms.ModelForm):
     building = forms.CharField(widget=forms.TextInput())

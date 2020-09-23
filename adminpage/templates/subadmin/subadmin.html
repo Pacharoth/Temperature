@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 {% block title %}
-Admin
+Subadmin
 {% endblock title %}
-{% block style %}
 {% load static %}
+{% block script %}
+<script src="{% static "subadmin/js/room.js" %}"></script>
+{% endblock script %}
+{% block style %}
+
+
   {% include "bootstrap.html" %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link rel="stylesheet" href="{% static "adminpage/css/navbar.css" %}">
   <link rel="stylesheet" href="{% static "icon/css/all.css" %}">
     <link rel="stylesheet" href="{% static "chartjs/css/Chart.css" %} ">
@@ -21,8 +25,10 @@ Admin
     <link rel="stylesheet" href="{% static "adminpage/css/user/roomcard.css" %}">
     <link rel="stylesheet" href="{% static "adminpage/css/user/formRoom.css" %}">
 {% endblock style %}
-{% block content %}
 
+
+
+{% block content %}
 <div class="nav-bar">
     <button class="nav-logo">
         <i class="fa fa-bars"></i>
@@ -39,10 +45,17 @@ Admin
         </button>
     </div>
 </div>
-{% comment %} <button id="myRoom">Open Modal</button> {% endcomment %}
 
-{% include "roomlist/modalRoom.html" %}   
-{% include "modalForm.html" %}
+
+{% include "subadmin/roomlist/modalRoom.html" %}   
+
+<div class="modal fade" id="CRUDroom">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
 <div class="content">
     <div class="sidebar">
         <div class="linksidebar">
@@ -62,14 +75,14 @@ Admin
                 <a href="{% url 'adminpage' %}" class=""><i class="fas fa-home"></i>Home</a> 
             </div>
             <div class="linkbar">
-                <a href=""><span><i class="fas fa-history"></i></span><span> History</span></a>
+                <a href="{% url 'historysub' %}"><span><i class="fas fa-history"></i></span><span> History</span></a>
             </div>    
             
         </div>
     </div>
 
     <div class="content-all" >
-        <div  class="dropdown">
+        <div class="dropdown">
             <div class="for_position">
             <div class="profile-pic-1">
                 <div >
@@ -106,9 +119,9 @@ Admin
                 </div>
             </div>
             <div class="room">
-                Building and Room:
+                Building and Room: <span id="building-and-room"></span>
             </div>
-            <div class="chart-graph" >
+            <div class="chart-graph">
                 <canvas id="myChart" ></canvas>
             </div>
         </div> 
@@ -126,27 +139,14 @@ Admin
             $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1);    
         })
         {%endfor%}
-    });
-    {% comment %} var endpoint = "{% url'loadRoom'%}" {% endcomment %}
-
-    {% comment %} $('.generate-report').click(function(){
-        $.ajax({
-            type:"GET", 
-            url:endpoint,
-            success: function(data){
-                console.log(data)
-            }
-        });
-
-    )    {% endcomment %}
-            
+    });     
 </script>
-{% comment %} {% include 'reloadRoom.html' %} {% endcomment %}
-<script src="{% static "adminpage/js/modal.js" %}"></script>
-{% comment %} <script src="{% static "adminpage/js/modalform.js" %}"></script> {% endcomment %}
-{% comment %} <script src="{% static "adminpage/js/reloadRoom.js" %}"></script> {% endcomment %}
 
-<script src="{% static "adminpage/js/chartfile.js" %}"></script>
+<script src="{% static "adminpage/js/modal.js" %}"></script>
+<script src="{% static "subadmin/js/reloadgraph.js" %}"></script>
 <script src="{% static "adminpage/js/dropdown.js" %}"></script>
+
+
+
 
 {% endblock content %}

@@ -5,13 +5,13 @@ var chart = new Chart(ctx, {
     
     // The data for our dataset
     data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: [],
         datasets: [{
             label: 'Temperature:',
             backgroundColor: '#deeff5',
             borderColor: '#add8e6',
             hoverBackgroundColor: "rgba(255,99,132,0.4)",
-            data: [0, 10,15,20,25,30,35]
+            data: []
         }]
     },
 

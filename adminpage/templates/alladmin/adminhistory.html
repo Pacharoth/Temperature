@@ -18,6 +18,15 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+  <style>
+
+    .table.table-bordered.mt-3:hover{
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 4px 8px rgba(0, 0, 0, .1);
+    }
+
+  
+  </style>
+
 </head>
 
 <body id="page-top">
@@ -132,12 +141,12 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Roeun Pacharoth</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ang Mengchhuong</span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="edit-profile2.html">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
@@ -155,21 +164,79 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+        <div class="container-fluid ml-2 mr-2 " style="background-color: white;box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 4px 8px rgba(0, 0, 0, .1);">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-1">
-            <h1 class="h3 mb-0 text-gray-800">History</h1>
-            
+            <h1 class="h3 mb-0 mt-2 text-gray-800">History</h1>
+          
             <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
           </div>
-          <div class="date">
-            <h4 class="h4 mb-0 text-gray">Today-Tuesday,September,8,2020</h4>
+          <div class="date ">
+            <div class="row">
+              <div class="col-lg-8">
+                <h5 class="h5 mt-2 text-gray">Today-Tuesday,September,8,2020</h5>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group" style="float:right">
+                  <!-- <label for="formGroupExampleInput">Date</label> -->
+                  <input type="Date" class="form-control" id="formGroupExampleInput" >
+                </div>
+              </div>
+            </div>
           </div>
 
-          hgccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+            <table class="table table-bordered " style=" background-color:white">
+              <thead style="text-align: center; color:black">
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Room</th>
+                  <th scope="col">Average(C)</th>
+                  <th scope="col">Remark</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"></th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row"></th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row"></th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
 
-        
+
+            <nav aria-label="Page navigation example">
+              <ul class="pagination pb-2">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
 
         </div>
       </div>

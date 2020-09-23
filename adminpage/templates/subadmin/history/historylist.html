@@ -1,0 +1,19 @@
+{% if room %}
+    {% for i in room %}
+        <tr>
+        <td>{{i.room.pk}}</td>
+        <td>{{i.room.buildingRoom}}</td>
+        <td>{{i.date}}</td>
+        <td>{{i.Temperature}}</td>
+        {% if i.Temperature > 20 %}
+            <td>BAD</td>
+        {% else %}
+            <td>GOOD</td>
+        {% endif %}
+        </tr>
+    {% endfor %}
+{% else %}
+<tr>
+<td colspan="5">No result</td>
+</tr>
+{% endif %}

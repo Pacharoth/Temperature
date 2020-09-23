@@ -1,0 +1,25 @@
+{% load static %}
+<style>
+    .dropdown-toggle::after{
+        content: none;
+    }
+</style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<div id="myModal" class="modal-fake">
+    <!-- Modal content -->
+    <div class="modalp-content">
+      <span class="close">&times;</span>
+      
+      <form action="">
+      <input class="form-control" id="data" type="text" placeholder="Search" aria-label="Search">
+     
+      </form>
+        <div id="card" class="content-card">
+            {% include "subadmin/roomlist/listroom.html" %}
+        </div>
+        
+    </div>
+</div>
+<script>
+    
+</script>

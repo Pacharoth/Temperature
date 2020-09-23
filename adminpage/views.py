@@ -14,6 +14,11 @@ from django.contrib.auth.models import Group,User
 from adminpage.decoration import authenticate,unanthenticated_user,allow_subadmins,admin_only
 from adminpage.utils import render_to_pdf
 from django.views.generic import View
+from django.db.models import Avg
+import datetime
+from django.db.models import Q
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+
 # Create your views here.
 @unanthenticated_user
 def adminLogin(request):
@@ -38,7 +43,7 @@ def adminpage(request):
     context={
         'user':user,
     }
-    return render(request,'alladmin/adminpage.html',context)
+    return render(request,'adminall/adminpage.html',context)
 
 #go check subadmin
 @login_required(login_url='adminLogin')
@@ -64,7 +69,6 @@ def register(request):
         if form.is_valid():
             user = form.save()
             email = form.cleaned_data.get('email')
-           
             pObj =User.objects.get(username=user)
             pSave = userProfile(user = pObj).save()
             print(pSave)
@@ -88,27 +92,14 @@ def register(request):
         return redirect('register')
     return render(request,'alladmin/register2.html',{'form':form,'message':messages})
 
-#change Form
-def resetPassword(request):
-    user = request.user
-    form = resetPasswordForm(request.POST or None,user=user)
-    print(form)
-    if request.method == "POST":
-        form=resetPasswordForm(request.POST or None ,user=user)
-        if form.is_valid():
-            form.save()
-    return render(request,"")
-
-
 #profile page
 @allow_subadmins(allowed_roles=['subadmin'])
 def profile(request):
-    user = request.user 
+    user = request.user
     profile=request.user.userprofile
     forms = ProfilePic(instance=profile)
     form = ProfileForm(instance=user)
     if request.method == "POST":
-        form = ProfileForm(request.POST,request.FILES,instance=user)
         forms = ProfilePic(request.POST,request.FILES,instance=profile)
         print(forms)
         if form.is_valid():
@@ -116,7 +107,22 @@ def profile(request):
         if forms.is_valid():
             forms.save()
     return render (request,'admin/profile.html',{'user':user,'form':form,'forms':forms})
+#password modal
+def passwordView(request):
+    data= dict()
+    user= request.user
+    form_reset=resetPasswordForm(data=request.POST,user=user)
+    print(form_reset)
+    if form_reset.is_valid():
+        form_reset.save()
+        data['form_is_valid']=True
+    else:
+        data['form_is_valid']=False
+    data['html_list'] = render_to_string("admin/profilemodel.html",{'form_reset':form_reset},request=request)
+  
+    return JsonResponse(data)
 
+#subadmin
 #page user
 @login_required(login_url="adminLogin")
 @allow_subadmins(allowed_roles=['subadmin'])
@@ -125,7 +131,7 @@ def subadmin(request):
     user = User.objects.get(username=subadmins)
     print(user)
     form = roomBuildingForm(request.POST or None)
-    reponse={}
+    reponse=dict()
     room = RoomServer.objects.filter(user =subadmins)
     if request.method == "POST":
         form = roomBuildingForm(request.POST or None)
@@ -146,108 +152,231 @@ def subadmin(request):
     print(subadmin)
     return render(request,'subadmin/subadmin.html',context)
 
+def save_update_room_subuser(request,form,template_name):
+    data = dict()
+    user =request.user
+    print(user)
+    if request.method =="POST":
+        if form.is_valid():
+            p=form.cleaned_data.get("buildingRoom")
+            form.buildingRoom=p
+            print(form.buildingRoom)
+            form.save()
+            room=RoomServer.objects.filter(user__username=user)
+            data['form_is_valid']=True
+            data['html_room_list'] =render_to_string('subadmin/roomlist/listroom.html',{'room':room})
+        else:
+            data['form_is_valid']= False
+    context={'form':form}
+    print(context)
+    data['html_room_form']= render_to_string(template_name, context, request=request)
+    print(data)
+    return JsonResponse(data)
 
 #reload data in room and save data to room
 def save_room_subuser(request,form,template_name):
     data = dict()
-    user =request.user
+    user =request.user 
+    print(user)
     if request.method =="POST":
         if form.is_valid():
-            form.save()
+            save_method = form.save(commit=False)
+            save_method.user = user
+            save_method.save()
             room=RoomServer.objects.filter(user__username=user)
             data['form_is_valid']=True
-            data['html_room_list'] =render_to_string('roomlist/modalRoom.html',{'room':room})
+            data['html_room_list'] =render_to_string('subadmin/roomlist/listroom.html',{'room':room})
         else:
             data['form_is_valid']= False
-        context={'form':form}
-        data['html_room_form']= render_to_string(template_name, context, request=request)
+    context={'form':form}
+    print(context)
+    data['html_room_form']= render_to_string(template_name, context, request=request)
+    print(data)
     return JsonResponse(data)
 
 #add room at sub admin page
 def create_roomSub(request):
     form = roomBuildingForm()
+    print(form)
     if request.method == "POST":
         form = roomBuildingForm(request.POST)
-    return save_room_subuser(request,form,'/roomlist/modalRoom.html')
+    return save_room_subuser(request , form,'subadmin/roomlist/createroom.html')
 
 #update at subadmin
 def update_roomSub(request,roomBuilding):
-    room = RoomServer.objects.filter(buildingRoom=str(roomBuilding))
+    user = request.user
+    data=dict
+    room = RoomServer.objects.filter(buildingRoom=roomBuilding)
     if room.exists():
         room = RoomServer.objects.get(buildingRoom=roomBuilding)
         form = roomBuildingForm(instance=room)
         if request.method == "POST":
             form = roomBuildingForm(request.POST,instance=room)
-        return save_room_subuser(request, form,'roomlist/roomupdate.html')
+    return save_update_room_subuser(request,form,'subadmin/roomlist/updateroom.html')
 
 #delete at subadmin
 def roomSub_delete(request,roomBuilding):
     data=dict()
     user = request.user
-    room = RoomServer.objects.filter(buildingRoom=str(roomBuilding))
+    room = RoomServer.objects.filter(buildingRoom=roomBuilding)
     if room.exists():
         room = RoomServer.objects.get(buildingRoom=roomBuilding)
         if request.method == "POST":
             room.delete()
             data['form_is_valid'] = True
             rooms = RoomServer.objects.filter(user= user)
-            data['html_room_list'] = render_to_string('roomlist/modalRoom.html',{'room':room})
+            data['html_room_list'] = render_to_string('subadmin/roomlist/listroom.html',{'room':rooms})
         else:
             context = {'room':room}
-            data['html_room_form'] = render_to_string('roomlist/roomdelete.html',context,request=request)
-        return JsonResponse(data)
+            print(context)
+            data['html_room_form'] = render_to_string('subadmin/roomlist/deleteroom.html',context,request=request)
+    return JsonResponse(data)
 
 #temperature for sub admin
 def getTemperatureSub(request,roomBuilding):
     data=dict()
-    temp=[]
-    time=[]
+    temp=list()
+    time=list()
     room=""
     graph = str(roomBuilding)
-    print(roomBuilding)
-    user = TemperatureRoom.objects.filter(room__buildingRoom = graph)
-    print(user)
+   
+    user = TemperatureRoom.objects.filter(room__buildingRoom = graph).order_by("-date_and_time")[:5]
+
     if user.exists():
         for data in user:
             temper = float("%.2f"%(data.Temperature))
-            print(temper)
             room= data.room
             temp.append(temper)
             time.append(data.date_and_time.time())
-            print(room)
-            print(temp)
-            print(time)
+        print(temp.reverse())
         data={
-            'room':str(room),
+            'room':str(room.buildingRoom),
             'temperature':temp,
             'date_and_time':time,
         }
-        print(data)    
         return JsonResponse(data)
     return JsonResponse(data)
 
 #send mail alert
 def sendMail(request):
     dat=dict()
-    room = TemperatureRoom.objects.all()
+    room = TemperatureRoom.objects.all().order_by('-date_and_time')[:5]
     if room.exists():
         for data in room:
             if data.Temperature >21:
                 print("Close Auto")
             elif data.Temperature < 20:
+                print(data.Temperature)
+                current_site = get_current_site(request)
                 mail_subject = "Warning The temperature is Too High" 
-                user = TemperatureRoom.objects.filter(room__buildingRoom=data.room)[0].room.user
+                user = TemperatureRoom.objects.filter(room__buildingRoom=data.room.buildingRoom)[0].room.user
                 message = render_to_string('email/sendtemperature.html',{
                     'user':user,
-                    'room': data.room,
+                    'room': data.room.buildingRoom,
                     'temperature': data.Temperature,
                     'domain':current_site,
                 })
-                email = TemperatureRoom.objects.filter(room__buildingRoom=data.room)[0].room.user.email
+                email = TemperatureRoom.objects.filter(room__buildingRoom=data.room.buildingRoom)[0].room.user.email
                 email = EmailMessage(mail_subject,message,to=[email])
                 email.send()
                 return JsonResponse(dat)
     return JsonResponse(dat)
 
 #reset the data for an hour and put it back
+def resetdataHour(request):
+    dat = dict()
+    room = RoomServer.objects.all()
+    if room.exists():
+        for data in room:
+            allTemperatureInRoom=TemperatureRoom.objects.filter(room=data.pk)
+            if allTemperatureInRoom.exists():
+                averagePerHour =allTemperatureInRoom.aggregate(Avg('Temperature')).get("Temperature__avg")
+                allTemperatureInRoom.delete()
+                count= allTemperatureInRoom.count()
+                print(count)
+                print(allTemperatureInRoom)
+                print(type(averagePerHour))
+                p=TemperatureRoom(room=RoomServer.objects.get(pk=data.pk),Temperature="%.2f"%(averagePerHour),date_and_time=datetime.datetime.now())
+                p.save()
+    return JsonResponse(dat)
 
+#reset per day put in temperature store
+def resetperDay(request):
+    dat=dict()
+    print(datetime.datetime.now().date())
+    room = RoomServer.objects.all()
+    if room.exists():
+        for data in room:
+            allTemperatureInRoom=TemperatureRoom.objects.filter(room=data.pk)
+            if allTemperatureInRoom.exists():
+                averagePerHour =allTemperatureInRoom.aggregate(Avg('Temperature')).get("Temperature__avg")
+                allTemperatureInRoom.delete()
+                count= allTemperatureInRoom.count()
+                print(count)
+                print(allTemperatureInRoom)
+                print(type(averagePerHour))
+                p=TemperatureStore(room=RoomServer.objects.get(pk=data.pk),Temperature="%.2f"%(averagePerHour),date=datetime.datetime.now().date())
+                p.save()
+    return JsonResponse(dat)
+
+#History
+def historysub(request):
+    user = request.user
+    temperature = TemperatureStore.objects.filter(room__user__username=user)
+    page = request.GET.get('page',1)
+    paginator = Paginator(temperature,8)
+    print(temperature)
+    
+    try:
+        room = paginator.page(page)
+    except PageNotAnInteger:
+        room = paginator.page(1)
+    except EmptyPage:
+        room = paginator.page(paginator.num_pages)
+    return render(request,'subadmin/history/history.html',{'room':room})
+ 
+#search function history
+def searchhistorysub(request):
+    data = dict()
+    roomid = request.GET.get("page")
+    temperature=TemperatureStore.objects.filter(room__buildingRoom=roomid)
+    print(temperature)
+    paginator = Paginator(temperature,8)
+    data['form.is_valid']=True
+    page = request.GET.get('page',1)
+    try:
+        room = paginator.page(page)
+    except PageNotAnInteger:
+        room = paginator.page(1)
+    except EmptyPage:
+        room = paginator.page(paginator.num_pages)
+    data['html_list'] = render_to_string("subadmin/history/historylist.html",{'room':room},request=request)
+    data['html_list_pagination'] = render_to_string("subadmin/history/paginationhistory.html",{'room':room},request=request)
+    return JsonResponse(data)
+
+#search data as date
+def searchdatesub(request):
+    data = dict()
+    dat= list()
+    room=None
+    user=request.user
+    roomid = request.GET.get("date_and_day")
+    roomid = datetime.datetime.strptime(roomid,'%Y-%m-%d').date()
+    temperature = TemperatureStore.objects.filter(room__user__username=user)
+    
+    if temperature.exists():
+        for i in temperature:
+            if roomid==i.date:
+                dat.append(i)
+    paginator = Paginator(dat,8)
+    print(paginator)
+    page = request.GET.get('page',1)
+    try:
+        room = paginator.page(page)
+    except PageNotAnInteger:
+        room = paginator.page(1)
+    except EmptyPage:
+        room = paginator.page(paginator.num_pages)
+    data['html_list']=render_to_string("subadmin/history/historylist.html",{'room':room},request=request)
+    data['html_list_pagination'] = render_to_string("subadmin/history/paginationhistory.html",{'room':room},request=request)
+    return JsonResponse(data)

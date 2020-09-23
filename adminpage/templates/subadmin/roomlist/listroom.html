@@ -1,0 +1,26 @@
+
+{% for i in room %}
+<div id="{{i.buildingRoom}}" class="card-room js-load" data-store="{% url 'tempsub' i.buildingRoom %}" value="{{i.buildingRoom}}">
+    <div class="header-room">
+        <div>
+            <p>ROOM</p>
+        </div>
+        <div class="dropdown1">
+        <button style="border: none; background-color: white;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-h"></i>
+        </button>
+            {% include "subadmin/roomlist/dropitem.html" %}
+        </div>
+    </div>
+    <div class="body-room">
+        <p id="roomID">{{i.buildingRoom}}</p>
+    </div>
+</div>
+{% endfor %}
+<button id="myRoom" class="card-room js-create-room" data-url=" {% url 'createroomsub' %} ">
+    <div class="sign-plus">
+        <i class="fas fa-plus"></i>
+    </div>
+</button>
+
+{% comment %} <script src="{% static "subadmin/js/room.js" %}"></script> {% endcomment %}
