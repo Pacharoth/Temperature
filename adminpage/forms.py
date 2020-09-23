@@ -49,35 +49,29 @@ class registerForm(UserCreationForm):
         fields = ['username','email','password1','password2']
 #change password form in user
 class resetPasswordForm(forms.Form):
-    messgae_errors = {
-        'password_mismatch':_("The two password fields didn't match.")
+    error_messages = {
+        'password_mismatch': _('The two password fields didn’t match.'),
     }
-    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'New password'}))
-    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Confirm password'}))
+    new_password1 = forms.CharField(min_length=8,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'New password','autocomplete': 'new-password'}))
+    new_password2 = forms.CharField(min_length=8,widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Confirm password','autocomplete': 'new-password'}))
     
-    def __init__(self,user,*args,**kwargs):
-        """
-        Get request.user from adminpage or subadmin page
-        """
+    def __init__(self, user, *args, **kwargs):
         self.user = user
         super().__init__(*args, **kwargs)
 
     def clean_new_password2(self):
-        """
-        Check password 1 and 2 to change the password
-        """
         password1 = self.cleaned_data.get('new_password1')
         password2 = self.cleaned_data.get('new_password2')
         if password1 and password2:
             if password1 != password2:
-                raise forms.ValidationError(self.messgae_errors['password_mismatch'],code='password_mismatch')
+                raise forms.ValidationError(
+                    self.error_messages['password_mismatch'],
+                    code='password_mismatch',
+                )
         password_validation.validate_password(password2, self.user)
         return password2
 
-    def save(self,commit=True):
-        """
-        Save data in User models
-        """
+    def save(self, commit=True):
         password = self.cleaned_data["new_password1"]
         self.user.set_password(password)
         if commit:

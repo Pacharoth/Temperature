@@ -21,9 +21,9 @@ Profile
   <link rel="stylesheet" href="{% static "adminpage/css/sidebar.css" %}">
   <link rel="stylesheet" href="{% static "adminpage/css/dropdown.css" %}">
 <style>
-    .con:hover{
+    /* .con:hover{
         box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 4px 8px rgba(0, 0, 0, .1);
-    }
+    } */
     body{
         overflow: hidden;
     }
@@ -58,9 +58,6 @@ Profile
     </div>
     
 </div>
-<!-- <div class="drop-profile-down">
-    <a href="{% url 'logoutpage' %}">logout</a>
-</div> -->
 
 <div class="content">
     <div class="sidebar">
@@ -119,8 +116,8 @@ Profile
         </div>
         </div>
         <div class="chart-container">
-            <div class=" con ml-0 mb-2 form-row justify-content-between align-items-center"style="width: 100%; background-color: white; border-radius:5px;">
-                <div class="con ml-2 bg-dark text-white rounded-left rounded-right p-2">Welcome back, {{request.user}}!</div>
+            <div class="con ml-0 mb-2 form-row justify-content-between align-items-center"style="width: 100%; background-color: white; border-radius:5px;">
+                <div class="">Welcome back, {{request.user}}!</div>
             <button id="changepassword" class="btn btn-outline-primary mr-2 mt-2 mb-2"> Change New Password</button>
             </div>
             <form action="" class="all-profile"  method="POST" enctype="multipart/form-data">

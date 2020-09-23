@@ -43,7 +43,7 @@ def adminpage(request):
     context={
         'user':user,
     }
-    return render(request,'alladmin/adminpage.html',context)
+    return render(request,'adminall/adminpage.html',context)
 
 #go check subadmin
 @login_required(login_url='adminLogin')
@@ -69,7 +69,6 @@ def register(request):
         if form.is_valid():
             user = form.save()
             email = form.cleaned_data.get('email')
-           
             pObj =User.objects.get(username=user)
             pSave = userProfile(user = pObj).save()
             print(pSave)
@@ -100,7 +99,6 @@ def profile(request):
     profile=request.user.userprofile
     forms = ProfilePic(instance=profile)
     form = ProfileForm(instance=user)
-    form_reset=resetPasswordForm(user)
     if request.method == "POST":
         forms = ProfilePic(request.POST,request.FILES,instance=profile)
         print(forms)
@@ -108,24 +106,20 @@ def profile(request):
             form.save()
         if forms.is_valid():
             forms.save()
-    return render (request,'admin/profile.html',{'user':user,'form_reset':form_reset,'form':form,'forms':forms})
+    return render (request,'admin/profile.html',{'user':user,'form':form,'forms':forms})
 #password modal
 def passwordView(request):
     data= dict()
     user= request.user
-    print(user.password)
-    print(user.set_password)
-    form_reset=resetPasswordForm(user=user)
+    form_reset=resetPasswordForm(data=request.POST,user=user)
     print(form_reset)
-    if request.method == "POST":
-        form_reset = resetPasswordForm(request.POST,user=user)
-        if form_reset.is_valid():
-            form_reset.save()
-            data['form_is_valid']=True
-        else:
-            data['form_is_valid']=False
+    if form_reset.is_valid():
+        form_reset.save()
+        data['form_is_valid']=True
+    else:
+        data['form_is_valid']=False
     data['html_list'] = render_to_string("admin/profilemodel.html",{'form_reset':form_reset},request=request)
-    # print(data)
+  
     return JsonResponse(data)
 
 #subadmin
@@ -359,17 +353,30 @@ def searchhistorysub(request):
     data['html_list'] = render_to_string("subadmin/history/historylist.html",{'room':room},request=request)
     data['html_list_pagination'] = render_to_string("subadmin/history/paginationhistory.html",{'room':room},request=request)
     return JsonResponse(data)
+
 #search data as date
 def searchdatesub(request):
     data = dict()
     dat= list()
+    room=None
     user=request.user
-    roomid = request.GET.get("date_and_time")
+    roomid = request.GET.get("date_and_day")
+    roomid = datetime.datetime.strptime(roomid,'%Y-%m-%d').date()
     temperature = TemperatureStore.objects.filter(room__user__username=user)
+    
     if temperature.exists():
         for i in temperature:
-            if datetime.date(roomid)==i.date:
+            if roomid==i.date:
                 dat.append(i)
-    print(dat)
-    data['html_list']=render_to_string("subadmin/history/historylist.html",{'room':dat},request=request)
+    paginator = Paginator(dat,8)
+    print(paginator)
+    page = request.GET.get('page',1)
+    try:
+        room = paginator.page(page)
+    except PageNotAnInteger:
+        room = paginator.page(1)
+    except EmptyPage:
+        room = paginator.page(paginator.num_pages)
+    data['html_list']=render_to_string("subadmin/history/historylist.html",{'room':room},request=request)
+    data['html_list_pagination'] = render_to_string("subadmin/history/paginationhistory.html",{'room':room},request=request)
     return JsonResponse(data)

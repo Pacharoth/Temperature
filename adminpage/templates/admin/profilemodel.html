@@ -1,4 +1,9 @@
-
+<style>
+    ul{
+        list-style: none;
+        
+    }
+</style>
 <form method="POST" action="{% url 'passwordView' %}" class="js-profile">
     {% csrf_token %}
     <div class="modal-header">
@@ -10,17 +15,52 @@
     <div class="modal-body">
         <div class="form-group">
             <label for="id_new_password1">New password</label>
+           <div class="input-group"> 
+
             {{form_reset.new_password1}}
+             <button class="btn btn-primary reveal_password1" type="button" onclick="reveal()"><i class="fas fa-eye"></i></button>
+            </div>
             <small id="new_password1Help" class="form-text text-muted">New password</small>
         </div>
         <div class="form-group">
+        
             <label for="id_new_password2">Confirm Password</label>
-            {{form_reset.new_password2}}
-            <small id="new_password2Help" class="form-text text-muted">confirm that new password</small>
+           <div class="input-group"> 
+           {{form_reset.new_password2}}
+            
+            <button class="btn btn-primary reveal_password2" type="button" onclick="reveal1()"><i class="fas fa-eye"></i></button>
+        
+            
+            </div><small id="new_password2Help" class="form-text text-muted">confirm that new password</small>
         </div>
+        {% if form_reset.errors %}
+            {{form_reset.errors}}
+        {% endif %}
+
+      
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Save</button>
     </div>
-</form>
+</form> 
+<script>
+    function reveal() {
+    var $pwd = $('#id_new_password1');
+    console.log($(this));
+    if ($pwd.attr('type') === 'password') {
+        $pwd.attr('type', 'text');
+    } else {
+        $pwd.attr('type', 'password');
+    }
+}
+function reveal1() {
+    var $pwd = $('#id_new_password2');
+    console.log($(this));
+    if ($pwd.attr('type') === 'password') {
+        $pwd.attr('type', 'text');
+    } else {
+        $pwd.attr('type', 'password');
+    }
+}
+</script>
 

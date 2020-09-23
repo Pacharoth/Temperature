@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  {% load static %}
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,11 +12,11 @@
   <title>SB Admin 2 - Dashboard</title>
 
   <!-- Custom fonts for this template-->
-  <link href="{% static 'alladmin/vendor/fontawesome-free/css/all.min.css' %} " rel="stylesheet" type="text/css">
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="{% static 'alladmin/css/sb-admin-2.min.css' %} " rel="stylesheet">
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
   <!-- Modal library -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -155,7 +155,7 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Login Screens:</h6>
-            <a class="collapse-item" href="{% url 'register' %}">Register</a>
+            <a class="collapse-item" href="register2.html">Register</a>
             <a class="collapse-item" href="adminhistory.html">History</a>
           </div>
         </div>
@@ -224,12 +224,12 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Roeun Pacharoth</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ang Mengchhuong</span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="edit-profile2.html">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
@@ -293,7 +293,7 @@
             </div>
 
             <!-- Earnings (Monthly) Card Example -->
-            <a hred="" class="col-xl-3 col-md-6 mb-4">
+            <a href="user.html" class="col-xl-3 col-md-6 mb-4"  style="text-decoration: none;">
               <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
@@ -453,7 +453,7 @@
                   <input type="text" class="form-control" id="exampleInputRoom" placeholder="Building and Room">
                   <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                 </div>
-               <button class="btn btn-primary" style="">Save</button>
+               <button class="btn btn-primary" >Save</button>
               </form>
             </div>
           
@@ -475,10 +475,10 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
+                      <a class="dropdown-item" href="#">Delete</a>
+                      <a class="dropdown-item" href="#">Edit</a>
+                      <!-- <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Something else here</a> -->
                     </div>
                   </div>
                 </div>
@@ -518,28 +518,28 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="{% url 'logoutpage' %}">Logout</a>
+          <a class="btn btn-primary" href="login.html">Logout</a>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="{% static 'alladmin/vendor/jquery/jquery.min.js' %} "></script>
-  <script src="{% static 'alladmin/vendor/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="{% static 'alladmin/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="{% static 'alladmin/js/sb-admin-2.min.js' %}"></script>
+  <script src="js/sb-admin-2.min.js"></script>
 
   <!-- Page level plugins -->
-  <script src="{% static 'alladmin/vendor/chart.js/Chart.min.js' %}"></script>
+  <script src="vendor/chart.js/Chart.min.js"></script>
 
   <!-- Page level custom scripts -->
-  <script src="{% static 'alladmin/js/demo/chart-area-demo.js' %}"></script>
-  <script src="{% static 'alladmin/js/demo/chart-pie-demo.js' %}"></script>
+  <script src="js/demo/chart-area-demo.js"></script>
+  <script src="js/demo/chart-pie-demo.js"></script>
 
   
   <script>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>{% block title %}
+  header
+  {% endblock title %}</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'alladmin/vendor/fontawesome-free/css/all.min.css' %} " rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'alladmin/css/sb-admin-2.min.css' %} " rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+{% block content %}
+{% endblock content %}
+
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'alladmin/vendor/jquery/jquery.min.js' %} "></script>
+  <script src="{% static 'alladmin/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'alladmin/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'alladmin/js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'alladmin/vendor/chart.js/Chart.min.js' %}"></script>
+<script src="{% static "subadmin/js/resetdata.js" %}"></script>
+    {% comment %} <script src="{% static "subadmin/js/sendmail.js" %}"></script> {% endcomment %}
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'alladmin/js/demo/chart-area-demo.js' %}"></script>
+  <script src="{% static 'alladmin/js/demo/chart-pie-demo.js' %}"></script>
+{% block script %}
+
+{% endblock script %}
+
+</body>
+
+</html>
+
