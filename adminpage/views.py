@@ -363,7 +363,6 @@ def searchdatesub(request):
     roomid = request.GET.get("date_and_day")
     roomid = datetime.datetime.strptime(roomid,'%Y-%m-%d').date()
     temperature = TemperatureStore.objects.filter(room__user__username=user)
-    
     if temperature.exists():
         for i in temperature:
             if roomid==i.date:

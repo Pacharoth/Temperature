@@ -13,7 +13,7 @@ while True:
         count+=1
     print(count)
     mytemperature=[{
-        "id":coun,
+        "id":count,
         "room_id":109,
         "Temperature":random.randint(1,30),
         "date":datetime.datetime.now()

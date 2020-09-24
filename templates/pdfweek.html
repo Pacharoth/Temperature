@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block style %}
+{% load static %}
+
+{% endblock style %}
+{% block content %}
+<style>
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .font-info{
+        font-size: 12px;
+    }
+    table{
+        text-align: center;
+        border:1px solid gray;
+        
+    }
+    th,td{
+        padding-top: 10px;
+        padding-bottom: 5px;
+    }
+
+    td{
+        font-size: 12px;
+    }
+    hr{
+        border: 1px solid gray;
+    }
+    th{
+        background-color: rgb(75, 68, 68);
+        color: white;
+        font-size: 15px;
+    }
+</style>
+    <h1>Temperature Weekly Report</h1>
+    <div class="font-info">
+        Room: {{room}} <br>
+        Subadmin: {{user.room.user.username}} <br>
+        Subadmin ID: {{user.room.user.username}} <br>
+        Current Date: {{date}} <br>
+        Room ID: {{user.room.pk}}
+    </div>
+    <hr>
+    <table >
+        <thead>
+            <th scope="col">No</th>
+            <th scope="col">Date</th>
+            <th scope="col">Average Temperature(c)</th>
+        </thead>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.date}}</td>
+            <td>{{i.Temperature}}</td>
+        
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2">Total</td>
+            <td >{{avg}}</td>
+        </tr>
+    </table>
+{% endblock content %}

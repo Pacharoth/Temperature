@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block style %}
+{% load static %}
+
+{% endblock style %}
+{% block content %}
+<style>
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .font-info{
+        font-size: 12px;
+    }
+    table{
+        text-align: center;
+        border:1px solid gray;
+        
+    }
+    th,td{
+        padding-top: 10px;
+        padding-bottom: 5px;
+    }
+
+    td{
+        font-size: 12px;
+    }
+    hr{
+        border: 1px solid gray;
+    }
+    th{
+        background-color: rgb(75, 68, 68);
+        color: white;
+        font-size: 15px;
+    }
+</style>
+    <h1>Temperature Annually Report</h1>
+    <div class="font-info">
+        Room: {{room}} <br>
+        Subadmin:{{user.room.user.username}}<br>
+        Subadmin ID:{{user.room.user.pk}}  <br>
+        Current Date: {{date}} <br>
+        Room ID: {{user.room.pk}}
+    </div>
+    <hr>
+    <table >
+        <thead>
+            <th scope="col">No</th>
+            <th scope="col">Date</th>
+            <th scope="col">Average Temperature(c)</th>
+        </thead>
+        <tbody>
+            {% if data.1 %}
+            <tr>
+              <td>1</td>
+              <td>{{month.1}}</td>
+              <td>{{avgmonth.1}}</td>
+            </tr>
+            {% endif %}
+            {% if data.2 %}
+            <tr>
+              <td>2</td>
+              <td>{{month.2}}</td>
+              <td>{{avgmonth.2}}</td>
+            </tr>
+            {% endif %}
+            {% if data.3 %}
+            <tr>
+              <td>3</td>
+              <td>{{month.3}}</td>
+              <td>{{avgmonth.3}}</td>
+            </tr>
+            {% endif %}
+            {% if data.4 %}
+            <tr>
+              <td>4</td>
+              <td>{{month.4}}</td>
+              <td>{{avgmonth.4}}</td>
+            </tr>
+            {% endif %}
+            {% if data.5 %}
+            <tr>
+              <td>5</td>
+              <td>{{month.5}}</td>
+              <td>{{avgmonth.5}}</td>
+            </tr>
+            {% endif %}
+            {% if data.6 %}
+            <tr>
+              <td>6</td>
+              <td>{{month.6}}</td>
+              <td>{{avgmonth.6}}</td>
+            </tr>
+            {% endif %}
+            {% if data.7 %}
+            <tr>
+              <td>7</td>
+              <td>{{month.7}}</td>
+              <td>{{avgmonth.7}}</td>
+            </tr>
+            {% endif %}
+            {% if data.8 %}
+            <tr>
+              <td>8</td>
+              <td>{{month.8}}</td>
+              <td>{{avgmonth.8}}</td>
+            </tr>
+            {% endif %}
+            {% if data.9 %}
+            <tr>
+              <td>9</td>
+              <td>{{month.9}}</td>
+              <td>{{avgmonth.9}}</td>
+            </tr>
+            {% endif %}
+            {% if data.10 %}
+            <tr>
+              <td>10</td>
+              <td>{{month.10}}</td>
+              <td>{{avgmonth.10}}</td>
+            </tr>
+            {% endif %}
+            {% if data.11 %}
+            <tr>
+              <td>11</td>
+              <td>{{month.11}}</td>
+              <td>{{avgmonth.11}}</td>
+            </tr>
+            {% endif %}
+            {% if data.12 %}
+            <tr>
+              <td>12</td>
+              <td>{{month.12}}</td>
+              <td>{{avgmonth.12}</td>
+            </tr>
+            {% endif %}
+        <tr>
+            <td colspan="2">Total</td>
+            <td >{{avg}}</td>
+        </tr>
+    </tbody>
+    </table>
+{% endblock content %}

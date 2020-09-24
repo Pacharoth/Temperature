@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block style %}
+{% load static %}
+
+{% endblock style %}
+{% block content %}
+<style>
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .font-info{
+        font-size: 12px;
+    }
+    table{
+        text-align: center;
+        border:1px solid gray;
+        
+    }
+    th,td{
+        padding-top: 10px;
+        padding-bottom: 5px;
+    }
+
+    td{
+        font-size: 12px;
+    }
+    hr{
+        border: 1px solid gray;
+    }
+    th{
+        background-color: rgb(75, 68, 68);
+        color: white;
+        font-size: 15px;
+    }
+</style>
+    <h1>Temperature Monthly Report</h1>
+    <div class="font-info">
+        Room: {{room}} <br>
+        Subadmin: {{user.room.user.username}}<br>
+        Subadmin ID: {{user.room.user.pk}} <br>
+        Current Date: {{date}} <br>
+        Room ID: {{user.room.pk}}
+    </div>
+    <hr>
+    <table >
+        <thead>
+            <th scope="col">No</th>
+            <th scope="col">Date</th>
+            <th scope="col">Average Temperature(c)</th>
+        </thead>
+        
+        {% if data.1.0.date %}
+            <tr>
+                <td>1</td>
+                <td>{{data.1.0.date}} - {% with data.1|last as data%}{{data.date}}{% endwith %}</td>
+                <td>{{avg.1}}</td>
+            </tr>
+        {% endif %}
+         {% if data.2.0.date %}
+            <tr>
+                <td>2</td>
+                <td>{{data.2.0.date}} - {% with data.2|last as data%}{{data.date}}{% endwith %}</td>
+                <td>{{avg.2}}</td>
+            </tr>
+        {% endif %}
+        {% if data.3.0.date %}
+            <tr>
+                <td>3</td>
+                <td>{{data.3.0.date}} - {% with data.3|last as data%}{{data.date}}{% endwith %}</td>
+                <td>{{avg.3}}</td>
+            </tr>
+        {% endif %}
+         {% if data.4.0.date %}
+            <tr>
+                <td>4</td>
+                <td>{{data.4.0.date}} - {% with data.4|last as data%}{{data.date}}{% endwith %}</td>
+                <td>{{avg.4}}</td>
+            </tr>
+        {% endif %}
+        <tr>
+            <td colspan="2">Total</td>
+            <td >{{avgmonth}}</td>
+        </tr>
+    </table>
+{% endblock content %}

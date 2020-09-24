@@ -1,10 +1,11 @@
 from django import forms
-from adminpage.models import RoomServer,userProfile
+from adminpage.models import userProfile,RoomServer
 from django.contrib.auth.models import User
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import UserCreationForm,SetPasswordForm
 from django.utils.translation import ugettext_lazy as _
-
+from adminpage.utils import weekList
+from django.core.exceptions import ValidationError
 #login form
 class loginForm(forms.Form):
     email = forms.CharField(min_length=8,widget=forms.EmailInput(attrs={'style':'border: 1px solid #dddfe2;','placeholder':'Email:'}))
@@ -139,10 +140,18 @@ MONTH_VALID=[(1,'Jan'),
             (11,'Nov'),
             (12,'Dec')]
 class choiceForm_weekly(forms.Form):
+    error_messages = {
+        'password_mismatch': _('The two password fields didn’t match.'),
+    }
     week_form=forms.ChoiceField(widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=WEEK)
     month_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=MONTH_VALID)
     year_form= forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=YEAR_VALID)
-    
+    def cleanform(self,room):
+        week= self.cleaned_data.get("week_form")
+        month=self.cleaned_data.get("month_form")
+        year=self.cleaned_data.get("year_form")
+        dataweek,avg= weekList(room,int(week),int(month),int(year))
+        return dataweek,avg,week,month,year
 class choiceForm_monthly(forms.Form):
     month_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':' custom-select mr-sm-2'}),choices=MONTH_VALID)
     year_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=YEAR_VALID)

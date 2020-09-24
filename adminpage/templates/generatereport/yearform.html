@@ -1,5 +1,5 @@
 
-<form method="POST" action="" class="js-create-room-form">
+<form method="POST" action="{% url 'generatepdfannual' %}" class="js-annually-report">
     {% csrf_token %}
     <div class="modal-header">
         <h5 class="modal-title">Monthly Report</h5>
@@ -9,17 +9,22 @@
     </div>
     <div class="modal-body">
         <div class="form-row align-items-center justify-content-center">
-            <div class="col-auto my-1">
-                {{form.week_form}}
-            </div>
-            <div class="col-auto my-1">
-                {{form.month_form}}
+            <div class="col-auto-my-1">
+                <select name="room" id="room-home" class="custom-select mr-sm-2">
+                        <option value=""></option>  
+                </select>
             </div>
             <div class="col-auto my-1">
                 {{form.year_form}}
             </div>
-            <small id="new_password1Help" class="form-text text-muted">Choose week month and year to Generate weekly report</small>
+           
         </div>
+        <div class="form-row align-items-center justify-content-center">
+                <small id="new_password1Help" class="form-text text-muted">Choose year to Generate annually report</small>     
+        </div>
+        {% if form.errors %}
+            {{form.erros}}
+        {% endif %}
       
      
     </div>
