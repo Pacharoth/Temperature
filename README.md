@@ -33,7 +33,7 @@
   - Bootstrap4
  - Framework:
   - Django
- -Database:
+ - Database:
   - MongoDB
   - Workspace:
   - Vscode
