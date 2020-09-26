@@ -31,11 +31,11 @@
   - Ajax
   - JQuery
   - Bootstrap4
- - Framework:
+- Framework:
   - Django
- - Database:
+- Database:
   - MongoDB
- - Workspace:
+- Workspace:
   - Vscode
   
   
