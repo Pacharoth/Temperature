@@ -1,0 +1,15 @@
+{% for i in room %}
+<tr>
+    <th scope="row">{{i.room.pk}}</th>
+    <td>{{i.room.user.username}}</td>
+    <td>{{i.room.buildingRoom}}</td>
+    
+    <td>{{i.date}}</td>
+    <td>{{i.Temperature}}</td>
+    {% if i.Temperature < 22 %}
+    <td>GOOD</td>
+    {% else %}
+    <td>BAD</td>
+    {% endif %}
+</tr>
+{% endfor %}

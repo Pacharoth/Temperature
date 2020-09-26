@@ -7,6 +7,7 @@ from adminpage.views_admin import (generateWeeklyForm,
                                 generateMonthlyForm,
                                 generateAnnuallyForm,renderAnnuallyReport,
                                 renderWeeklyReport,renderMonthlyReport)
+from adminpage import views_admin
 urlpatterns = [
 
     #Authenticate Subadmin and Admin
@@ -33,9 +34,16 @@ urlpatterns = [
     re_path(r'^download/monthly$',renderMonthlyReport,name="generatepdfmonth"),
     re_path(r'^download/annually$',renderAnnuallyReport,name="generatepdfannual"),
 
+
     #Admin url
+    re_path(r"^api/year/$",views_admin.avgApiYear,name="apiyear"),
     path('adminpage/',views.adminpage,name = "adminpage"),
     path('adminpage/register/',views.register,name = 'register'),
-    path('adminpage/subadmin/',views.checkSubadminPage,name="checksub"),
-    path('sendmail/',views.sendMail,name="sendmail")
+    re_path(r'^adminpage/(?P<user>\w+)/',views.checkSubadminPage,name="checksub"),
+    path('temperature/api/',views_admin.getTemperatureAdmin,name="temperatureadmin"),
+    path('sendmail/',views.sendMail,name="sendmail"),
+    path("history/",views_admin.historyAdmin,name="historyadmin"),
+    re_path(r"^room/createroom/$",views_admin.create_roomAdmin,name="createroomadmin"),
+    re_path(r"^room/(?P<roomBuilding>\w+)/update/$",views_admin.update_roomAdmin,name="updateroomadmin"),
+    re_path(r"^room/(?P<roomBuilding>\w+)/delete/$",views.roomSub_delete,name="deleteroomadmin"), 
 ]
