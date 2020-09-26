@@ -32,11 +32,11 @@
   - JQuery
   - Bootstrap4
  - Framework:
-  -Django
+  - Django
  -Database:
-  -MongoDB
- -Workspace:
-  -Vscode
+  - MongoDB
+  - Workspace:
+  - Vscode
   
   
   
