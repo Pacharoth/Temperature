@@ -1,6 +1,6 @@
 # Temperature
 ### Website to monitor the temperature of the room (Using sensor Thermister)
-#### functionality:
+#### Functionality:
 -Website:
   - [ ] Admin:
     - [ ] CRUD Room
@@ -19,9 +19,9 @@
     - [x] Profile
     - [x] History
 -Arduino:
-  - Data to database before request to webserver
-  - Socket and Ethernet to request and response the data
-  - Turn off server by Socket
+  - [x] Data to database before request to webserver
+  - [x] Socket and Ethernet to request and response the data
+  - [ ] Turn off server by Socket
 #### Requirement:
 - Material:
   - Ethernet Cable, arduino, themistor, resistor, jumpwire
@@ -35,7 +35,7 @@
   - Django
  - Database:
   - MongoDB
-  - Workspace:
+ - Workspace:
   - Vscode
   
   
