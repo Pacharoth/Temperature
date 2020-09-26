@@ -24,7 +24,7 @@
   - [ ] Turn off server by Socket
 #### Requirement:
 - Material:
-  - Ethernet Cable, arduino, themistor, resistor, jumpwire
+  - Ethernet Cable, Arduino(any type), Themistor, Resistor,3 Jumpwires
 
  #### Api, Framework,Workspace and Database:
 - API:
