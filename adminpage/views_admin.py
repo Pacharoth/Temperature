@@ -3,8 +3,9 @@ from adminpage.views import (
     render,Group,login_required,unanthenticated_user
     ,allow_subadmins,admin_only,Avg,JsonResponse
     ,Q,datetime)
-from adminpage.models import TemperatureStore
+from adminpage.models import TemperatureStore,RoomServer,userProfile,TemperatureRoom
 import os
+from adminpage.utils import monthList
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
@@ -12,6 +13,8 @@ from xhtml2pdf import pisa
 from django.contrib.staticfiles import finders
 from adminpage.forms import choiceForm_weekly,choiceForm_annually,choiceForm_monthly
 from adminpage.utils import weekList,monthList,annuallyList
+from adminpage.forms import roomBuildingForm
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 def link_callback(uri, rel):
     """
@@ -167,3 +170,99 @@ def renderAnnuallyReport(request):
         if pisaStatus.err:
             print("error")
     return response
+
+#history admin
+def historyAdmin(request):
+    temperature=TemperatureStore.objects.all()
+    page = request.GET.get('page',1)
+    paginator = Paginator(temperature,6)
+    print(temperature)
+    try:
+        room = paginator.page(page)
+    except PageNotAnInteger:
+        room = paginator.page(1)
+    except EmptyPage:
+        room = paginator.page(paginator.num_pages)
+    return render(request,"adminall/history/history.html",{'room':room})
+
+#average month
+def avgApiYear(request):
+    data = dict()
+    room = request.GET.get("room")
+    print(room)
+    year = datetime.datetime.now().year
+    monthly = datetime.datetime.now().month
+    temperature =TemperatureStore.objects.filter(room__buildingRoom=room)
+    if temperature.exists():
+        data['empty']=False
+        datavg,avgmonth,month,avgyear=annuallyList(room,year)
+        dataavg,avgweek,summation= monthList(room,monthly,year)
+        data={'datayear':avgyear,'datamonth':summation,'username':temperature[0].room.user.username}
+    else:
+        data['empty']=True
+    return JsonResponse(data)
+
+
+def getTemperatureAdmin(request):
+    data=dict()
+    temp=list()
+    time=list()
+    
+    roomBuilding= request.GET.get("room")
+    graph = roomBuilding
+    print(graph)
+    user = TemperatureRoom.objects.filter(room__buildingRoom = graph).order_by("-date_and_time")[:5]
+    if user.exists():
+        for data in user:
+            temper = float("%.2f"%(data.Temperature))
+            room= data.room
+            temp.append(temper)
+            time.append(data.date_and_time.time())
+        print(temp.reverse())
+        data={
+            
+            'room':str(room.buildingRoom),
+            'temperature':temp,
+            'date_and_time':time,
+
+        }
+        return JsonResponse(data)
+    return JsonResponse(data)
+
+#create room 
+def save_room_Admin(request,user,form,template_name):
+    data = dict()
+    print(user)
+    
+    if request.method =="POST":
+        user=User.objects.get(username=user)
+        if form.is_valid():
+            save_method = form.save(commit=False)
+            print(save_method.user)
+            save_method.user = user
+            save_method.save()
+            room=RoomServer.objects.filter(user__username=user)
+            data['form_is_valid']=True
+            data['html_room_list'] =render_to_string('adminall/room/roomAdminlist.html',{'room':room,'username':user})
+        else:
+            data['form_is_valid']= False
+    context={'form':form,'user':user}
+    print(context)
+    data['html_room_form']= render_to_string(template_name, context, request=request)
+    print(data)
+    return JsonResponse(data)
+
+def create_roomAdmin(request):
+    user = request.POST.get("username")
+    
+    form = roomBuildingForm(request.POST or None)
+    return save_room_Admin(request,user,form,'adminall/room/createroom.html')
+def update_roomAdmin(request,roomBuilding):
+    user = request.POST.get("username")
+    
+    form = roomBuilding(data=request.POST or None, instance=roomBuilding)
+    return save_room_Admin(request,user,form,'adminall/room/updateroom.html')
+
+#profile admin
+def adminProfile(request):
+    return render (request,"adminall/")

@@ -1,0 +1,26 @@
+{% for i in room %}
+    <a id ="{{i.buildingRoom}}" class="col-xl-3 col-md-6 mb-4 js-load" style="text-decoration: none;">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <!-- <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Roeun Pacharoth</div> -->
+                        <div class="h7 mb-0 font-weight-bold text-gray-800">Room {{i.buildingRoom}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+{% endfor %}
+<a id="{{username}}" class="col-xl-3 col-md-6 mb-4 js-create-room" data-url="{% url 'createroomadmin' %}"  style="text-decoration:none;">
+<div class="card border-left-primary shadow h-100 py-2">
+    <center>
+        <div class="card-body">
+        <i class="fas fa-justify-center fas fa-plus fa-2x text-gray-300 "></i>
+        </div>
+    </center>
+</div>
+</a>

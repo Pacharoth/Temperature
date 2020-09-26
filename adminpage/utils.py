@@ -3,8 +3,9 @@ from adminpage.models import RoomServer,TemperatureStore
 def weekList(room,week,month,year):
     data=list()
     avg=0
-    temperature = TemperatureStore.objects.filter(room__buildingRoom=room,date__year=year)
+    temperature = TemperatureStore.objects.filter(room__buildingRoom=room).filter(date__year=year)
     count = 0
+    print(room)
     if temperature.exists():
         for i in temperature:
             if month == i.date.month:

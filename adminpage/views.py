@@ -48,8 +48,11 @@ def adminpage(request):
 #go check subadmin
 @login_required(login_url='adminLogin')
 @admin_only
-def checkSubadminPage(request):
-    return render(request,'alladmin/sub-adminpage.html')
+def checkSubadminPage(request,user):
+
+    room=RoomServer.objects.filter(user__username=user)
+    username = room[0].user.username
+    return render(request,'adminall/subAdmin.html',{'room':room,'username':username})
 
 
 #logout link
@@ -239,9 +242,7 @@ def getTemperatureSub(request,roomBuilding):
     time=list()
     room=""
     graph = str(roomBuilding)
-   
     user = TemperatureRoom.objects.filter(room__buildingRoom = graph).order_by("-date_and_time")[:5]
-
     if user.exists():
         for data in user:
             temper = float("%.2f"%(data.Temperature))
