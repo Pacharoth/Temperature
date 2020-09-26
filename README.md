@@ -2,15 +2,15 @@
 ### Website to monitor the temperature of the room (Using sensor Thermister)
 #### functionality:
 -Website:
-  - [] Admin:
-    - [] CRUD Room
+  - [ ] Admin:
+    - [ ] CRUD Room
     - [x] Generate Report(pdf) (week,month,annual)
     - [x] Live graph temperature
     - [x] Alert to admin
-    - [] Turn off the server
-    - [] CRUD Sub Admin
-    - [] Profile
-    - [] History
+    - [ ] Turn off the server
+    - [ ] CRUD Sub Admin
+    - [ ] Profile
+    - [ ] History
   - [x] Sub Admin site:
     - [x] CRUD Room
     - [x] Generate Report(pdf) (week,month,annual)
