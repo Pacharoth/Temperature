@@ -3,14 +3,14 @@
 #### Functionality:
 -Website:
   - [ ] Admin:
-    - [ ] CRUD Room
+    - [x] CRUD Room
     - [x] Generate Report(pdf) (week,month,annual)
     - [x] Live graph temperature
     - [x] Alert to admin
     - [ ] Turn off the server
     - [ ] CRUD Sub Admin
     - [ ] Profile
-    - [ ] History
+    - [x] History
   - [x] Sub Admin site:
     - [x] CRUD Room
     - [x] Generate Report(pdf) (week,month,annual)
