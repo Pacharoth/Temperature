@@ -112,8 +112,7 @@ class ProfilePic(forms.ModelForm):
     
     class Meta:
         model = userProfile
-        fields = '__all__'
-        exclude=['user']
+        fields = ['phone','img']
 
 
 #profile usernamed
@@ -121,8 +120,7 @@ class ProfileForm(forms.ModelForm):
     username = forms.CharField(max_length=200,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Username:'}))
     class Meta:
         model = User
-        fields = "__all__"
-        exclude = ['email','first_name','last_name','password1','password2']
+        fields = ['username']
 
 #form for the generate report 
 WEEK=[(1,"Week1"),(2,"Week2"),(3,"Week3"),(4,"Week4")]  

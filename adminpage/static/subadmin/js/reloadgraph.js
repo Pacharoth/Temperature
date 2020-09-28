@@ -6,7 +6,7 @@ endpoint = $(this).attr("id");
 document.getElementById("building-and-room").innerHTML=endpoint;
 function livegraph(){
     $.ajax({
-    url:'temperature/api/'+endpoint,
+    url:'/temperature/api/?room='+endpoint,
     method:'GET',
     dataType:'json',
     success:function(data){
