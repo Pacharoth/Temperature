@@ -311,7 +311,7 @@ def adminProfile(request):
     form = ProfileForm(instance=user)
     forms = ProfilePic(instance=profile)
     if request.method =="POST":
-        form= ProfileForm(request.POST)
+        form= ProfileForm(request.POST,instance=user)
         forms= ProfilePic(request.POST,request.FILES,instance=profile)
         if form.is_valid():
             form.save()
