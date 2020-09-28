@@ -311,7 +311,7 @@ def adminProfile(request):
     form = ProfileForm(instance=user)
     forms = ProfilePic(instance=profile)
     if request.method =="POST":
-        form= ProfileForm(request.POST)
+        form= ProfileForm(request.POST,instance=user)
         forms= ProfilePic(request.POST,request.FILES,instance=profile)
         if form.is_valid():
             form.save()
@@ -333,4 +333,79 @@ def passwordAdmin(request):
         data['form_is_valid']=False
     data['html_list'] = render_to_string("adminall/profile/changepass.html",{'form_reset':form_reset},request=request)
   
+    return JsonResponse(data)
+
+#get history
+def searchdateadmin(request):
+    data = dict()
+    dat= list()
+    room=None
+    roomid = request.GET.get("date_and_day")
+    roomid = datetime.datetime.strptime(roomid,'%Y-%m-%d').date()
+    temperature = TemperatureStore.objects.all()
+    if temperature.exists():
+        for i in temperature:
+            if roomid==i.date:
+                dat.append(i)
+    paginator = Paginator(dat,8)
+    print(paginator)
+    page = request.GET.get('page',1)
+    try:
+        room = paginator.page(page)
+    except PageNotAnInteger:
+        room = paginator.page(1)
+    except EmptyPage:
+        room = paginator.page(paginator.num_pages)
+    data['html_list']=render_to_string("adminall/history/historylist.html",{'room':room},request=request)
+    data['html_pagination']=render_to_string("adminall/history/pagination.html",{'room':room},request=request)
+    return JsonResponse(data)
+
+#userpage
+def userpage(request):
+    user = User.objects.all().order_by('-id')
+    paginator = Paginator(user,8)
+    print(paginator)
+    page = request.GET.get('page',1)
+    try:
+        room = paginator.page(page)
+    except PageNotAnInteger:
+        room = paginator.page(1)
+    except EmptyPage:
+        room = paginator.page(paginator.num_pages)
+    return render(request,"adminall/user/user.html",{"username":room})
+
+#search user
+def searchUser(request):
+    data= dict()
+    username=request.GET.get("username")
+    user = User.objects.filter(username__startswith=username).order_by('-id')
+    paginator = Paginator(user,8)
+    page = request.GET.get('page',1)
+    try:
+        user = paginator.page(page)
+    except PageNotAnInteger:
+        user = paginator.page(1)
+    except EmptyPage:
+        user = paginator.page(paginator.num_pages)
+    content={
+        'username':user,
+    }
+    data['html_list']= render_to_string("adminall/user/userlist.html",context=content,request=request)
+    return JsonResponse(data)
+
+#Edit user
+def editUser(request):
+    data=dict()
+    content={
+        'room':user,
+    }
+    data['html_form_list']= render_to_string("adminall/user/useredit.html",context=content,request=request)
+    return JsonResponse(data)
+# delete user
+def deleteUser(request):
+    data=dict()
+    content={
+        'room':user,
+    }
+    data['html_form_list']= render_to_string("adminall/user/useredit.html",context=content,request=request)
     return JsonResponse(data)

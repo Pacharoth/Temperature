@@ -2,6 +2,9 @@
 {% block title %}
 History
 {% endblock title %}
+{% block style %}
+  {% load static %}
+{% endblock style %}
 {% block content %}
 <!-- Page Wrapper -->
   <div id="wrapper">
@@ -159,7 +162,7 @@ History
               <div class="col-lg-4">
                 <div class="form-group" style="float:right">
                   <!-- <label for="formGroupExampleInput">Date</label> -->
-                  <input type="Date" class="form-control" id="formGroupExampleInput" >
+                  <input type="Date" class="form-control" id="formGroupExampleInput" onchange="search()" >
                 </div>
               </div>
             </div>
@@ -181,7 +184,9 @@ History
                 
               </tbody>
             </table>
+            <div class="js-pagination">
             {% include "adminall/history/pagination.html" %}
+          </div>
         </div>
       </div>
     </div>
@@ -221,4 +226,5 @@ History
   var date =today.getDate().toString()+'-'+(today.getMonth()+1)+'-'+ today.getFullYear();
   document.getElementById('date').innerHTML = date;
 </script>
+<script src="{% static "adminpage/js/history/history.js" %}"></script>
 {% endblock script %}
