@@ -1,5 +1,5 @@
 
-<form method="POST" action=" {% url 'updateroomsub' form.instance.buildingRoom %} " class="js-update-room-form">
+<form id="{{user}}" method="POST" action=" {% url 'updateroomadmin' %} " data-url="{{form.instance.pk}}" class="js-update-room-form">
     {% csrf_token %}
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Update Room info</h5>

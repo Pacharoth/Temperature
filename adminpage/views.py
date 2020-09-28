@@ -103,7 +103,7 @@ def profile(request):
     forms = ProfilePic(instance=profile)
     form = ProfileForm(instance=user)
     if request.method == "POST":
-        form = ProfileForm(request.POST,instance=profile)
+        form = ProfileForm(request.POST,instance=user)
         forms = ProfilePic(request.POST,request.FILES,instance=profile)
         print(forms)
         if form.is_valid():

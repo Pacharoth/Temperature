@@ -44,6 +44,7 @@ urlpatterns = [
     path('sendmail/',views.sendMail,name="sendmail"),
     path("adminpage/history/",views_admin.historyAdmin,name="historyadmin"),
     re_path(r"^room/createroom/$",views_admin.create_roomAdmin,name="createroomadmin"),
-    re_path(r"^room/(?P<roomBuilding>\w+)/update/$",views_admin.update_roomAdmin,name="updateroomadmin"),
-    re_path(r"^room/(?P<roomBuilding>\w+)/delete/$",views.roomSub_delete,name="deleteroomadmin"), 
+    re_path(r"^room/update/$",views_admin.update_roomAdmin,name="updateroomadmin"),
+    re_path(r"^room/delete/$",views.roomSub_delete,name="deleteroomadmin"), 
+
 ]
