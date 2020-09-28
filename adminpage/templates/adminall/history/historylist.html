@@ -1,4 +1,7 @@
-{% for i in room %}
+{% if room %}
+  
+
+    {% for i in room %}
 <tr>
     <th scope="row">{{i.room.pk}}</th>
     <td>{{i.room.user.username}}</td>
@@ -12,4 +15,9 @@
     <td>BAD</td>
     {% endif %}
 </tr>
-{% endfor %}
+    {% endfor %}
+{%else%}
+<tr>
+    <td colspan="6">No result</td>
+</tr>
+{% endif %}

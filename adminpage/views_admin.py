@@ -356,7 +356,8 @@ def searchdateadmin(request):
         room = paginator.page(1)
     except EmptyPage:
         room = paginator.page(paginator.num_pages)
-    data['html_list']=render_to_string("adminall/history/history.html",{'room':room},request=request)
+    data['html_list']=render_to_string("adminall/history/historylist.html",{'room':room},request=request)
+    data['html_pagination']=render_to_string("adminall/history/pagination.html",{'room':room},request=request)
     return JsonResponse(data)
 
 #userpage

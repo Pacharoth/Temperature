@@ -5,7 +5,8 @@ function search(){
         url:"/adminpage/search/?date_and_day="+datetime,
         method:"GET",
         success:function(data){
-            $("body").html(data.html_list)
+            $("tbody").html(data.html_list)
+            $(".js-pagination").html(data.html_pagination)
         }
     })
 }   
