@@ -1,5 +1,6 @@
 {% extends 'baseadmin.html' %}
 {% block style %}
+{% load static %}
 {% endblock style %}
 {% block content %}
  <div id="wrapper">
@@ -8,11 +9,11 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="adminpage.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'adminpage' %}">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3"> Admin <sup>2</sup></div>
       </a>
 
       <!-- Divider -->
@@ -20,7 +21,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="adminpage.html">
+        <a class="nav-link" href="{% url 'adminpage' %}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -42,8 +43,8 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Login Screens:</h6>
-            <a class="collapse-item" href="register2.html">Register</a>
-            <a class="collapse-item" href="adminhistory.html">History</a>
+            <a class="collapse-item" href="{% url 'register' %}">Register</a>
+            <a class="collapse-item" href="{% url 'historyadmin' %}">History</a>
             <a class="collapse-item" href="user.html">User</a>
           </div>
         </div>
@@ -112,12 +113,17 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Roeun Pacharoth</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{request.user}}</span>
+                {% if request.user.userprofile.img %}
+                <img class="img-profile rounded-circle" src="{{request.user.userprofile.img.url}}">
+                {% else %}
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+
+                {% endif %}
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{% url 'adminprofile' %}">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
@@ -136,50 +142,8 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-
-          <!-- Page Heading -->
-         
-
-            <div class="container rounded bg-white mt-5" style=" box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)">
-                <div class="row">
-                    <div class="col-md-4 border-right">
-                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img class="rounded-circle mt-2" src="https://source.unsplash.com/QAB-WJcbgJk/60x60" width="120" height="120">
-                            <span class="font-weight-bold mt-3">Ang Mengchhuong</span>
-                            <span class="text-black-50">mengchhuongang@gmail.com</span>
-                            <input type="file" name="" id="" style="outline: none; margin-top:15px; margin-bottom:5px; margin-left:50%">
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="p-3 py-5">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <!-- <div class="d-flex flex-row align-items-center back"><i class="fa fa-long-arrow-left mr-1 mb-1"></i>
-                                    <h6>Back to home</h6>
-                                </div> -->
-                                <h6 class="text-right">Edit Profile</h6>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col-md-10"><input type="text" class="form-control" placeholder="Username" value="Ang Mengchhuong"></div>
-                                <!-- <div class="col-md-6"><input type="text" class="form-control" value="Doe" placeholder="Doe"></div> -->
-                            </div>
-                            <!-- <div class="row mt-3">
-                                <div class="col-md-6"><input type="text" class="form-control" placeholder="Email" value="mengchhuongang@gmail.com"></div>
-                                <div class="col-md-6"><input type="text" class="form-control" value="+19685969668" placeholder="Phone number"></div>
-                            </div> -->
-                            <div class="row mt-3">
-                                <div class="col-md-10"><input type="password" class="form-control" placeholder="Password" value="123456789"></div>
-                                <!-- <div class="col-md-6"><input type="text" class="form-control" value="USA" placeholder="Country"></div> -->
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-10"><input type="text" class="form-control" placeholder="Confirm Password" value=""></div>
-                                <!-- <div class="col-md-6"><input type="text" class="form-control" value="043958409584095" placeholder="Account Number"></div> -->
-                            </div>
-                            <div class="mt-4 text-right"><button class="btn btn-primary profile-button" type="button">Save</button></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            {% include 'adminall/profile/profileform.html' %}
+        
         </div>
       </div>
     </div>
@@ -192,7 +156,13 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
+    <div class="modal fade" id="profilepuser">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -206,11 +176,12 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a class="btn btn-primary" href="{% url 'logoutpage' %}">Logout</a>
         </div>
       </div>
     </div>
   </div>
 {% endblock content %}
 {% block script %}
+<script src="{% static "adminpage/js/profile/profileForm.js" %}"></script>
 {% endblock script %}

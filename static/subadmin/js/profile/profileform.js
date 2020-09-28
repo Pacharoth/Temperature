@@ -8,9 +8,11 @@ function loadData(){
         beforeSend:function(){
             $("#profilepuser .modal-content").html("")
             $("#profilepuser").modal("show");
+            
         },
         success:(data)=>{
             $("#profilepuser .modal-content").html(data.html_list)
+            $(".errorlist").hide()
         }
     })
 }
@@ -27,14 +29,17 @@ var saveForm = function(){
                 $("#profilepuser").modal("hide");
             }
             else{
-                console.log(data);
                 $("#profilepuser .modal-content").html(data.html_list);
+                $('.errorlist').show();
             }
         }
     });
     return false;
 };
 
+
+// $("button .reveal_password1").click(reveal);
+// $("button .reveal_password2").click(reveal1);
 
 $("#changepassword").click(loadData);
 $("#profilepuser").on("submit",".js-profile",saveForm)

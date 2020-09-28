@@ -94,11 +94,11 @@ class roomBuildingForm(forms.ModelForm):
         fields =['buildingRoom']
         
 #roomedit form
-class roomEdit(forms.ModelForm):
-    building = forms.CharField(widget=forms.TextInput())
-    class Meta:
-        model = RoomServer
-        fields=['buildingRoom']
+# class roomEdit(forms.ModelForm):
+#     building = forms.CharField(widget=forms.TextInput())
+#     class Meta:
+#         model = RoomServer
+#         fields=['buildingRoom']
 
 #profile pic
 class ProfilePic(forms.ModelForm):

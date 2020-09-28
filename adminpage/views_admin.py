@@ -11,9 +11,9 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.contrib.staticfiles import finders
-from adminpage.forms import choiceForm_weekly,choiceForm_annually,choiceForm_monthly
+from adminpage.forms import choiceForm_weekly,choiceForm_annually,choiceForm_monthly,resetPasswordForm
 from adminpage.utils import weekList,monthList,annuallyList
-from adminpage.forms import roomBuildingForm
+from adminpage.forms import roomBuildingForm,ProfileForm,ProfilePic
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 def link_callback(uri, rel):
@@ -173,10 +173,9 @@ def renderAnnuallyReport(request):
 
 #history admin
 def historyAdmin(request):
-    temperature=TemperatureStore.objects.all()
+    temperature=TemperatureStore.objects.all().order_by('-date')
     page = request.GET.get('page',1)
     paginator = Paginator(temperature,6)
-    print(temperature)
     try:
         room = paginator.page(page)
     except PageNotAnInteger:
@@ -184,6 +183,7 @@ def historyAdmin(request):
     except EmptyPage:
         room = paginator.page(paginator.num_pages)
     return render(request,"adminall/history/history.html",{'room':room})
+
 
 #average month
 def avgApiYear(request):
@@ -228,13 +228,27 @@ def getTemperatureAdmin(request):
         }
         return JsonResponse(data)
     return JsonResponse(data)
-
+def save_update_Admin(request,pk,user,form,template_name):
+    data = dict()
+    if request.method =="POST":
+        if form.is_valid():
+            print(form.cleaned_data['buildingRoom'])
+            form.save()
+            room=RoomServer.objects.filter(user__username=user)
+            data['form_is_valid']=True
+            data['html_room_list'] =render_to_string('adminall/room/roomAdminlist.html',{'room':room,'username':user})
+        else:
+            data['form_is_valid']= False
+    context={'form':form,"user":user}
+    print(context)
+    data['html_room_form']= render_to_string(template_name, context, request=request)
+    print(data)
+    return JsonResponse(data)
 #create room 
 def save_room_Admin(request,user,form,template_name):
     data = dict()
-    print(user)
-    
     if request.method =="POST":
+        user = request.POST.get("username")
         user=User.objects.get(username=user)
         if form.is_valid():
             save_method = form.save(commit=False)
@@ -246,6 +260,7 @@ def save_room_Admin(request,user,form,template_name):
             data['html_room_list'] =render_to_string('adminall/room/roomAdminlist.html',{'room':room,'username':user})
         else:
             data['form_is_valid']= False
+
     context={'form':form,'user':user}
     print(context)
     data['html_room_form']= render_to_string(template_name, context, request=request)
@@ -254,15 +269,68 @@ def save_room_Admin(request,user,form,template_name):
 
 def create_roomAdmin(request):
     user = request.POST.get("username")
-    
     form = roomBuildingForm(request.POST or None)
     return save_room_Admin(request,user,form,'adminall/room/createroom.html')
-def update_roomAdmin(request,roomBuilding):
-    user = request.POST.get("username")
-    
-    form = roomBuilding(data=request.POST or None, instance=roomBuilding)
-    return save_room_Admin(request,user,form,'adminall/room/updateroom.html')
+def update_roomAdmin(request):
+    user =  request.GET.get("username")
+    roomBuilding= request.GET.get("room")
+    pk = request.GET.get("pk")
+    room = RoomServer.objects.filter(buildingRoom=roomBuilding)
+    if room.exists():
+        room=RoomServer.objects.get(buildingRoom=roomBuilding)
+        form = roomBuildingForm(instance=room)
+    if request.method =="POST":
+        user =  request.POST.get("username")
+        pk = request.POST.get("pk")
+        room = RoomServer.objects.get(pk=pk)
+        form=roomBuildingForm(request.POST,instance=room)
+    return save_update_Admin(request,pk,user,form,'adminall/room/updateroom.html')
+
+#delete room
+def delete_roomAdmin(request):
+    data=dict()
+    roombuilding= request.GET.get("room")
+    user=request.GET.get("username")
+    if request.method == "POST":
+        user = request.POST.get("username")
+        roombuilding = request.POST.get("pk")
+        room = RoomServer.objects.get(buildingRoom=roombuilding)
+        room.delete()
+        rooms = RoomServer.objects.filter(user__username=user)
+        data['form_is_valid'] = True
+        data['html_room_list']= render_to_string('adminall/room/roomAdminlist.html',{'room':rooms,'username':user})
+    else:
+        context={'room':roombuilding,'user':user}
+        data['html_room_form']= render_to_string('adminall/room/deleteroom.html',context=context,request=request)
+    return JsonResponse(data)
 
 #profile admin
 def adminProfile(request):
-    return render (request,"adminall/")
+    user = request.user
+    profile = request.user.userprofile
+    form = ProfileForm(instance=user)
+    forms = ProfilePic(instance=profile)
+    if request.method =="POST":
+        form= ProfileForm(request.POST)
+        forms= ProfilePic(request.POST,request.FILES,instance=profile)
+        if form.is_valid():
+            form.save()
+        if forms.is_valid():
+            forms.save()
+    content={'form':form,'forms':forms}
+    return render (request,"adminall/profile/profileadmin.html",content)
+
+#adminPassword
+def passwordAdmin(request):
+    data= dict()
+    user= request.user
+    form_reset=resetPasswordForm(data=request.POST,user=user)
+    print(form_reset)
+    if form_reset.is_valid():
+        form_reset.save()
+        data['form_is_valid']=True
+    else:
+        data['form_is_valid']=False
+    data['html_list'] = render_to_string("adminall/profile/changepass.html",{'form_reset':form_reset},request=request)
+  
+    return JsonResponse(data)
