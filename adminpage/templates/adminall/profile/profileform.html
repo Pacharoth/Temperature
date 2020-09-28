@@ -12,7 +12,11 @@
         <div class="col-md-4 border-right">
             
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                {% if request.user.userprofile.img %}
+                <img class="rounded-circle mt-2" src="{{request.user.userprofile.img.url}}" width="120" height="120">
+                {% else %}
                 <img class="rounded-circle mt-2" src="https://source.unsplash.com/QAB-WJcbgJk/60x60" width="120" height="120">
+                {% endif %}
                 <span class="font-weight-bold mt-3">{{request.user}}</span>
                 <span class="text-black-50 mb-1">{{request.user.email}}</span>
                 <!-- <input type="file" name="" id="" style="outline: none; margin-top:15px; margin-bottom:5px; margin-left:50%"> -->

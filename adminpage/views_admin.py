@@ -358,3 +358,17 @@ def searchdateadmin(request):
         room = paginator.page(paginator.num_pages)
     data['html_list']=render_to_string("adminall/history/history.html",{'room':room},request=request)
     return JsonResponse(data)
+
+#userpage
+def userpage(request):
+    user = User.objects.all().order_by('-id')
+    paginator = Paginator(user,8)
+    print(paginator)
+    page = request.GET.get('page',1)
+    try:
+        room = paginator.page(page)
+    except PageNotAnInteger:
+        room = paginator.page(1)
+    except EmptyPage:
+        room = paginator.page(paginator.num_pages)
+    return render(request,"adminall/user/user.html",{"username":room})
