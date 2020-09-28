@@ -372,3 +372,39 @@ def userpage(request):
     except EmptyPage:
         room = paginator.page(paginator.num_pages)
     return render(request,"adminall/user/user.html",{"username":room})
+
+#search user
+def searchUser(request):
+    data= dict()
+    username=request.GET.get("username")
+    user = User.objects.filter(username__startswith=username).order_by('-id')
+    paginator = Paginator(user,8)
+    page = request.GET.get('page',1)
+    try:
+        user = paginator.page(page)
+    except PageNotAnInteger:
+        user = paginator.page(1)
+    except EmptyPage:
+        user = paginator.page(paginator.num_pages)
+    content={
+        'username':user,
+    }
+    data['html_list']= render_to_string("adminall/user/userlist.html",context=content,request=request)
+    return JsonResponse(data)
+
+#Edit user
+def editUser(request):
+    data=dict()
+    content={
+        'room':user,
+    }
+    data['html_form_list']= render_to_string("adminall/user/useredit.html",context=content,request=request)
+    return JsonResponse(data)
+# delete user
+def deleteUser(request):
+    data=dict()
+    content={
+        'room':user,
+    }
+    data['html_form_list']= render_to_string("adminall/user/useredit.html",context=content,request=request)
+    return JsonResponse(data)
