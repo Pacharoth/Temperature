@@ -334,3 +334,27 @@ def passwordAdmin(request):
     data['html_list'] = render_to_string("adminall/profile/changepass.html",{'form_reset':form_reset},request=request)
   
     return JsonResponse(data)
+
+#get history
+def searchdateadmin(request):
+    data = dict()
+    dat= list()
+    room=None
+    roomid = request.GET.get("date_and_day")
+    roomid = datetime.datetime.strptime(roomid,'%Y-%m-%d').date()
+    temperature = TemperatureStore.objects.all()
+    if temperature.exists():
+        for i in temperature:
+            if roomid==i.date:
+                dat.append(i)
+    paginator = Paginator(dat,8)
+    print(paginator)
+    page = request.GET.get('page',1)
+    try:
+        room = paginator.page(page)
+    except PageNotAnInteger:
+        room = paginator.page(1)
+    except EmptyPage:
+        room = paginator.page(paginator.num_pages)
+    data['html_list']=render_to_string("adminall/history/history.html",{'room':room},request=request)
+    return JsonResponse(data)

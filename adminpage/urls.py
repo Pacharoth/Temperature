@@ -49,4 +49,5 @@ urlpatterns = [
     re_path(r"^room/delete/$",views_admin.delete_roomAdmin,name="deleteroomadmin"), 
     # path("profileAdmin/",views_admin.adminApi,name="userform"),
     path("adminpage/api/",views_admin.passwordAdmin,name="passwordadmin"),
+    path("adminpage/search/",views_admin.searchdateadmin,name="searchhistory")
 ]
