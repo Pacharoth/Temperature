@@ -94,11 +94,11 @@ class roomBuildingForm(forms.ModelForm):
         fields =['buildingRoom']
         
 #roomedit form
-class roomEdit(forms.ModelForm):
-    building = forms.CharField(widget=forms.TextInput())
-    class Meta:
-        model = RoomServer
-        fields=['buildingRoom']
+# class roomEdit(forms.ModelForm):
+#     building = forms.CharField(widget=forms.TextInput())
+#     class Meta:
+#         model = RoomServer
+#         fields=['buildingRoom']
 
 #profile pic
 class ProfilePic(forms.ModelForm):
@@ -112,7 +112,8 @@ class ProfilePic(forms.ModelForm):
     
     class Meta:
         model = userProfile
-        fields = ['phone','img']
+        fields = '__all__'
+        exclude=['user']
 
 
 #profile usernamed
@@ -120,7 +121,8 @@ class ProfileForm(forms.ModelForm):
     username = forms.CharField(max_length=200,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Username:'}))
     class Meta:
         model = User
-        fields = ['username']
+        fields = "__all__"
+        exclude = ['email','first_name','last_name','password1','password2']
 
 #form for the generate report 
 WEEK=[(1,"Week1"),(2,"Week2"),(3,"Week3"),(4,"Week4")]  

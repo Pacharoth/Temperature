@@ -1,4 +1,4 @@
-
+{% load static %}
 {% for i in room %}
 <div id="{{i.buildingRoom}}" class="card-room js-load" data-store="{% url 'tempsub' i.buildingRoom %}" value="{{i.buildingRoom}}">
     <div class="header-room">
@@ -22,5 +22,5 @@
         <i class="fas fa-plus"></i>
     </div>
 </button>
-
-{% comment %} <script src="{% static "subadmin/js/room.js" %}"></script> {% endcomment %}
+<script src="{% static "subadmin/js/generatereport/generatereport.js" %}"></script>
+<script src="{% static "subadmin/js/reloadgraph.js" %}"></script>

@@ -172,7 +172,6 @@ def renderAnnuallyReport(request):
     return response
 
 #history admin
-@admin_only
 def historyAdmin(request):
     temperature=TemperatureStore.objects.all().order_by('-date')
     page = request.GET.get('page',1)
@@ -306,18 +305,14 @@ def delete_roomAdmin(request):
     return JsonResponse(data)
 
 #profile admin
-@allow_subadmins(allowed_roles=['admin'])
 def adminProfile(request):
     user = request.user
-    profile=request.user.userprofile
-    forms = ProfilePic(instance=profile)
+    profile = request.user.userprofile
     form = ProfileForm(instance=user)
-    print(forms)
-    if request.method == "POST":
-        form= ProfileForm(request.POST,instance=user)
-        forms = ProfilePic(request.POST,request.FILES,instance=profile)
-        print(forms.is_valid())
-        print(forms.cleaned_data.get("img"))
+    forms = ProfilePic(instance=profile)
+    if request.method =="POST":
+        form= ProfileForm(request.POST)
+        forms= ProfilePic(request.POST,request.FILES,instance=profile)
         if form.is_valid():
             form.save()
         if forms.is_valid():
@@ -337,56 +332,5 @@ def passwordAdmin(request):
     else:
         data['form_is_valid']=False
     data['html_list'] = render_to_string("adminall/profile/changepass.html",{'form_reset':form_reset},request=request)
-    return JsonResponse(data)
-
-#history search
-def searchdateadmin(request):
-    data = dict()
-    dat= list()
-    room=None
-    roomid = request.GET.get("date_and_day")
-    roomid = datetime.datetime.strptime(roomid,'%Y-%m-%d').date()
-    temperature = TemperatureStore.objects.all()
-    if temperature.exists():
-        for i in temperature:
-            if roomid==i.date:
-                dat.append(i)
-    paginator = Paginator(dat,8)
-    page = request.GET.get('page',1)
-    try:
-        room = paginator.page(page)
-    except PageNotAnInteger:
-        room = paginator.page(1)
-    except EmptyPage:
-        room = paginator.page(paginator.num_pages)
-    data['html_list']=render_to_string("adminall/history/history.html",{'room':room},request=request)
-    return JsonResponse(data)
-
-#userpage
-def userpage(request):
-    user = User.objects.all().order_by('-id')
-    paginator = Paginator(user,8)
-    page = request.GET.get('page',1)
-    try:
-        user = paginator.page(page)
-    except PageNotAnInteger:
-        user = paginator.page(1)
-    except EmptyPage:
-        user = paginator.page(paginator.num_pages)
-    return render(request,"adminall/user/user.html",{'username':user})
-
-#search user
-def searchdateadmin(request):
-    data = dict()
-    username = request.GET.get("username")
-    user = User.objects.filter(username__startswith=username)
-    paginator = Paginator(user,8)
-    page = request.GET.get('page',1)
-    try:
-        user = paginator.page(page)
-    except PageNotAnInteger:
-        user = paginator.page(1)
-    except EmptyPage:
-        user = paginator.page(paginator.num_pages)
-    data['html_list']=render_to_string("adminall/user/user.html",{'username':user},request=request)
+  
     return JsonResponse(data)

@@ -11,7 +11,7 @@ from adminpage import views_admin
 urlpatterns = [
 
     #Authenticate Subadmin and Admin
-    path('login/',views.adminLogin,name ="adminLogin"),
+    path('',views.adminLogin,name ="adminLogin"),
     path('logout/',views.logoutpage,name = "logoutpage"),
     path('subadmin/',views.subadmin,name = 'subadmin'),
 
@@ -39,12 +39,14 @@ urlpatterns = [
     re_path(r"^api/year/$",views_admin.avgApiYear,name="apiyear"),
     path('adminpage/',views.adminpage,name = "adminpage"),
     path('adminpage/register/',views.register,name = 'register'),
-    re_path(r'^adminpage/(?P<user>\w+)/',views.checkSubadminPage,name="checksub"),
+    re_path(r'^adminpage/subadmin/(?P<user>\w+)/',views.checkSubadminPage,name="checksub"),
     path('temperature/api/',views_admin.getTemperatureAdmin,name="temperatureadmin"),
     path('sendmail/',views.sendMail,name="sendmail"),
     path("adminpage/history/",views_admin.historyAdmin,name="historyadmin"),
+    path("adminpage/profile/",views_admin.adminProfile,name="adminprofile"),
     re_path(r"^room/createroom/$",views_admin.create_roomAdmin,name="createroomadmin"),
     re_path(r"^room/update/$",views_admin.update_roomAdmin,name="updateroomadmin"),
-    re_path(r"^room/delete/$",views.roomSub_delete,name="deleteroomadmin"), 
-
+    re_path(r"^room/delete/$",views_admin.delete_roomAdmin,name="deleteroomadmin"), 
+    # path("profileAdmin/",views_admin.adminApi,name="userform"),
+    path("adminpage/api/",views_admin.passwordAdmin,name="passwordadmin"),
 ]

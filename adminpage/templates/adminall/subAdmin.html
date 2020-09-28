@@ -118,45 +118,8 @@ Subadmin
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <!-- Heading -->
-      <!-- <div class="sidebar-heading">
-        Interface
-      </div> -->
 
-      <!-- Nav Item - Pages Collapse Menu -->
-      <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Components</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="buttons.html">Buttons</a>
-            <a class="collapse-item" href="cards.html">Cards</a>
-          </div>
-        </div>
-      </li> -->
 
-      <!-- Nav Item - Utilities Collapse Menu -->
-     <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
-          <span>Utilities</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="utilities-color.html">Colors</a>
-            <a class="collapse-item" href="utilities-border.html">Borders</a>
-            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
-          </div>
-        </div>
-      </li>  -->
-
-      <!-- Divider -->
-      <!-- <hr class="sidebar-divider"> -->
 
       <!-- Heading -->
       <div class="sidebar-heading">
@@ -250,7 +213,7 @@ Subadmin
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="edit-profile2.html">
+                <a class="dropdown-item" href="{% url 'adminprofile' %}">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
@@ -290,13 +253,7 @@ Subadmin
 
           </div>
 
-<div class="modal fade" id="CRUDroom">
-  <div class="modal-dialog">
-      <div class="modal-content">
 
-      </div>
-  </div>
-</div>
 
           <!-- Content Row -->
           <div class="row">
@@ -409,8 +366,8 @@ Subadmin
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Dropdown Header:</div>
-                      <button id="{{username}}" class="dropdown-item js-delete-room"><i class="fas fa-trash"></i>Delete</button>
-                      <button id="{{username}}" class="dropdown-item js-update-room" ><i class="fa fa-edit" ></i>Edit Room</button>
+                      <button id="{{username}}" class="dropdown-item js-delete-room" data-url="{% url 'deleteroomadmin' %}" ><i class="fas fa-trash"></i>Delete</button>
+                      <button id="{{username}}" class="dropdown-item js-update-room" data-url="{% url 'updateroomadmin' %}"><i class="fa fa-edit" ></i>Edit Room</button>
                       <!-- <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="#">Something else here</a> -->
                     </div>
@@ -435,182 +392,17 @@ Subadmin
 
   </div>
   <!-- End of Page Wrapper -->
-
+  <div class="modal fade" id="CRUDroom">
+    <div class="modal-dialog">
+        <div class="modal-content">
+  
+        </div>
+    </div>
+  </div>
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-  
-  <div class="modal fade" id="editroom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Room</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="">
-              <div class="modal-body">
-                <div class="form-group">
-                 
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Edit Room" style="width: 100%;">
-                 
-                </div>
-                
-              </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" data-dismiss="modal">submit</button>
-                </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="deleteroom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="">
-              <div class="modal-body">
-                <H5>Are you sure? you want to delete this room.</H5>
-                
-            
-              </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
-                </div>
-        </form>
-      </div>
-    </div>
-  </div>
-      <div class="modal fade" id="generateweek" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Weekly Report</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <form action="">
-                  <div class="modal-body">
-                    
-                    <div class="form-row align-items-center justify-content-center">
-                        <div class="col-auto my-1">
-                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                              <option selected>Week</option>
-                              <option value="1">One</option>
-                              <option value="2">Two</option>
-                              <option value="3">Three</option>
-                          </select>
-                        </div>
-                        <div class="col-auto my-1">
-                          <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                              <option selected>Month</option>
-                              <option value="1">One</option>
-                              <option value="2">Two</option>
-                              <option value="3">Three</option>
-                          </select>
-                        </div>
-                        <div class="col-auto my-1">
-                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                <option selected>Year</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                    </div>
-                  </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary" data-dismiss="modal">submit</button>
-                    </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      
-      
-      <div class="modal fade" id="generatemonth" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Monthly Report</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-          <form action="">
-            <div class="modal-body">
-              
-              <div class="form-row align-items-center justify-content-center">
-                <div class="col-auto my-1">
-                  <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                      <option selected>Month</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                  </select>
-                </div>
-                  <div class="col-auto my-1">
-                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                        <option selected>Year</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                  </div>
-              </div>
-            </div> 
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal">submit</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    
-    <div class="modal fade" id="generateyear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Annual Report</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-          <form action="">
-            <div class="modal-body">
-              
-              <div class="form-row align-items-center justify-content-center">
-
-                <div class="col-auto my-1">
-                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                        <option selected>Year</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal">submit</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -684,9 +476,7 @@ Subadmin
       }
     }
   </script>
- 
-  <script src="{% static "adminpage/js/generatereport.js" %}"></script>
-  
   <script src="{% static "adminpage/js/room/roomdata.js" %}"></script>
+  <script src="{% static "adminpage/js/generatereport.js" %}"></script> 
   <script src="{% static "adminpage/js/chartfile.js" %}"></script>
 {% endblock script %}

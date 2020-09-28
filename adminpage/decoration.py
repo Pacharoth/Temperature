@@ -12,7 +12,7 @@ def unanthenticated_user(view_func):
         if request.user.is_authenticated:
             redirect('adminpage')
         return view_func(request,*args, **kwargs)
-    return wrapper_func
+    return wrapper_func 
 # # example restrict the page
 def allow_subadmins(allowed_roles=[]):
     def decorator(view_func):

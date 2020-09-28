@@ -103,7 +103,7 @@ def profile(request):
     forms = ProfilePic(instance=profile)
     form = ProfileForm(instance=user)
     if request.method == "POST":
-        form = ProfileForm(request.POST,instance=user)
+        form= ProfileForm(request.POST)
         forms = ProfilePic(request.POST,request.FILES,instance=profile)
         print(forms)
         if form.is_valid():
@@ -209,7 +209,7 @@ def create_roomSub(request):
 #update at subadmin
 def update_roomSub(request,roomBuilding):
     user = request.user
-    data=dict
+    data=dict()
     room = RoomServer.objects.filter(buildingRoom=roomBuilding)
     if room.exists():
         room = RoomServer.objects.get(buildingRoom=roomBuilding)
@@ -232,7 +232,7 @@ def roomSub_delete(request,roomBuilding):
             data['html_room_list'] = render_to_string('subadmin/roomlist/listroom.html',{'room':rooms})
         else:
             context = {'room':room}
-            print(context)
+            
             data['html_room_form'] = render_to_string('subadmin/roomlist/deleteroom.html',context,request=request)
     return JsonResponse(data)
 

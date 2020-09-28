@@ -9,9 +9,11 @@ $(".modalf-fake .js-load").click(function(){
             if(data.empty){
                 document.getElementById("avg-year").innerHTML =" ";
                 document.getElementById("avg-monthly").innerHTML=" ";
+                
             }
             else{
-                
+               
+                // document.getElementById("room-delete").innerHTML=another;
                 document.getElementById("avg-year").innerHTML = data.datayear+" (C)";
                 document.getElementById("avg-monthly").innerHTML=data.datamonth+ " (C)";
             }

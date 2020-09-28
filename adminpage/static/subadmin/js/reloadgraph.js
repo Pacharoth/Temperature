@@ -1,15 +1,18 @@
 var endpoint;
+var dataurl;
 $(".content-card .js-load").click(function(){
 
 
 endpoint = $(this).attr("id");
 document.getElementById("building-and-room").innerHTML=endpoint;
+dataurl = endpoint+'/request/';
 function livegraph(){
     $.ajax({
-    url:'/temperature/api/?room='+endpoint,
+    url:dataurl,
     method:'GET',
     dataType:'json',
     success:function(data){
+        console.log(dataurl)
         if(data.temperature && data.date_and_time){
         var dataSet = data.date_and_time;
         var label = data.temperature;
