@@ -49,10 +49,8 @@ def adminpage(request):
 @login_required(login_url='adminLogin')
 @admin_only
 def checkSubadminPage(request,user):
-
     room=RoomServer.objects.filter(user__username=user)
-    username = room[0].user.username
-    return render(request,'adminall/subAdmin.html',{'room':room,'username':username})
+    return render(request,'adminall/subAdmin.html',{'room':room,'username':user})
 
 
 #logout link
@@ -88,8 +86,8 @@ def register(request):
                 'email':email,
                 'password':password,
             })
-            email = EmailMessage(mail_subject,message,to=[email])
-            email.send()
+            # email = EmailMessage(mail_subject,message,to=[email])
+            # email.send()
             messages.success(request,'Account has been created')
         print(form.errors)
         return redirect('register')
@@ -103,7 +101,7 @@ def profile(request):
     forms = ProfilePic(instance=profile)
     form = ProfileForm(instance=user)
     if request.method == "POST":
-        form= ProfileForm(request.POST)
+        form= ProfileForm(request.POST,instance=user)
         forms = ProfilePic(request.POST,request.FILES,instance=profile)
         print(forms)
         if form.is_valid():

@@ -1,3 +1,4 @@
+{% load static %}
 {% if username %}
     {% for user in username %}
     <tr>
@@ -6,15 +7,21 @@
         <td>{{user.userprofile.phone}}</td>
         <td>
         <!-- <button style="font-size: 12px;" type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>&nbsp; -->
-        <button type="button" style="font-size: 10px; color:red;" class="btn" >
+        <button type="button" style="font-size: 10px; color:red;" class="btn js-delete-subadmin"  data-url="{% url 'userdelete' %}?pk={{user.pk}}">
         <i class="fas fa-trash"></i> Delete
         </button>
         
         <!-- Button to Open the Modal for edit user-->
-        <button  style="font-size: 10px; color:blue;" type="button" class="btn" data-url="{% url 'useredit' user.pk %}"><i class="fa fa-edit"></i>Edit</button>
+        <button  style="font-size: 10px; color:blue;" type="button" class="btn js-edit-user" data-url="{% url 'useredit' user.pk %}" ><i class="fa fa-edit"></i>Edit</button>
             
         
         </td>
     </tr>
     {% endfor %}
+    {% else %}
+    <tr>
+        <td colspan="4">No result</td>
+    </tr>
 {% endif %} 
+
+<script src="{% static "adminall/js/user/user.js" %}"></script>

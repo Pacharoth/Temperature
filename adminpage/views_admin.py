@@ -399,17 +399,65 @@ def searchUser(request):
 def editUser(request,pk):
     data=dict()
     form,forms=None,None
-    user = User.objects.get(pk=pk)
-    form = editUserForm(instance=user)
-    forms = phoneForm(instance=user)
+    user = User.objects.filter(pk=pk)
+    if user.exists():
+        user = User.objects.get(pk=pk)
+        form = editUserForm(instance=user)
+        forms = phoneForm(instance=user.userprofile)
+    if request.method =="POST":
+        form = editUserForm(request.POST, instance=user)
+        forms =phoneForm(request.POST,instance=user.userprofile)
+        print(forms.is_valid())
+        if form.is_valid() or forms.is_valid():
+            data['form_is_valid']=True
+            form.save()
+            print(form.save())
+            forms.save()
+            print(forms.save())
+            user = User.objects.all().order_by('-id')
+            paginator = Paginator(user,8)
+            print(paginator)
+            page = request.GET.get('page',1)
+            try:
+                room = paginator.page(page)
+            except PageNotAnInteger:
+                room = paginator.page(1)
+            except EmptyPage:
+                room = paginator.page(paginator.num_pages)
+            data['html_list']=render_to_string("adminall/user/user.html",{"username":room},request=request)
+        else:
+            data['form_is_valid']=False
     content={'form':form,'forms':forms}
     data['html_form_list']= render_to_string("adminall/user/useredit.html",context=content,request=request)
     return JsonResponse(data)
 # delete user
 def deleteUser(request):
     data=dict()
+    pk= request.GET.get("pk")
+    user = User.objects.filter(pk=pk)
+    if user.exists():
+        user =User.objects.get(pk=pk)
+    if request.method=="POST":
+        pk= request.POST.get("pk")
+        print(pk)
+        data['form_is_valid']=True
+        user= User.objects.get(pk=pk)
+        user.delete()
+        user = User.objects.all().order_by('-id')
+        paginator = Paginator(user,8)
+        print(paginator)
+        page = request.GET.get('page',1)
+        try:
+            room = paginator.page(page)
+        except PageNotAnInteger:
+            room = paginator.page(1)
+        except EmptyPage:
+            room = paginator.page(paginator.num_pages)
+        data['html_list']=render_to_string("adminall/user/user.html",{"username":room},request=request)
+    else:
+        data["form_is_valid"]=False
     content={
-        'room':user,
+        'user':user,
     }
-    data['html_form_list']= render_to_string("adminall/user/useredit.html",context=content,request=request)
+    data['html_form_list']= render_to_string("adminall/user/userdelete.html",context=content,request=request)
     return JsonResponse(data)
