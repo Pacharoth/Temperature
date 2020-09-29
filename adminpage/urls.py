@@ -51,4 +51,5 @@ urlpatterns = [
     path("adminpage/api/",views_admin.passwordAdmin,name="passwordadmin"),
     path("adminpage/search/",views_admin.searchdateadmin,name="searchhistory"),
     path("adminpage/user/",views_admin.userpage,name="userpage"),
+    path("adminpage/user/<int:pk>/edit/",views_admin.editUser,name="useredit")
 ]
