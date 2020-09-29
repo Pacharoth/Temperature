@@ -1,6 +1,6 @@
 from django import forms
 from adminpage.models import userProfile,RoomServer
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import UserCreationForm,SetPasswordForm
 from django.utils.translation import ugettext_lazy as _
@@ -121,8 +121,20 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username']
-       
 
+#form user edit
+class editUserForm(forms.ModelForm):
+    username = forms.CharField(max_length=200,widget= forms.TextInput(attrs={"class":"form-control","placeholder":"Username"})) 
+    email = forms.EmailField(max_length=250,widget= forms.EmailInput(attrs={'class':'form-control','placeholder':'Email'}))
+    class Meta:
+        model = User
+        fields =['username','email']
+      
+class editGroupForm(forms.ModelForm):
+    name = forms.ChoiceField(widget=forms.Select(attrs={'class':' custom-select mr-sm-2'}),choices=[(data.name,data.name) for data in Group.objects.all()])
+    class Meta:
+        model = Group
+        fields=['name']
 #form for the generate report 
 WEEK=[(1,"Week1"),(2,"Week2"),(3,"Week3"),(4,"Week4")]  
 YEAR_VALID=[(data,data) for data in range(2012,3000)]

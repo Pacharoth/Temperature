@@ -9,4 +9,5 @@ function search(){
             $(".js-pagination").html(data.html_pagination)
         }
     })
-}   
+}
+   

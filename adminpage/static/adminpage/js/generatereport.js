@@ -2,8 +2,8 @@ var report = document.getElementById("room-number").innerHTML
 console.log(report)
 if (report==""){
     $(".generate-report").hide();
-    console.log($(".generate-report"))
-    console.log(report)
+    // console.log($(".generate-report"))
+    // console.log(report)
 }
 $('.modalf-fake .js-load').click(function(){
     setTimeout(()=>{
