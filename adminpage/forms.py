@@ -126,15 +126,21 @@ class ProfileForm(forms.ModelForm):
 class editUserForm(forms.ModelForm):
     username = forms.CharField(max_length=200,widget= forms.TextInput(attrs={"class":"form-control","placeholder":"Username"})) 
     email = forms.EmailField(max_length=250,widget= forms.EmailInput(attrs={'class':'form-control','placeholder':'Email'}))
+    groups= forms.ChoiceField(widget=forms.Select(attrs={'class':'custom-select mr-sm-2 '},choices=[(data.pk,data.name) for data in Group.objects.all()]))
     class Meta:
         model = User
-        fields =['username','email']
+        fields =['username','email','groups']
       
 class editGroupForm(forms.ModelForm):
     name = forms.ChoiceField(widget=forms.Select(attrs={'class':' custom-select mr-sm-2'}),choices=[(data.name,data.name) for data in Group.objects.all()])
     class Meta:
         model = Group
         fields=['name']
+class phoneForm(forms.ModelForm):
+    phone= forms.CharField(max_length=100,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Phone Number:'}))
+    class Meta:
+        model = userProfile
+        fields = ['phone']
 #form for the generate report 
 WEEK=[(1,"Week1"),(2,"Week2"),(3,"Week3"),(4,"Week4")]  
 YEAR_VALID=[(data,data) for data in range(2012,3000)]

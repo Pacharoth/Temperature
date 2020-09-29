@@ -5,13 +5,15 @@ from adminpage.views import (
     ,Q,datetime)
 from adminpage.models import TemperatureStore,RoomServer,userProfile,TemperatureRoom
 import os
+
 from adminpage.utils import monthList
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.contrib.staticfiles import finders
-from adminpage.forms import choiceForm_weekly,choiceForm_annually,choiceForm_monthly,resetPasswordForm
+from adminpage.forms import (choiceForm_weekly,choiceForm_annually,
+                            choiceForm_monthly,resetPasswordForm,editGroupForm,phoneForm,editUserForm)
 from adminpage.utils import weekList,monthList,annuallyList
 from adminpage.forms import roomBuildingForm,ProfileForm,ProfilePic
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
@@ -394,11 +396,11 @@ def searchUser(request):
     return JsonResponse(data)
 
 #Edit user
-def editUser(request):
+def editUser(request,user):
     data=dict()
-    content={
-        'room':user,
-    }
+    form = editUserForm(instance=user)
+    forms = phoneForm(instance=user)
+    content={'form':form,'forms':forms}
     data['html_form_list']= render_to_string("adminall/user/useredit.html",context=content,request=request)
     return JsonResponse(data)
 # delete user
