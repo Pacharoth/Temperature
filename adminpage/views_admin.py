@@ -396,8 +396,10 @@ def searchUser(request):
     return JsonResponse(data)
 
 #Edit user
-def editUser(request,user):
+def editUser(request,pk):
     data=dict()
+    form,forms=None,None
+    user = User.objects.get(pk=pk)
     form = editUserForm(instance=user)
     forms = phoneForm(instance=user)
     content={'form':form,'forms':forms}

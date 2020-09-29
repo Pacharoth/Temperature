@@ -1,5 +1,5 @@
 
-<form method="POST" action="" class="js-create-user">
+<form method="POST" action="{% url 'useredit' form.instance.pk %}" class="js-create-user">
     {% csrf_token %}
     <div class="modal-header">
         <h5 class="modal-title"><i class="fas fa-user-edit"></i>  Edit User</h5>
