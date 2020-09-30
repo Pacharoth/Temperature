@@ -8,8 +8,8 @@
     - [x] Live graph temperature
     - [x] Alert to admin
     - [ ] Turn off the server
-    - [ ] CRUD Sub Admin
-    - [ ] Profile
+    - [x] CRUD Sub Admin
+    - [x] Profile
     - [x] History
   - [x] Sub Admin site:
     - [x] CRUD Room
