@@ -1,7 +1,8 @@
 $(function(){
     function searchUser(){
+        
         $.ajax({
-            url:'/adminpage/searchuser/user/?username='+$(this).val(),
+            url:'/adminpage/searchuser/user/?username='+$("#searchUser").val(),
             type:"GET",
             dataType:"json",
             success:function(data){
@@ -37,7 +38,7 @@ $(function(){
             success:function(data){
                 console.log(form.serialize())
                 if (data.form_is_valid){
-                    $("body").html(data.html_list)
+                    $(".js-change-list").html(data.html_list)
                     $("#CRUDroom").modal("hide")
                     
                 }else{
@@ -57,7 +58,7 @@ $(function(){
              success:function(data){
                  console.log(form.serialize())
                  if (data.form_is_valid){
-                     $("body").html(data.html_list)
+                     $(".js-change-list").html(data.html_list)
                      $("#CRUDroom").modal("hide")
                      
                  }else{
@@ -71,6 +72,6 @@ $(function(){
     $('#CRUDroom').on("submit",".js-change-user",saveUser);
     $('.js-delete-subadmin').click(loadUser);
     $("#CRUDroom").on("submit",".js-delete-user",saveDelete);
-    $("#searchUser").keyup(searchUser);
+    $("#js-search").click(searchUser);
 })
     

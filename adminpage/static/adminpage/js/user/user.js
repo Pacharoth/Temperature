@@ -1,7 +1,8 @@
 $(function(){
     function searchUser(){
+        
         $.ajax({
-            url:'/adminpage/searchuser/user/?username='+$(this).val(),
+            url:'/adminpage/searchuser/user/?username='+$("#searchUser").val(),
             type:"GET",
             dataType:"json",
             success:function(data){
@@ -71,6 +72,6 @@ $(function(){
     $('#CRUDroom').on("submit",".js-change-user",saveUser);
     $('.js-delete-subadmin').click(loadUser);
     $("#CRUDroom").on("submit",".js-delete-user",saveDelete);
-    $("#searchUser").keyup(searchUser);
+    $("#js-search").click(searchUser);
 })
     

@@ -78,7 +78,7 @@ def register(request):
             group = Group.objects.get(name = "subadmin")
             user.groups.add(group)
             pObj =User.objects.get(username=username)
-            userProfile(user = pObj).save()
+            userProfile(user = pObj,phone="none").save()
             mail_subject = "Activate your account as subadmin"
             message = render_to_string('email/emailverify.html',{
                 'user':user,
