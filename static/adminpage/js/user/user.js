@@ -1,4 +1,16 @@
 $(function(){
+    function searchUser(){
+        $.ajax({
+            url:'/adminpage/searchuser/user/?username='+$(this).val(),
+            type:"GET",
+            dataType:"json",
+            success:function(data){
+                console.log(data)
+                $('.js-change-list').html(data.html_list)
+            }
+
+        })
+    }
     var button;
     function loadUser(){
         button = $(this).attr("data-url")
@@ -35,9 +47,30 @@ $(function(){
         });
         return false;
     };
+    var saveDelete = function(){
+        var form = $(this)
+         $.ajax({
+             url:form.attr("action"),
+             data:form.serialize()+form.attr("id"),
+             type:form.attr("method"),
+             dataType:"json",
+             success:function(data){
+                 console.log(form.serialize())
+                 if (data.form_is_valid){
+                     $("body").html(data.html_list)
+                     $("#CRUDroom").modal("hide")
+                     
+                 }else{
+                     $('#CRUDroom .modal-content').html(data.html_form_list)
+                 }
+             }
+         });
+         return false;
+     };
     $('.js-edit-user').click(loadUser);
     $('#CRUDroom').on("submit",".js-change-user",saveUser);
     $('.js-delete-subadmin').click(loadUser);
-    $("#CRUDroom").on("submit",".js-delete-user",saveUser);
+    $("#CRUDroom").on("submit",".js-delete-user",saveDelete);
+    $("#searchUser").keyup(searchUser);
 })
     

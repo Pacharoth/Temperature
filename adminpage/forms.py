@@ -103,12 +103,7 @@ class roomBuildingForm(forms.ModelForm):
 #profile pic
 class ProfilePic(forms.ModelForm):
     phone= forms.CharField(max_length=100,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Phone Number:'}))
-    # img = forms.ImageField(max_length=5,widget=forms.FileInput(attrs={'class':'form-control'}))
-    def clean_phone(self):
-        phonenumber = self.cleaned_data.get('phone')
-        if phonenumber is None or phonenumber == "":
-            raise forms.ValidationError(_("Please insert phone number and pic"))
-        return phonenumber
+    # img = forms.ImageField(max_length=5,widget=forms.FileInput(attrs={'style':'margin-left:50%'}))
     
     class Meta:
         model = userProfile

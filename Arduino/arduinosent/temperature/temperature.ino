@@ -12,17 +12,18 @@ float c1 = 1.009249522e-03, c2 = 2.378405444e-04, c3 = 2.019202697e-07;
 //assign mac address ip in network or arduino
 
 byte mac[] = { 0x98, 0x4F, 0xEE, 0x02, 0x06, 0xC3 };
-IPAddress ip(192, 168,100, 35); //assign any ip that arduino mapped
+IPAddress ip(192, 168,1,28); //assign any ip that arduino mapped
 unsigned int localPort = 5000; //listen port can assign any
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
 String Request; //string to read
 EthernetUDP Udp;
 int packetSize;
-IPAddress server(192,168,100,29); //ip server to send back
+IPAddress server(192,168,1,113); //ip server to send back
 
 void setup(){
     Serial.begin(9600);//Turn on Serial Port for programming and config only
     Ethernet.begin(mac,ip);
+    system("ifconfig eth0 up");
     Udp.begin(localPort); //Start listen to port
 }
 
@@ -35,7 +36,7 @@ void loop(){
         String Request(packetBuffer);
         //check request if get temperature string so send temperature back
         //do that is less error
-        if (Request == 'temperature'){
+        if (Request == "temperature"){
             Vo = analogRead(ThermistorPin);
             R2 = R1 * (1023.0 / (float)Vo - 1.0);
             logR2 = log(R2);

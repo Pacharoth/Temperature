@@ -133,7 +133,9 @@ input[type=submit]:hover {
         {{form}}
         <button type="submit" class="btn btn-primary" style="background-color: #4e73df;
          color: white;">Register Account</button>
-        {{form.errorlist}}
+        {% if form.errors %}
+            {{form.errors}}
+        {% endif %}
             {% if messages %}
         {% for message in messages %}
        <div class = "message">   <p>{{message}}</p></div>

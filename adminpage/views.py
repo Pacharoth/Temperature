@@ -3,6 +3,7 @@ from adminpage.forms import (loginForm,registerForm,
                             roomBuildingForm,ProfileForm,ProfilePic,
                             resetPasswordForm)
 from django.contrib import messages
+import time
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.contrib.sites.shortcuts import get_current_site
@@ -69,16 +70,15 @@ def register(request):
         form = registerForm(request.POST or None)
         if form.is_valid():
             user = form.save()
+            username = form.cleaned_data.get("username")
             email = form.cleaned_data.get('email')
-            pObj =User.objects.get(username=user)
-            pSave = userProfile(user = pObj).save()
-            print(pSave)
             password = form.cleaned_data.get('password2')
-            print(password)
             current_site = get_current_site(request)
+            print(username)
             group = Group.objects.get(name = "subadmin")
-            print(group)
             user.groups.add(group)
+            pObj =User.objects.get(username=username)
+            userProfile(user = pObj).save()
             mail_subject = "Activate your account as subadmin"
             message = render_to_string('email/emailverify.html',{
                 'user':user,
@@ -86,8 +86,8 @@ def register(request):
                 'email':email,
                 'password':password,
             })
-            # email = EmailMessage(mail_subject,message,to=[email])
-            # email.send()
+            email = EmailMessage(mail_subject,message,to=[email])
+            email.send()
             messages.success(request,'Account has been created')
         print(form.errors)
         return redirect('register')
