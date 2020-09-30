@@ -1,0 +1,5 @@
+$('.generate-report').click(()=>{
+    $.ajax(
+        
+    )
+})

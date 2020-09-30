@@ -1,5 +1,5 @@
-
-<form method="POST" action="{% url 'useredit' form.instance.pk %}" class="js-create-user">
+{% load static %}
+<form method="POST" action="{% url 'useredit' form.instance.pk %}" class="js-change-user">
     {% csrf_token %}
     <div class="modal-header">
         <h5 class="modal-title"><i class="fas fa-user-edit"></i>  Edit User</h5>
@@ -27,10 +27,10 @@
             <small id="emailHelp" class="form-text text-muted">Rename phone number</small>
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">Phone number</label>
+            <label for="exampleInputEmail1">Group</label>
             <!-- <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"> -->
            {{form.groups}}
-            <small id="emailHelp" class="form-text text-muted">Rename username like pach to roeun</small>
+            <small id="emailHelp" class="form-text text-muted">Change group</small>
         </div>
         {% if formss.errors %}
             {{formss.errors}}

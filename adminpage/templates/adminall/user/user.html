@@ -3,6 +3,7 @@
 User
 {% endblock title %}
 {% block style %}
+{% load static %}
 {% endblock style %}
 {% block content %}
  <div id="wrapper">
@@ -78,9 +79,9 @@ User
           <!-- Topbar Search -->
           <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+              <input type="text" class="form-control bg-light border-0 small" placeholder="Search User" id="searchUser">
               <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button id="js-search" class="btn btn-primary " type="button">
                   <i class="fas fa-search fa-sm"></i>
                 </button>
               </div>
@@ -142,56 +143,9 @@ User
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+        <div class="container-fluid js-change-list" id="change-list">
 
-            <i style='font-size:20px;' class='mt-2 ml-2 mb-2 fas'>&#xf406;&nbsp; <h6 style="float: right; font-size: 20px;">Users</h6></i>
-
-            <table class="table border:1px shadow p-3 mb-5 bg-white rounded" style="text-align: center;">
-            <thead>
-                <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone_Number</th>
-                <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-               {% include 'adminall/user/userlist.html' %}
-            </tbody>
-            </table>        
-{% if username.has_other_pages %}
-    <ul class="pagination" style="padding-left: 5%; padding-bottom: 2%;">
-    {% if username.has_previous %}
-        <li class="page-item">
-            <span><a href="?page={{username.previous_page_number }}" class="page-link" style="font-size: 12px;" >&laquo;</a></span>
-        </li>
-    {% else %}
-        <li class="disabled">
-            <span><a  class="page-link disabled"  style="font-size: 12px;" >&laquo;</a></span>
-        </li>
-    {% endif %}
-    {% for i in username.paginator.page_range %}
-        {% if username.number == i %}
-            <li class="page-item">
-                <span><a class="page-link" style="font-size: 12px;" >{{i}}</a></span>
-            </li>
-        {% else %}
-            <li class="page-item">
-                <span><a href="?page={{i}}" class="page-link" style="font-size: 12px;" >{{i}}</a></span>
-            </li>
-        {% endif %}
-    {% endfor %}
-    {% if username.has_next %}
-        <li class="page-item">
-            <span><a href="?page={{username.next_page_number}}" class="page-link" style="font-size: 12px;" >&raquo;</a></span>
-        </li>
-    {% else %}
-        <li class="disabled">
-            <span><a  class="page-link" style="font-size: 12px;" >&raquo;</a></span>
-        </li>
-    {% endif %}
-    </ul>
-{% endif %}
+          {% include "adminall/user/userlist.html" %}      
          
         </div>
       </div>
@@ -234,4 +188,5 @@ User
 
 {% endblock %}
 {% block script %}
+<script src="{% static "adminpage/js/user/user.js" %}"></script>
 {% endblock script %}

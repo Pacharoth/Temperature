@@ -3,6 +3,7 @@ from adminpage.forms import (loginForm,registerForm,
                             roomBuildingForm,ProfileForm,ProfilePic,
                             resetPasswordForm)
 from django.contrib import messages
+import time
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.contrib.sites.shortcuts import get_current_site
@@ -49,10 +50,8 @@ def adminpage(request):
 @login_required(login_url='adminLogin')
 @admin_only
 def checkSubadminPage(request,user):
-
     room=RoomServer.objects.filter(user__username=user)
-    username = room[0].user.username
-    return render(request,'adminall/subAdmin.html',{'room':room,'username':username})
+    return render(request,'adminall/subAdmin.html',{'room':room,'username':user})
 
 
 #logout link
@@ -71,16 +70,15 @@ def register(request):
         form = registerForm(request.POST or None)
         if form.is_valid():
             user = form.save()
+            username = form.cleaned_data.get("username")
             email = form.cleaned_data.get('email')
-            pObj =User.objects.get(username=user)
-            pSave = userProfile(user = pObj).save()
-            print(pSave)
             password = form.cleaned_data.get('password2')
-            print(password)
             current_site = get_current_site(request)
+            print(username)
             group = Group.objects.get(name = "subadmin")
-            print(group)
             user.groups.add(group)
+            pObj =User.objects.get(username=username)
+            userProfile(user = pObj,phone="none").save()
             mail_subject = "Activate your account as subadmin"
             message = render_to_string('email/emailverify.html',{
                 'user':user,
@@ -103,7 +101,7 @@ def profile(request):
     forms = ProfilePic(instance=profile)
     form = ProfileForm(instance=user)
     if request.method == "POST":
-        form= ProfileForm(request.POST)
+        form= ProfileForm(request.POST,instance=user)
         forms = ProfilePic(request.POST,request.FILES,instance=profile)
         print(forms)
         if form.is_valid():

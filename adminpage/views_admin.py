@@ -88,8 +88,10 @@ def renderWeeklyReport(request):
     room,week,month,year = post("room"),post("week_form"),post("month_form"),post("year_form")
     template_path="pdfweek.html"
     context=dict()
+    print(room)
     data,avg = weekList(room,int(week),int(month),int(year))
     temperature =TemperatureStore.objects.filter(room__buildingRoom=room)
+    print(temperature)
     if temperature.exists():
         temperature=temperature[0]
     context={
@@ -194,7 +196,8 @@ def avgApiYear(request):
     print(room)
     year = datetime.datetime.now().year
     monthly = datetime.datetime.now().month
-    temperature =TemperatureStore.objects.filter(room__buildingRoom=room)
+    temperature =TemperatureStore.objects.filter(room__buildingRoom=str(room))
+    print(temperature)
     if temperature.exists():
         data['empty']=False
         datavg,avgmonth,month,avgyear=annuallyList(room,year)
@@ -381,6 +384,8 @@ def searchUser(request):
     data= dict()
     username=request.GET.get("username")
     user = User.objects.filter(username__startswith=username).order_by('-id')
+    # if user.exists():
+    #     user= User.objects.get(username=username)
     paginator = Paginator(user,8)
     page = request.GET.get('page',1)
     try:
@@ -399,17 +404,65 @@ def searchUser(request):
 def editUser(request,pk):
     data=dict()
     form,forms=None,None
-    user = User.objects.get(pk=pk)
-    form = editUserForm(instance=user)
-    forms = phoneForm(instance=user)
+    user = User.objects.filter(pk=pk)
+    if user.exists():
+        user = User.objects.get(pk=pk)
+        form = editUserForm(instance=user)
+        forms = phoneForm(instance=user.userprofile)
+    if request.method =="POST":
+        form = editUserForm(request.POST, instance=user)
+        forms =phoneForm(request.POST,instance=user.userprofile)
+        print(forms.is_valid())
+        if form.is_valid() or forms.is_valid():
+            data['form_is_valid']=True
+            form.save()
+            print(form.save())
+            forms.save()
+            print(forms.save())
+            user = User.objects.all().order_by('-id')
+            paginator = Paginator(user,8)
+            print(paginator)
+            page = request.GET.get('page',1)
+            try:
+                room = paginator.page(page)
+            except PageNotAnInteger:
+                room = paginator.page(1)
+            except EmptyPage:
+                room = paginator.page(paginator.num_pages)
+            data['html_list']=render_to_string("adminall/user/userlist.html",{"username":room},request=request)
+        else:
+            data['form_is_valid']=False
     content={'form':form,'forms':forms}
     data['html_form_list']= render_to_string("adminall/user/useredit.html",context=content,request=request)
     return JsonResponse(data)
 # delete user
 def deleteUser(request):
     data=dict()
+    pk= request.GET.get("pk")
+    user = User.objects.filter(pk=pk)
+    if user.exists():
+        user =User.objects.get(pk=pk)
+    if request.method=="POST":
+        pk= request.POST.get("pk")
+        print(pk)
+        data['form_is_valid']=True
+        user= User.objects.get(pk=pk)
+        user.delete()
+        user = User.objects.all().order_by('-id')
+        paginator = Paginator(user,8)
+        print(paginator)
+        page = request.GET.get('page',1)
+        try:
+            room = paginator.page(page)
+        except PageNotAnInteger:
+            room = paginator.page(1)
+        except EmptyPage:
+            room = paginator.page(paginator.num_pages)
+        data['html_list']=render_to_string("adminall/user/userlist.html",{"username":room},request=request)
+    else:
+        data["form_is_valid"]=False
     content={
-        'room':user,
+        'user':user,
     }
-    data['html_form_list']= render_to_string("adminall/user/useredit.html",context=content,request=request)
+    data['html_form_list']= render_to_string("adminall/user/userdelete.html",context=content,request=request)
     return JsonResponse(data)

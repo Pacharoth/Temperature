@@ -85,6 +85,7 @@ var id;
                     $(".content-card").html(data.html_room_list);
                     $("#CRUDroom").modal("hide");
                     document.getElementById("room-number").innerHTML=""
+                    $(".generate-report").hide();
                 }
                 else{
                     $("#CRUDroom .modal-content").html(data.html_room_form);
