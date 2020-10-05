@@ -4,6 +4,9 @@ History
 {% endblock title %}
 {% block style %}
   {% load static %}
+  <style>
+
+  </style>
 {% endblock style %}
 {% block content %}
 <!-- Page Wrapper -->
@@ -80,8 +83,8 @@ History
 
           <!-- Topbar Search -->
           <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group" onchange="searchItem()">
+              <input type="text" class="form-control bg-light border-0 small" placeholder="Search User" id="search" aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
                 <button class="btn btn-primary" type="button">
                   <i class="fas fa-search fa-sm"></i>
@@ -147,29 +150,36 @@ History
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid ml-2 mr-2 " style="background-color: white;box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 4px 8px rgba(0, 0, 0, .1);">
+        <div class="container-fluid ml-2 mr-2 " style="background-color: white;box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 4px 8px rgba(0, 0, 0, .1); overflow-x: auto;">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-1">
             <h1 class="h3 mb-0 mt-2 text-gray-800">History</h1>
-          
-            <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+       
           </div>
           <div class="date ">
             <div class="row">
-              <div class="col-lg-8">
-                <h5 class="h5 mt-2 text-gray">Today-<span id="date"></span></h5>
-              </div>
               <div class="col-lg-4">
-                <div class="form-group" style="float:right">
-                  <!-- <label for="formGroupExampleInput">Date</label> -->
-                  <input type="Date" class="form-control" id="formGroupExampleInput" onchange="search()" >
-                </div>
+                <h5 class="h5 mt-2 text-gray">Today, <span id="date"></span></h5>
+              </div>
+              <div class="col-lg-8">
+              <div class="row" onchange="search()">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <input type="search" class="form-control " placeholder="Searh User" name="" id="user">
+                  </div>
+                </div>       
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <input type="Date" class="form-control" id="formGroupExampleInput" >     
+                  </div>
+                </div>              
+              </div>
               </div>
             </div>
           </div>
-
-            <table class="table table-bordered " style=" background-color:white">
+          
+            <table class="table table-bordered " style=" background-color:white;">
               <thead style="text-align: center; color:black">
                 <tr>
                   <th scope="col">No</th>
@@ -191,10 +201,6 @@ History
         </div>
       </div>
     </div>
-    <!-- End of Content Wrapper -->
-
-  </div>
-  <!-- End of Page Wrapper -->
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
@@ -227,5 +233,6 @@ History
   var date =today.getDate().toString()+'-'+(today.getMonth()+1)+'-'+ today.getFullYear();
   document.getElementById('date').innerHTML = date;
 </script>
+<script src="{% static "adminpage/js/user/adminpage.js" %}"></script>
 <script src="{% static "adminpage/js/history/history.js" %}"></script>
 {% endblock script %}
