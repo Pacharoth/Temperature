@@ -28,7 +28,7 @@ while True:
             count+=1
         mytemperature = [{
 			"id":count,
-			"room_id":1,
+			"room_id":7,
 			"Temperature":float(decode_data),
 			"date_and_time":datetime_object,
 		}

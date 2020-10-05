@@ -5,7 +5,6 @@ from adminpage.views import (
     ,Q,datetime)
 from adminpage.models import TemperatureStore,RoomServer,userProfile,TemperatureRoom
 import os
-
 from adminpage.utils import monthList
 from django.conf import settings
 from django.http import HttpResponse
@@ -337,7 +336,18 @@ def passwordAdmin(request):
     else:
         data['form_is_valid']=False
     data['html_list'] = render_to_string("adminall/profile/changepass.html",{'form_reset':form_reset},request=request)
-  
+    return JsonResponse(data)
+
+#search card
+def searchcard(request):
+    user = request.GET.get("user") or None
+    data= dict()
+    username=None
+    if user is not None:
+        username = User.objects.filter(username__icontains=user)
+    else:
+        username= User.objects.all()
+    data['html_list'] = render_to_string("adminall/adminpage.html",{'user':username},request=request)
     return JsonResponse(data)
 
 #get history
@@ -345,13 +355,26 @@ def searchdateadmin(request):
     data = dict()
     dat= list()
     room=None
-    roomid = request.GET.get("date_and_day")
-    roomid = datetime.datetime.strptime(roomid,'%Y-%m-%d').date()
+    roomid = request.GET.get("date_and_day") or None
+    user = request.GET.get("user") or None
+    print(user)
+    print(roomid)
+    if roomid is not None:
+        roomid = datetime.datetime.strptime(roomid,'%Y-%m-%d').date()
     temperature = TemperatureStore.objects.all()
     if temperature.exists():
-        for i in temperature:
-            if roomid==i.date:
-                dat.append(i)
+        if user is not None and roomid is not None:
+            for i in temperature:
+                if roomid == i.date and user == i.room.user.username:
+                    dat.append(i)
+        elif roomid is not None and user is None:
+            for i in temperature:
+                if roomid == i.date:
+                    dat.append(i)
+        elif roomid is None and user is not None:
+            for i in temperature:
+                if user == i.room.user.username:
+                    dat.append(i)
     paginator = Paginator(dat,8)
     print(paginator)
     page = request.GET.get('page',1)
@@ -383,9 +406,7 @@ def userpage(request):
 def searchUser(request):
     data= dict()
     username=request.GET.get("username")
-    user = User.objects.filter(username__startswith=username).order_by('-id')
-    # if user.exists():
-    #     user= User.objects.get(username=username)
+    user = User.objects.filter(username__icontains=username).order_by('-id')
     paginator = Paginator(user,8)
     page = request.GET.get('page',1)
     try:

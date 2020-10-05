@@ -34,7 +34,6 @@ urlpatterns = [
     re_path(r'^download/monthly$',renderMonthlyReport,name="generatepdfmonth"),
     re_path(r'^download/annually$',renderAnnuallyReport,name="generatepdfannual"),
 
-
     #Admin url
     re_path(r"^api/year/$",views_admin.avgApiYear,name="apiyear"),
     path('adminpage/',views.adminpage,name = "adminpage"),
@@ -47,11 +46,11 @@ urlpatterns = [
     re_path(r"^room/createroom/$",views_admin.create_roomAdmin,name="createroomadmin"),
     re_path(r"^room/update/$",views_admin.update_roomAdmin,name="updateroomadmin"),
     re_path(r"^room/delete/$",views_admin.delete_roomAdmin,name="deleteroomadmin"), 
-    # path("profileAdmin/",views_admin.adminApi,name="userform"),
     path("adminpage/api/",views_admin.passwordAdmin,name="passwordadmin"),
     path("adminpage/search/",views_admin.searchdateadmin,name="searchhistory"),
     path("adminpage/user/",views_admin.userpage,name="userpage"),
     path("adminpage/user/<int:pk>/edit/",views_admin.editUser,name="useredit"),
     path("adminpage/user/delete/",views_admin.deleteUser,name="userdelete"),
     path("adminpage/searchuser/user/",views_admin.searchUser,name="searchUser"),
+    path("adminpage/searchcard/",views_admin.searchcard,name="searchcard")
 ]

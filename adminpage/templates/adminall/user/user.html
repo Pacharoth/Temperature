@@ -4,6 +4,9 @@ User
 {% endblock title %}
 {% block style %}
 {% load static %}
+<style>
+
+</style>
 {% endblock style %}
 {% block content %}
  <div id="wrapper">
@@ -143,7 +146,7 @@ User
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid js-change-list" id="change-list">
+        <div class="container-fluid js-change-list" id="change-list" style="overflow-x: auto; ">
 
           {% include "adminall/user/userlist.html" %}      
          

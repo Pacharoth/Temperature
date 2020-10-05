@@ -165,8 +165,8 @@ Subadmin
 
           <!-- Topbar Search -->
           <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group" onchange="searchItem()" >
+              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." id="search" aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
                 <button class="btn btn-primary" type="button">
                   <i class="fas fa-search fa-sm"></i>
@@ -355,7 +355,7 @@ Subadmin
           <div class="row">
 
             <!-- Area Chart -->
-            <div class="col-xl-8 col-lg-7">
+            <div class="col-xl-12 col-lg-12">
               <div class="card shadow mb-4 ml-3">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -476,6 +476,8 @@ Subadmin
       }
     }
   </script>
+  <script src="{% static "adminpage/js/user/adminpage.js" %}"></script>
+
   <script src="{% static "adminpage/js/room/roomdata.js" %}"></script>
   <script src="{% static "adminpage/js/generatereport.js" %}"></script> 
   <script src="{% static "adminpage/js/chartfile.js" %}"></script>
