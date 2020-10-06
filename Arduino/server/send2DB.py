@@ -4,10 +4,10 @@ import datetime
 from pymongo import MongoClient
 import pymongo
 
-address = ('192.168.1.28',5000)   #address to send
+address = ('103.142.5.12',5000)   #address to send
 client_socket = socket(AF_INET,SOCK_DGRAM) #using user diagram protocol to send
 client_socket.settimeout(1) # wait only 1 second
-client_socket.bind(('192.168.1.113',5000)) #bind the ip to listen from arduino
+client_socket.bind(('103.142.5.14',5000)) #bind the ip to listen from arduino
 
 #db
 myclient= pymongo.MongoClient("mongodb://localhost:27017/")

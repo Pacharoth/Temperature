@@ -12,18 +12,21 @@ float c1 = 1.009249522e-03, c2 = 2.378405444e-04, c3 = 2.019202697e-07;
 //assign mac address ip in network or arduino
 
 byte mac[] = { 0x98, 0x4F, 0xEE, 0x02, 0x06, 0xC3 };
-IPAddress ip(192, 168,1,28); //assign any ip that arduino mapped
+IPAddress ip(103, 142,5,12); //assign any ip that arduino mapped
 unsigned int localPort = 5000; //listen port can assign any
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
 String Request; //string to read
 EthernetUDP Udp;
 int packetSize;
-IPAddress server(192,168,1,113); //ip server to send back
+IPAddress server(103,142,5,14); //ip server to send back
 
 void setup(){
     Serial.begin(9600);//Turn on Serial Port for programming and config only
     Ethernet.begin(mac,ip);
-    system("ifconfig eth0 up");
+    
+    system("chmod 666 /dev/ttyAM0");
+    system("ifconfig eth0 > /dev/ttyAM0");
+    system("chmod +x /sketch/sketch.elf");
     Udp.begin(localPort); //Start listen to port
 }
 
