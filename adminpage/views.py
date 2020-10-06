@@ -108,7 +108,8 @@ def profile(request):
             form.save()
         if forms.is_valid():
             forms.save()
-    return render (request,'admin/profile.html',{'user':user,'form':form,'forms':forms})
+    content={'user':user,'form':form,'forms':forms}
+    return render (request,'admin/profile.html',content)
 #password modal
 def passwordView(request):
     data= dict()
