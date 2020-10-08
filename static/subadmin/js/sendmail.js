@@ -9,4 +9,4 @@ var sendmail= function(){
     }
 })
 }
-setInterval(sendmail,6000)
+setInterval(sendmail,2000)
