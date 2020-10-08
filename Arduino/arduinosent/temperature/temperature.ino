@@ -23,13 +23,9 @@ IPAddress server(103,142,5,14); //ip server to send back
 void setup(){
     Serial.begin(9600);//Turn on Serial Port for programming and config only
     Ethernet.begin(mac,ip);
-    
-    system("chmod 666 /dev/ttyAM0");
-    system("ifconfig eth0 > /dev/ttyAM0");
-    system("chmod +x /sketch/sketch.elf");
     Udp.begin(localPort); //Start listen to port
 }
-
+ 
 void loop(){
     packetSize = Udp.parsePacket();
 
