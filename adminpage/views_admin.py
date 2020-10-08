@@ -375,7 +375,7 @@ def searchdateadmin(request):
             for i in temperature:
                 if user == i.room.user.username:
                     dat.append(i)
-    paginator = Paginator(dat,8)
+    paginator = Paginator(dat,5)
     print(paginator)
     page = request.GET.get('page',1)
     try:
@@ -391,7 +391,7 @@ def searchdateadmin(request):
 #userpage
 def userpage(request):
     user = User.objects.all().order_by('-id')
-    paginator = Paginator(user,8)
+    paginator = Paginator(user,5)
     print(paginator)
     page = request.GET.get('page',1)
     try:
@@ -407,7 +407,7 @@ def searchUser(request):
     data= dict()
     username=request.GET.get("username")
     user = User.objects.filter(username__icontains=username).order_by('-id')
-    paginator = Paginator(user,8)
+    paginator = Paginator(user,5)
     page = request.GET.get('page',1)
     try:
         user = paginator.page(page)
@@ -441,7 +441,7 @@ def editUser(request,pk):
             forms.save()
             print(forms.save())
             user = User.objects.all().order_by('-id')
-            paginator = Paginator(user,8)
+            paginator = Paginator(user,5)
             print(paginator)
             page = request.GET.get('page',1)
             try:
@@ -470,7 +470,7 @@ def deleteUser(request):
         user= User.objects.get(pk=pk)
         user.delete()
         user = User.objects.all().order_by('-id')
-        paginator = Paginator(user,8)
+        paginator = Paginator(user,5)
         print(paginator)
         page = request.GET.get('page',1)
         try:
