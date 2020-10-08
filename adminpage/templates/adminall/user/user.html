@@ -5,7 +5,9 @@ User
 {% block style %}
 {% load static %}
 <style>
-
+  body{
+    overflow: auto;
+  }
 </style>
 {% endblock style %}
 {% block content %}
@@ -103,9 +105,9 @@ User
               <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for User"  id="searchUser" aria-label="Search" aria-describedby="basic-addon2">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for User" id="searchUser1" aria-label="Search" aria-describedby="basic-addon2">
                     <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
+                      <button id="jssearch" class="btn btn-primary" type="button">
                         <i class="fas fa-search fa-sm"></i>
                       </button>
                     </div>
@@ -146,7 +148,7 @@ User
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid js-change-list" id="change-list" style="overflow-x: auto; ">
+        <div class="container-fluid js-change-list" id="change-list" style="overflow-x:auto; ">
 
           {% include "adminall/user/userlist.html" %}      
          

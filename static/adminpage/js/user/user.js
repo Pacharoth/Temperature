@@ -1,8 +1,19 @@
 $(function(){
     function searchUser(){
-        
         $.ajax({
             url:'/adminpage/searchuser/user/?username='+$("#searchUser").val(),
+            type:"GET",
+            dataType:"json",
+            success:function(data){
+                console.log(data)
+                $('.js-change-list').html(data.html_list)
+            }
+
+        })
+    }
+    function searchUser1(){
+        $.ajax({
+            url:'/adminpage/searchuser/user/?username='+$("#searchUser1").val(),
             type:"GET",
             dataType:"json",
             success:function(data){
@@ -73,5 +84,7 @@ $(function(){
     $('.js-delete-subadmin').click(loadUser);
     $("#CRUDroom").on("submit",".js-delete-user",saveDelete);
     $("#js-search").click(searchUser);
+    $("#jssearch").click(searchUser1);
+
 })
     
