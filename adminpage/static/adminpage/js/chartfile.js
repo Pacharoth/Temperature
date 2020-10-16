@@ -1,6 +1,6 @@
 var another;
 $(".modalf-fake .js-load").click(function(){
-    console.log($(this));
+    // console.log($(this));
     another=$(this).attr("id")
     $.ajax({
         url:'/api/year/?room='+another,
@@ -23,7 +23,7 @@ $(".modalf-fake .js-load").click(function(){
 })
 $(".modalf-fake .js-load").click(function(){
 
-console.log($(this))
+// console.log($(this))
 another = $(this).attr("id");
 document.getElementById("room-number").innerHTML=another;
 function livegraph(){
