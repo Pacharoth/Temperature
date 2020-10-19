@@ -433,13 +433,17 @@ def editUser(request,pk):
     if request.method =="POST":
         form = editUserForm(request.POST, instance=user)
         forms =phoneForm(request.POST,instance=user.userprofile)
-        print(forms.is_valid())
         if form.is_valid() or forms.is_valid():
+            emaildata = form.cleaned_data.get("email")
+            email = User.objects.filter(email=emaildata)
+            print(email)
+            if email.exists():
+                data['form_is_valid']=False 
+            else:
+                data['form_is_valid']=True
+                form.save()
             data['form_is_valid']=True
-            form.save()
-            print(form.save())
             forms.save()
-            print(forms.save())
             user = User.objects.all().order_by('-id')
             paginator = Paginator(user,5)
             print(paginator)
