@@ -19,12 +19,12 @@ String Request; //string to read
 EthernetUDP Udp;
 int packetSize;
 //IPAddress server(192,168,51,212); //ip server to send back
-IPAddress server(192,168,51,235);
+IPAddress server(192,168,51,212);
 
 void setup(){
     
     Serial.begin(9600);//Turn on Serial Port for programming and config only
-    Ethernet.begin(mac,ip);
+    Ethernet.begin(mac,Ethernet.localIP());
     system("chmod 666 /dev/ttyACM0");
     Udp.begin(localPort); //Start listen to port
 }
