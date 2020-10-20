@@ -264,7 +264,7 @@ def sendMail(request):
     room = TemperatureRoom.objects.all().order_by('-date_and_time')[:5]
     if room.exists():
         for data in room:
-            if data.Temperature < 20:
+            if data.Temperature > 23:
                 print(data.Temperature)
                 current_site = get_current_site(request)
                 mail_subject = "Warning The temperature is Too High" 

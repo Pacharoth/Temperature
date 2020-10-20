@@ -25,7 +25,7 @@ while True:
         print(decode_data)
         datetime_object = datetime.datetime.now()
         for i in mycol.find():
-            count+=1
+            count = i['id']+1
         mytemperature = [{
 			"id":count,
 			"room_id":7,
