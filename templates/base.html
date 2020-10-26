@@ -1,9 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <style>
+    body{
+      background-color: #f0f2f5;
+    }
+  </style>
 {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="{% static "icon/css/all.css" %}">
+    <link rel="stylesheet" href="{% static "chartjs/css/Chart.css" %} ">
+    <link rel="stylesheet" href="{% static "chartjs/css/Chart.min.css" %}">
+   <script src="{% static "chartjs/js/Chart.bundle.js" %}"></script>
+   <script src="{% static "chartjs/js/Chart.bundle.min.js" %}"></script>
+  <script src="{% static "chartjs/js/Chart.js" %}"></script>  
+  <script src="{% static "chartjs/js/Chart.min.js" %}"></script>
+      <link rel="stylesheet" href="{% static "adminpage/css/content.css" %}">
+    <link rel="stylesheet" href="{% static "adminpage/css/chartcontent.css" %}">
+    <link rel="stylesheet" href="{% static "adminpage/css/sidebar.css" %}">
+    <link rel="stylesheet" href="{% static "adminpage/css/dropdown.css" %}">
+      <link rel="stylesheet" href="{% static "adminpage/css/navbar.css" %}">
     {% block style %}
     
     

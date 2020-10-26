@@ -24,13 +24,14 @@ IPAddress server(192,168,51,212);
 void setup(){
     
     Serial.begin(9600);//Turn on Serial Port for programming and config only
-    Ethernet.begin(mac,Ethernet.localIP());
     system("chmod 666 /dev/ttyACM0");
+    Ethernet.begin(mac,Ethernet.localIP());
     Udp.begin(localPort); //Start listen to port
 }
  
 void loop(){
     packetSize = Udp.parsePacket();
+    Serial.println(Ethernet.localIP());
     //Serial.print("Hello");
     //check if there anyone send
 //    if(packetSize>0){
@@ -47,7 +48,7 @@ void loop(){
             T = T - 273.15;
             Udp.beginPacket(server,localPort); //initialize server and port to send
             Udp.print(T); //send temp to that port
-            Serial.print(server);
+            Serial.println(server);
             Udp.endPacket();
         //}
         delay(1000);

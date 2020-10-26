@@ -5,14 +5,7 @@ History
 {% block style %}
   {% include "bootstrap.html" %}
   {% load static %}
-  <link rel="stylesheet" href="{% static "adminpage/css/navbar.css" %}">
   <link rel="stylesheet" href="{% static "icon/css/all.css" %}">
-
-    
-    <link rel="stylesheet" href="{% static "adminpage/css/content.css" %}">
-    <link rel="stylesheet" href="{% static "adminpage/css/chartcontent.css" %}">
-    <link rel="stylesheet" href="{% static "adminpage/css/sidebar.css" %}">
-    <link rel="stylesheet" href="{% static "adminpage/css/dropdown.css" %}">
     <link rel="stylesheet" href="{% static "adminpage/css/history.css" %}">
     <style>
         body{
@@ -126,7 +119,7 @@ History
 {% block script %}
 <script src="{% static "subadmin/js/history/pagination.js" %}"></script>
 
-<script src="{% static "adminpage/js/modal.js" %}"></script>
-<script src="{% static "adminpage/js/dropdown.js" %}"></script>
+<!-- <script src="{% static "adminpage/js/modal.js" %}"></script>
+<script src="{% static "adminpage/js/dropdown.js" %}"></script> -->
 
 {% endblock script %}

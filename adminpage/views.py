@@ -258,13 +258,19 @@ def getTemperatureSub(request,roomBuilding):
         return JsonResponse(data)
     return JsonResponse(data)
 
+
+
 #send mail alert
 def sendMail(request):
+    count = 0
     dat=dict()
-    room = TemperatureRoom.objects.all().order_by('-date_and_time')[:5]
+    room = TemperatureRoom.objects.all().order_by('-date_and_time')[:15]
     if room.exists():
         for data in room:
-            if data.Temperature > 23:
+            if data.Temperature >=27:
+                count +=1
+                print(count)
+            if count >=10:
                 print(data.Temperature)
                 current_site = get_current_site(request)
                 mail_subject = "Warning The temperature is Too High" 
