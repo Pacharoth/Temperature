@@ -7,5 +7,5 @@ var resetperday = function(){
         }
     })
 }
-setInterval(resetperday,24*3600*1000)
+setInterval(resetperday,24*3600*1000);
 // setInterval(resetperday,7000)
