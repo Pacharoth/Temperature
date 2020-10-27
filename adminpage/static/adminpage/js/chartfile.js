@@ -1,6 +1,6 @@
 var another;
 $(".modalf-fake .js-load").click(function(){
-    // console.log($(this));
+
     another=$(this).attr("id")
     $.ajax({
         url:'/api/year/?room='+another,
@@ -23,7 +23,7 @@ $(".modalf-fake .js-load").click(function(){
 })
 $(".modalf-fake .js-load").click(function(){
 
-// console.log($(this))
+
 another = $(this).attr("id");
 document.getElementById("room-number").innerHTML=another;
 function livegraph(){
@@ -56,7 +56,7 @@ function livegraph(){
 
 }
 // document.getElementById("myModal").style.display="none"; 
-setInterval(livegraph,5000);
+setInterval(livegraph,1000);
 
 
 } );      

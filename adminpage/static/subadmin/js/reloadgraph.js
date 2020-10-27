@@ -34,7 +34,7 @@ function livegraph(){
 
 }
 // document.getElementById("myModal").style.display="none"; 
-setInterval(livegraph,5000);
+setInterval(livegraph,1000);
 
 
 } );      

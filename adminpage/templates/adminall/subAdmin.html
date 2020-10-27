@@ -423,6 +423,13 @@ Subadmin
   </div>
 {% endblock content %}
 {% block script %}
+<script>
+  $(function(){
+    $(".js-hide").click(function(){
+      $(".modalf-fake").hide("slow");
+    })
+  })
+</script>
   <script>
     var modal = []
     var btn=[]
