@@ -1,0 +1,12 @@
+#!/bin/sh
+python3 /var/www/html/Temperature/Arduino/server/send2DB.py
+
+//script target
+[Unit]
+Description = My Temperature
+
+[Service]
+ExecStart=/etc/init.d/arduino.sh
+
+[Install]
+WantedBy=multi-user.target

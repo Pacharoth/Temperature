@@ -266,7 +266,7 @@ def sendMail(request):
     if room.exists():
         for data in room:
             if data.Temperature>=25:
-                count +=1
+                count += 1
             if count >=10:
                 print(count)
                 current_site = get_current_site(request)
@@ -281,7 +281,6 @@ def sendMail(request):
                 email = TemperatureRoom.objects.filter(room__buildingRoom=data.room.buildingRoom)[0].room.user.email
                 email = EmailMessage(mail_subject,message,to=[email])
                 email.send()
-                count = 0
                 return JsonResponse(dat)
     return JsonResponse(dat)
 
