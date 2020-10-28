@@ -268,9 +268,6 @@ def sendMail(request):
         for data in room:
             dataload.append(data.Temperature)
             if data.Temperature>=25:
-                count += 1
-            if count >=10:
-                print(count)
                 current_site = get_current_site(request)
                 mail_subject = "Warning The temperature is Too High" 
                 user = TemperatureRoom.objects.filter(room__buildingRoom=data.room.buildingRoom)[0].room.user
