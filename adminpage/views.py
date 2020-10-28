@@ -242,7 +242,7 @@ def getTemperatureSub(request,roomBuilding):
     time=list()
     room=""
     graph = str(roomBuilding)
-    user = TemperatureRoom.objects.filter(room__buildingRoom = graph).order_by("-date_and_time")[:5]
+    user = TemperatureRoom.objects.filter(room__buildingRoom = graph).order_by("-date_and_time")[:10]
     if user.exists():
         for data in user:
             temper = float("%.2f"%(data.Temperature))
