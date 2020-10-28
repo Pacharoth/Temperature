@@ -13,7 +13,7 @@ from django.contrib.auth import logout,login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group,User
 from adminpage.decoration import authenticate,unanthenticated_user,allow_subadmins,admin_only
-
+import json
 from django.views.generic import View
 from django.db.models import Avg
 import datetime
@@ -262,9 +262,11 @@ def getTemperatureSub(request,roomBuilding):
 def sendMail(request):
     dat=dict()
     count=0
+    dataload=list()
     room = TemperatureRoom.objects.all().order_by('-date_and_time')[:15]
     if room.exists():
         for data in room:
+            dataload.append(data.Temperature)
             if data.Temperature>=25:
                 count += 1
             if count >=10:
@@ -281,7 +283,10 @@ def sendMail(request):
                 email = TemperatureRoom.objects.filter(room__buildingRoom=data.room.buildingRoom)[0].room.user.email
                 email = EmailMessage(mail_subject,message,to=[email])
                 email.send()
-                return JsonResponse(dat)
+            # return JsonResponse(dat)
+        dat={
+            'data':dataload,
+        }
     return JsonResponse(dat)
 
 #reset the data for an hour and put it back

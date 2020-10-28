@@ -1,11 +1,11 @@
-var resetperday = function(){
-    $.ajax({
-        url:'/resetperday/',
-        method:'GET',
-        success:function(data){
+// var resetperday = function(){
+//     $.ajax({
+//         url:'/resetperday/',
+//         method:'GET',
+//         success:function(data){
 
-        }
-    })
-}
-setInterval(resetperday,24*3600*1000);
+//         }
+//     })
+// }
+// setInterval(resetperday,24*3600*1000);
 // setInterval(resetperday,3000)

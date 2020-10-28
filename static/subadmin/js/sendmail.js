@@ -1,12 +1,12 @@
 
-var sendmail= function(){
-    $.ajax({
-    url:'/sendmail/',
-    type:'get',
-    dataType:'json',
-    success:function(data){
+// var sendmail= function(){
+//     $.ajax({
+//     url:'/sendmail/',
+//     type:'get',
+//     dataType:'json',
+//     success:function(data){
 
-    }
-})
-}
-setInterval(sendmail,5000)
+//     }
+// })
+// }
+// setInterval(sendmail,5000)
