@@ -20,6 +20,7 @@ import datetime
 from django.db.models import Q
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
+
 # Create your views here.
 @unanthenticated_user
 def adminLogin(request):
@@ -268,6 +269,8 @@ def sendMail(request):
         for data in room:
             dataload.append(data.Temperature)
             if data.Temperature>=25:
+                count+=1
+            if count>=10:
                 current_site = get_current_site(request)
                 mail_subject = "Warning The temperature is Too High" 
                 user = TemperatureRoom.objects.filter(room__buildingRoom=data.room.buildingRoom)[0].room.user

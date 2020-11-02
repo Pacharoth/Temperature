@@ -7,4 +7,4 @@ while(True):
     p=r.json()['data']
     for i in p:
         if i>25:
-            time.sleep(3600)
+            time.sleep(600)

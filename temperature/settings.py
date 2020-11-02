@@ -124,7 +124,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -134,7 +134,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 # AUTHENTICATION_BACKENDS = (
 #     # Needed to login by username in Django admin, regardless of `allauth`

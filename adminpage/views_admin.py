@@ -16,6 +16,9 @@ from adminpage.forms import (choiceForm_weekly,choiceForm_annually,
 from adminpage.utils import weekList,monthList,annuallyList
 from adminpage.forms import roomBuildingForm,ProfileForm,ProfilePic
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from asgiref.sync import sync_to_async
+import httpx
+import pytz
 
 def link_callback(uri, rel):
     """
@@ -211,7 +214,6 @@ def getTemperatureAdmin(request):
     data=dict()
     temp=list()
     time=list()
-    
     roomBuilding= request.GET.get("room")
     graph = roomBuilding
     print(graph)
@@ -221,10 +223,10 @@ def getTemperatureAdmin(request):
             temper = float("%.2f"%(data.Temperature))
             room= data.room
             temp.append(temper)
-            time.append(data.date_and_time.time())
+            time.append(data.date_and_time.now(pytz.timezone('Asia/Phnom_Penh')).time())
+        print(time)
         print(temp.reverse())
         data={
-            
             'room':str(room.buildingRoom),
             'temperature':temp,
             'date_and_time':time,
