@@ -8,3 +8,4 @@ while(True):
     for i in p:
         if i>25:
             time.sleep(600)
+            break
