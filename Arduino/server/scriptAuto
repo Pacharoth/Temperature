@@ -10,3 +10,14 @@ ExecStart=/etc/init.d/arduino.sh
 
 [Install]
 WantedBy=multi-user.target
+
+[Unit]
+Description = uvicorn daemon
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/var/www/html/Temperature
+ExecStart=/bin/uvicorn temperature.asgi:application --port=8081 --ssl-keyfile=./mycert.key --ssl-certfile=./mycert.pem
+[Install]
+WantedBy=sockets.target
+
