@@ -3,7 +3,8 @@ import time
 import datetime
 from pymongo import MongoClient
 import pymongo
-
+from pytz import timezone
+asia = timezone('Asia/Phnom_Penh')
 #address = ('192.168.1.112',5000)   #address to send
 client_socket = socket(AF_INET,SOCK_DGRAM) #using user diagram protocol to send
 client_socket.settimeout(1) # wait only 1 second
@@ -23,7 +24,7 @@ while True:
         decode_data = rec_data.decode()
         count = 1
         print(decode_data)
-        datetime_object = datetime.datetime.now()
+        datetime_object = datetime.datetime.now(asia)
         for i in mycol.find():
             count = i['id']+1
         mytemperature = [{

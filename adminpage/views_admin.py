@@ -61,11 +61,9 @@ def generateMonthlyForm(request):
     data=dict()
     room = request.GET.get("room")
     form = choiceForm_monthly(request.POST or None)
-    print(room)
     if form.is_valid():
         data['form_is_valid']=True
         template_path="generatereport/pdfymonth.html"
-        print(room)
         
     else:
         data['form_is_valid'] = False
@@ -75,7 +73,6 @@ def generateAnnuallyForm(request):
     data=dict()
     room = request.GET.get("room")
     form = choiceForm_annually(request.POST or None)
-    print(room)
     if form.is_valid():
         data['form_is_valid'] =True
         template_path="generatereport/pdfyear.html"
@@ -90,10 +87,8 @@ def renderWeeklyReport(request):
     room,week,month,year = post("room"),post("week_form"),post("month_form"),post("year_form")
     template_path="pdfweek.html"
     context=dict()
-    print(room)
     data,avg = weekList(room,int(week),int(month),int(year))
     temperature =TemperatureStore.objects.filter(room__buildingRoom=room)
-    print(temperature)
     if temperature.exists():
         temperature=temperature[0]
     context={
@@ -195,11 +190,9 @@ def historyAdmin(request):
 def avgApiYear(request):
     data = dict()
     room = request.GET.get("room")
-    print(room)
     year = datetime.datetime.now().year
     monthly = datetime.datetime.now().month
     temperature =TemperatureStore.objects.filter(room__buildingRoom=str(room))
-    print(temperature)
     if temperature.exists():
         data['empty']=False
         datavg,avgmonth,month,avgyear=annuallyList(room,year)
@@ -209,23 +202,20 @@ def avgApiYear(request):
         data['empty']=True
     return JsonResponse(data)
 
-
+# @sync_to_async
 def getTemperatureAdmin(request):
     data=dict()
     temp=list()
     time=list()
     roomBuilding= request.GET.get("room")
     graph = roomBuilding
-    print(graph)
     user = TemperatureRoom.objects.filter(room__buildingRoom = graph).order_by("-date_and_time")[:10]
     if user.exists():
         for data in user:
             temper = float("%.2f"%(data.Temperature))
             room= data.room
             temp.append(temper)
-            time.append(data.date_and_time.now(pytz.timezone('Asia/Phnom_Penh')).time())
-        print(time)
-        print(temp.reverse())
+            time.append(data.date_and_time.time())
         data={
             'room':str(room.buildingRoom),
             'temperature':temp,
@@ -238,7 +228,6 @@ def save_update_Admin(request,pk,user,form,template_name):
     data = dict()
     if request.method =="POST":
         if form.is_valid():
-            print(form.cleaned_data['buildingRoom'])
             form.save()
             room=RoomServer.objects.filter(user__username=user)
             data['form_is_valid']=True
@@ -246,9 +235,7 @@ def save_update_Admin(request,pk,user,form,template_name):
         else:
             data['form_is_valid']= False
     context={'form':form,"user":user}
-    print(context)
     data['html_room_form']= render_to_string(template_name, context, request=request)
-    print(data)
     return JsonResponse(data)
 #create room 
 def save_room_Admin(request,user,form,template_name):
@@ -258,7 +245,6 @@ def save_room_Admin(request,user,form,template_name):
         user=User.objects.get(username=user)
         if form.is_valid():
             save_method = form.save(commit=False)
-            print(save_method.user)
             save_method.user = user
             save_method.save()
             room=RoomServer.objects.filter(user__username=user)
@@ -268,9 +254,7 @@ def save_room_Admin(request,user,form,template_name):
             data['form_is_valid']= False
 
     context={'form':form,'user':user}
-    print(context)
     data['html_room_form']= render_to_string(template_name, context, request=request)
-    print(data)
     return JsonResponse(data)
 
 def create_roomAdmin(request):
@@ -331,7 +315,6 @@ def passwordAdmin(request):
     data= dict()
     user= request.user
     form_reset=resetPasswordForm(data=request.POST,user=user)
-    print(form_reset)
     if form_reset.is_valid():
         form_reset.save()
         data['form_is_valid']=True
@@ -359,8 +342,6 @@ def searchdateadmin(request):
     room=None
     roomid = request.GET.get("date_and_day") or None
     user = request.GET.get("user") or None
-    print(user)
-    print(roomid)
     if roomid is not None:
         roomid = datetime.datetime.strptime(roomid,'%Y-%m-%d').date()
     temperature = TemperatureStore.objects.all()
@@ -378,7 +359,6 @@ def searchdateadmin(request):
                 if user == i.room.user.username:
                     dat.append(i)
     paginator = Paginator(dat,5)
-    print(paginator)
     page = request.GET.get('page',1)
     try:
         room = paginator.page(page)
@@ -394,7 +374,6 @@ def searchdateadmin(request):
 def userpage(request):
     user = User.objects.all().order_by('-id')
     paginator = Paginator(user,5)
-    print(paginator)
     page = request.GET.get('page',1)
     try:
         room = paginator.page(page)
@@ -438,7 +417,6 @@ def editUser(request,pk):
         if form.is_valid() or forms.is_valid():
             emaildata = form.cleaned_data.get("email")
             email = User.objects.filter(email=emaildata)
-            print(email)
             if email.exists():
                 data['form_is_valid']=False 
             else:
@@ -448,7 +426,6 @@ def editUser(request,pk):
             forms.save()
             user = User.objects.all().order_by('-id')
             paginator = Paginator(user,5)
-            print(paginator)
             page = request.GET.get('page',1)
             try:
                 room = paginator.page(page)
@@ -471,13 +448,11 @@ def deleteUser(request):
         user =User.objects.get(pk=pk)
     if request.method=="POST":
         pk= request.POST.get("pk")
-        print(pk)
         data['form_is_valid']=True
         user= User.objects.get(pk=pk)
         user.delete()
         user = User.objects.all().order_by('-id')
         paginator = Paginator(user,5)
-        print(paginator)
         page = request.GET.get('page',1)
         try:
             room = paginator.page(page)
