@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm,SetPasswordForm
 from django.utils.translation import ugettext_lazy as _
 from adminpage.utils import weekList
 from django.core.exceptions import ValidationError
+import datetime
 #login form
 class loginForm(forms.Form):
     email = forms.CharField(min_length=8,widget=forms.EmailInput(attrs={'style':'border: 1px solid #dddfe2;','placeholder':'Email:'}))
@@ -138,7 +139,7 @@ class phoneForm(forms.ModelForm):
         fields = ['phone']
 #form for the generate report 
 WEEK=[(1,"Week1"),(2,"Week2"),(3,"Week3"),(4,"Week4")]  
-YEAR_VALID=[(data,data) for data in range(2012,3000)]
+YEAR_VALID=[(data,data) for data in range(2012,datetime.date.today().year+1)]
 MONTH_VALID=[(1,'Jan'),
             (2,'Feb'),
             (3,'Mar'),
@@ -151,13 +152,14 @@ MONTH_VALID=[(1,'Jan'),
             (10,'Oct'),
             (11,'Nov'),
             (12,'Dec')]
+
 class choiceForm_weekly(forms.Form):
     error_messages = {
         'password_mismatch': _('The two password fields didn’t match.'),
     }
     week_form=forms.ChoiceField(widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=WEEK)
     month_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=MONTH_VALID)
-    year_form= forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=YEAR_VALID)
+    year_form= forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=YEAR_VALID,initial=datetime.date.today().year)
     def cleanform(self,room):
         week= self.cleaned_data.get("week_form")
         month=self.cleaned_data.get("month_form")
@@ -166,7 +168,7 @@ class choiceForm_weekly(forms.Form):
         return dataweek,avg,week,month,year
 class choiceForm_monthly(forms.Form):
     month_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':' custom-select mr-sm-2'}),choices=MONTH_VALID)
-    year_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=YEAR_VALID)
+    year_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=YEAR_VALID,initial=datetime.date.today().year)
 
 class choiceForm_annually(forms.Form):
-    year_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=YEAR_VALID)
+    year_form = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'custom-select mr-sm-2'}),choices=YEAR_VALID,initial=datetime.date.today().year)

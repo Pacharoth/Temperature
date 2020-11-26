@@ -468,3 +468,5 @@ def deleteUser(request):
     }
     data['html_form_list']= render_to_string("adminall/user/userdelete.html",context=content,request=request)
     return JsonResponse(data)
+def pathclass(request):
+    return render(request,"component/sidebar.html")
