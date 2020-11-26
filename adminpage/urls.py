@@ -52,5 +52,6 @@ urlpatterns = [
     path("adminpage/user/<int:pk>/edit/",views_admin.editUser,name="useredit"),
     path("adminpage/user/delete/",views_admin.deleteUser,name="userdelete"),
     path("adminpage/searchuser/user/",views_admin.searchUser,name="searchUser"),
-    path("adminpage/searchcard/",views_admin.searchcard,name="searchcard")
+    path("adminpage/searchcard/",views_admin.searchcard,name="searchcard"),
+    path('adminpage/sidebar/',views_admin.pathclass)
 ]
