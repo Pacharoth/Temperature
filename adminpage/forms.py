@@ -117,6 +117,7 @@ class editUserForm(forms.ModelForm):
     username = forms.CharField(max_length=200,widget= forms.TextInput(attrs={"class":"form-control","placeholder":"Username"})) 
     email = forms.EmailField(max_length=250,widget= forms.EmailInput(attrs={'class':'form-control','placeholder':'Email'}))
     groups= forms.Select(attrs={'class':' form-control custom-select mr-sm-2'})
+  
 
     class Meta:
         model = User

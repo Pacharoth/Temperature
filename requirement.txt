@@ -4,4 +4,6 @@ djangorestframework
 django.util.six
 xhtml2pdf
 django-easy-pdf
+django-user-unique-email
+uvicorn
 

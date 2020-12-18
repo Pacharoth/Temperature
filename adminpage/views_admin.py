@@ -16,7 +16,6 @@ from adminpage.forms import (choiceForm_weekly,choiceForm_annually,
 from adminpage.utils import weekList,monthList,annuallyList
 from adminpage.forms import roomBuildingForm,ProfileForm,ProfilePic
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
-from asgiref.sync import sync_to_async
 import httpx
 import pytz
 
@@ -415,10 +414,15 @@ def editUser(request,pk):
         form = editUserForm(request.POST, instance=user)
         forms =phoneForm(request.POST,instance=user.userprofile)
         if form.is_valid() or forms.is_valid():
+            dataGroup = form.cleaned_data.get("groups")
+            
             emaildata = form.cleaned_data.get("email")
             email = User.objects.filter(email=emaildata)
             if email.exists():
                 data['form_is_valid']=False 
+                form.groups = dataGroup
+                form.email = "cant change"
+                form.save()
             else:
                 data['form_is_valid']=True
                 form.save()

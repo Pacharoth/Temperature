@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'adminpage.apps.AdminpageConfig',
-    
     # 'django.contrib.sites',
 
     # 3rd party
@@ -58,7 +57,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'temperature.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -75,9 +73,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'temperature.asgi.application'
+ASGI_APPLICATION = 'temperature.wsgi.application'
 
-
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -134,8 +132,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
-
+AUTH_USER_EMAIL_UNIQUE = True
 # AUTHENTICATION_BACKENDS = (
 #     # Needed to login by username in Django admin, regardless of `allauth`
 #     "django.contrib.auth.backends.ModelBackend",
