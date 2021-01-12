@@ -23,7 +23,7 @@ class RoomServer(models.Model):
 class TemperatureRoom(models.Model):
     room = models.ForeignKey(RoomServer,null=True,on_delete=models.CASCADE)
     Temperature = models.FloatField()
-    date_and_time = models.DateTimeField(default=now())
+    date_and_time = models.DateTimeField(default=datetime.datetime.now(timezone('Asia/Phnom_Penh')))
 
 
 class TemperatureStore(models.Model):

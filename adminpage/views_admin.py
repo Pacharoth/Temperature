@@ -17,7 +17,8 @@ from adminpage.utils import weekList,monthList,annuallyList
 from adminpage.forms import roomBuildingForm,ProfileForm,ProfilePic
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 import httpx
-import pytz
+from pytz import timezone
+from django.utils.timezone import now,activate,localtime 
 
 def link_callback(uri, rel):
     """
@@ -214,7 +215,8 @@ def getTemperatureAdmin(request):
             temper = float("%.2f"%(data.Temperature))
             room= data.room
             temp.append(temper)
-            time.append(data.date_and_time.time())
+            activate(timezone('Asia/Phnom_Penh'))
+            time.append(localtime(data.date_and_time).time())
         data={
             'room':str(room.buildingRoom),
             'temperature':temp,
