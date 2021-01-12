@@ -6,6 +6,6 @@ while(True):
     print(r)
     p=r.json()['data']
     for i in p:
-        if i>25:
+        if i>=25:
             time.sleep(600)
             break

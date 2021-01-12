@@ -285,6 +285,7 @@ def sendMail(request):
                     'temperature': data.Temperature,
                     'domain':current_site,
                 })
+                time.sleep(1)
                 email = TemperatureRoom.objects.filter(room__buildingRoom=data.room.buildingRoom)[0].room.user.email
                 email = EmailMessage(mail_subject,message,EMAIL_HOST_USER,to=[email])
                 mail = {"i":email.send(fail_silently=True)}
