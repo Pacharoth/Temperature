@@ -22,19 +22,19 @@ while True:
     try:
         rec_data ,addr =client_socket.recvfrom(2048)
         decode_data = rec_data.decode()
-        count = 1
+        count = 0
         print(decode_data)
         datetime_object = datetime.datetime.now(timezone('Asia/Phnom_Penh')).strftime("%Y-%m-%dT%H:%M:%S%z")
         convertTodateTime =datetime.datetime.strptime(datetime_object,"%Y-%m-%dT%H:%M:%S%z")
         for i in mycol.find():
-            count = i['id']+1
+            count = count+1
         mytemperature = [{
 			"id":count,
-			"room_id":7,
+			"room_id":1,
 			"Temperature":float(decode_data),
 			"date_and_time":convertTodateTime,
 		}
-	]
+	    ]
         databasemany = mycol.insert_many(mytemperature)
         print (databasemany)
     except:
