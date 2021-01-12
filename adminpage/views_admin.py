@@ -415,13 +415,11 @@ def editUser(request,pk):
         forms =phoneForm(request.POST,instance=user.userprofile)
         if form.is_valid() or forms.is_valid():
             dataGroup = form.cleaned_data.get("groups")
-            
             emaildata = form.cleaned_data.get("email")
             email = User.objects.filter(email=emaildata)
             if email.exists():
                 data['form_is_valid']=False 
                 form.groups = dataGroup
-                form.email = "cant change"
                 form.save()
             else:
                 data['form_is_valid']=True
