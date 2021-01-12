@@ -8,4 +8,4 @@
 //     })
 // }
 // setInterval(resetperday,24*3600*1000);
-// setInterval(resetperday,3000)
+// setInterval(resetperday,7000)

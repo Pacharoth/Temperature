@@ -19,6 +19,7 @@ from django.db.models import Avg
 import datetime
 from django.db.models import Q
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from temperature.settings import EMAIL_HOST_USER
 
 
 # Create your views here.
@@ -87,8 +88,11 @@ def register(request):
                 'email':email,
                 'password':password,
             })
-            email = EmailMessage(mail_subject,message,to=[email])
+            time.sleep(1)
+            print(email)
+            email = EmailMessage(mail_subject,message,EMAIL_HOST_USER,to=[email])
             email.send()
+            print(email.send())
             messages.success(request,'Account has been created')
         print(form.errors)
         return redirect('register')
@@ -263,6 +267,7 @@ def getTemperatureSub(request,roomBuilding):
 def sendMail(request):
     dat=dict()
     count=0
+    mail=dict()
     dataload=list()
     room = TemperatureRoom.objects.all().order_by('-date_and_time')[:15]
     if room.exists():
@@ -281,11 +286,13 @@ def sendMail(request):
                     'domain':current_site,
                 })
                 email = TemperatureRoom.objects.filter(room__buildingRoom=data.room.buildingRoom)[0].room.user.email
-                email = EmailMessage(mail_subject,message,to=[email])
-                email.send()
+                email = EmailMessage(mail_subject,message,EMAIL_HOST_USER,to=[email])
+                mail = {"i":email.send(fail_silently=True)}
             # return JsonResponse(dat)
         dat={
             'data':dataload,
+            'email':EMAIL_HOST_USER,
+            'mail':mail,
         }
     return JsonResponse(dat)
 

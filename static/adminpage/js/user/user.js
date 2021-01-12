@@ -5,7 +5,6 @@ $(function(){
             type:"GET",
             dataType:"json",
             success:function(data){
-                console.log(data)
                 $('.js-change-list').html(data.html_list)
             }
 
@@ -17,7 +16,6 @@ $(function(){
             type:"GET",
             dataType:"json",
             success:function(data){
-                console.log(data)
                 $('.js-change-list').html(data.html_list)
             }
 
@@ -43,11 +41,9 @@ $(function(){
        var form = $(this)
         $.ajax({
             url:form.attr("action"),
-            data:form.serialize(),
             type:form.attr("method"),
             dataType:"json",
             success:function(data){
-                console.log(form.serialize())
                 if (data.form_is_valid){
                     $(".js-change-list").html(data.html_list)
                     $("#CRUDroom").modal("hide")
@@ -67,7 +63,6 @@ $(function(){
              type:form.attr("method"),
              dataType:"json",
              success:function(data){
-                 console.log(form.serialize())
                  if (data.form_is_valid){
                      $(".js-change-list").html(data.html_list)
                      $("#CRUDroom").modal("hide")

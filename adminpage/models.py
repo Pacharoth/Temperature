@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 import os
 import datetime
 from pytz import timezone
+from django.utils.timezone import now
 
 class userProfile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
@@ -22,7 +23,7 @@ class RoomServer(models.Model):
 class TemperatureRoom(models.Model):
     room = models.ForeignKey(RoomServer,null=True,on_delete=models.CASCADE)
     Temperature = models.FloatField()
-    date_and_time = models.DateTimeField(default=datetime.datetime.now(timezone('Asia/Phnom_Penh')))
+    date_and_time = models.DateTimeField(default=now())
 
 
 class TemperatureStore(models.Model):

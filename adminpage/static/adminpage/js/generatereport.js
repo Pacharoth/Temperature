@@ -1,5 +1,4 @@
 var report = document.getElementById("room-number").innerHTML
-console.log(report)
 if (report==""){
     $(".generate-report").hide();
     // console.log($(".generate-report"))

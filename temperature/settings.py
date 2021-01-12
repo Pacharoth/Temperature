@@ -122,7 +122,7 @@ USE_I18N = False
 
 USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
@@ -142,8 +142,8 @@ EMAIL_BACKENDED = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'lykongjupiter01@gmail.com'
-EMAIL_HOST_PASSWORD = '123456Lykong'
+EMAIL_HOST_USER = 'itc.temperaturemeasurement@gmail.com'
+EMAIL_HOST_PASSWORD = 'Fteam@b213'
 
 # SITE_ID = 1
 # ACCOUNT_EMAIL_REQUIRED = True
