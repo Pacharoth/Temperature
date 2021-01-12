@@ -16,8 +16,8 @@ function livegraph(){
         if(data.temperature && data.date_and_time){
         var dataSet = data.date_and_time;
         var label = data.temperature;
-        chart.data.datasets[0].data=label.reverse();
-        chart.data.labels = dataSet.reverse();
+        chart.data.datasets[0].data=label;
+        chart.data.labels = dataSet;
         chart.update();
         }else{
             var dataSet ='';
@@ -34,7 +34,8 @@ function livegraph(){
 
 }
 // document.getElementById("myModal").style.display="none"; 
-setInterval(livegraph,1000);
+// setInterval(livegraph,1000);
+requestAnimationFrame(livegraph)
 
 
 } );      

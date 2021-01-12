@@ -32,12 +32,14 @@ function livegraph(){
     type:'GET',
     dataType:'json',
     success:function(data){
+        console.log(data);
         if(data.temperature && data.date_and_time){
         var dataSet = data.date_and_time;
         var label = data.temperature;
         document.getElementById("room-temperature").innerHTML = label[0]+" (C)";
         chart.data.datasets[0].data=label.reverse();
         chart.data.labels = dataSet.reverse();
+        // console.log(label,dataSet)
         chart.update();
         }else{
             var dataSet ='';

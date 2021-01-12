@@ -11,6 +11,7 @@ django = "*"
 pymongo = "*"
 httpx = "*"
 python-dateutil = "*"
+requests = "*"
 
 [dev-packages]
 

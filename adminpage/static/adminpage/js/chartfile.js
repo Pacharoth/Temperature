@@ -39,6 +39,7 @@ function livegraph(){
         document.getElementById("room-temperature").innerHTML = label[0]+" (C)";
         chart.data.datasets[0].data=label.reverse();
         chart.data.labels = dataSet.reverse();
+        // console.log(label,dataSet)
         chart.update();
         }else{
             var dataSet ='';
