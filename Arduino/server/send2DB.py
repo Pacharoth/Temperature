@@ -24,14 +24,15 @@ while True:
         decode_data = rec_data.decode()
         count = 1
         print(decode_data)
-        datetime_object = datetime.datetime.now(asia)
+        datetime_object = datetime.datetime.now(timezone('Asia/Phnom_Penh')).strftime("%Y-%m-%dT%H:%M:%S%z")
+        convertTodateTime =datetime.datetime.strptime(datetime_object,"%Y-%m-%dT%H:%M:%S%z")
         for i in mycol.find():
             count = i['id']+1
         mytemperature = [{
 			"id":count,
 			"room_id":7,
 			"Temperature":float(decode_data),
-			"date_and_time":datetime_object,
+			"date_and_time":convertTodateTime,
 		}
 	]
         databasemany = mycol.insert_many(mytemperature)
