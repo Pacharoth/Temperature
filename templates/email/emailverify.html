@@ -3,5 +3,10 @@ Hi {{user.username}}!
 
 Please click on the link to confirm your registration by
 Your email is {{user.email}}. And your password {{password}}
+{% if request.secured %}
 https://{{ domain }}{% url 'adminLogin' %}
+{% else %}
+http://{{ domain }}{% url 'adminLogin' %}
+{% endif %}
+
 {% endautoescape %}

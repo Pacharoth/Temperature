@@ -38,6 +38,7 @@ var saveForm = function(){
         dataType:'json',
         success:function(data){
             if (data.form_is_valid){
+                console.log("success")
                 $("#profilepuser").modal("hide");
             }
             else{

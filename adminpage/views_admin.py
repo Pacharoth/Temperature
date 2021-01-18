@@ -16,10 +16,11 @@ from adminpage.forms import (choiceForm_weekly,choiceForm_annually,
 from adminpage.utils import weekList,monthList,annuallyList
 from adminpage.forms import roomBuildingForm,ProfileForm,ProfilePic
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from django.template import RequestContext
 import httpx
 from pytz import timezone
 from django.utils.timezone import now,activate,localtime 
-
+from django.views.decorators.csrf import csrf_protect,csrf_exempt
 def link_callback(uri, rel):
     """
     Convert HTML URIs to absolute system paths so xhtml2pdf can access those
@@ -400,9 +401,9 @@ def searchUser(request):
     content={
         'username':user,
     }
-    data['html_list']= render_to_string("adminall/user/userlist.html",context=content,request=request)
+    data['html_list']= render_to_string("adminall/user/userlist.html",content,request=request)
     return JsonResponse(data)
-
+@csrf_protect
 #Edit user
 def editUser(request,pk):
     data=dict()
