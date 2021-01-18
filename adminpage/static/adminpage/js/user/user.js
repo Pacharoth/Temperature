@@ -42,6 +42,7 @@ $(function(){
         $.ajax({
             url:form.attr("action"),
             type:form.attr("method"),
+            data:form.serialize(),
             dataType:"json",
             success:function(data){
                 if (data.form_is_valid){
@@ -64,6 +65,7 @@ $(function(){
              dataType:"json",
              success:function(data){
                  if (data.form_is_valid){
+
                      $(".js-change-list").html(data.html_list)
                      $("#CRUDroom").modal("hide")
                      
